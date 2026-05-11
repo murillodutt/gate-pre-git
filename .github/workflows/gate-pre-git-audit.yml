@@ -21,7 +21,18 @@ jobs:
       - name: Restore gate tool shims from lockfile
         run: .gate-pre-git/bin/gate-pre-git update-tools --target .
       - name: Gate audit JSON
-        run: .gate-pre-git/bin/gate-pre-git audit --target . --all --format json > gate-pre-git-audit.json
+        run: |
+          set +e
+          .gate-pre-git/bin/gate-pre-git audit --target . --all --format json > gate-pre-git-audit.json
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            bun -e '
+            const report = JSON.parse(await Bun.file("gate-pre-git-audit.json").text());
+            const checks = report.checks?.filter((check) => check.status !== "passed") ?? [];
+            console.log(JSON.stringify({ ok: report.ok, findings: report.findings, checks }, null, 2));
+            '
+            exit "$status"
+          fi
       - name: Gate audit SARIF
         run: .gate-pre-git/bin/gate-pre-git audit --target . --all --format sarif > gate-pre-git-audit.sarif
       - name: Validate audit manifest

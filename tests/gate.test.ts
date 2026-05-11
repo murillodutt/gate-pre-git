@@ -133,6 +133,7 @@ describe("gate-pre-git", () => {
     expect(readFileSync(init.workflowPath, "utf8")).toContain(
       "git config --local --unset-all http.https://github.com/.extraheader || true"
     );
+    expect(readFileSync(init.workflowPath, "utf8")).toContain("const checks = report.checks?.filter");
 
     const doctor = runDoctor(dir);
     expect(doctor.ok).toBe(true);
