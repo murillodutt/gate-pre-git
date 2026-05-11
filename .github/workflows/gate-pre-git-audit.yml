@@ -23,23 +23,23 @@ jobs:
       - name: Gate audit JSON
         run: |
           set +e
-          .gate-pre-git/bin/gate-pre-git audit --target . --all --format json > gate-pre-git-audit.json
+          .gate-pre-git/bin/gate-pre-git audit --target . --all --format json > "$RUNNER_TEMP/gate-pre-git-audit.json"
           status=$?
           if [ "$status" -ne 0 ]; then
             bun -e '
-            const report = JSON.parse(await Bun.file("gate-pre-git-audit.json").text());
+            const report = JSON.parse(await Bun.file(process.env.RUNNER_TEMP + "/gate-pre-git-audit.json").text());
             const checks = report.checks?.filter((check) => check.status !== "passed") ?? [];
             console.log(JSON.stringify({ ok: report.ok, findings: report.findings, checks }, null, 2));
             '
             exit "$status"
           fi
       - name: Gate audit SARIF
-        run: .gate-pre-git/bin/gate-pre-git audit --target . --all --format sarif > gate-pre-git-audit.sarif
+        run: .gate-pre-git/bin/gate-pre-git audit --target . --all --format sarif > "$RUNNER_TEMP/gate-pre-git-audit.sarif"
       - name: Validate audit manifest
         run: |
           bun -e '
-          const json = JSON.parse(await Bun.file("gate-pre-git-audit.json").text());
-          const sarif = JSON.parse(await Bun.file("gate-pre-git-audit.sarif").text());
+          const json = JSON.parse(await Bun.file(process.env.RUNNER_TEMP + "/gate-pre-git-audit.json").text());
+          const sarif = JSON.parse(await Bun.file(process.env.RUNNER_TEMP + "/gate-pre-git-audit.sarif").text());
           if (!json.manifestHash || json.manifestHash.length !== 64) throw new Error("missing manifestHash");
           if (!Array.isArray(json.manifest.files)) throw new Error("missing manifest.files");
           if (!Array.isArray(json.manifest.tools)) throw new Error("missing manifest.tools");
@@ -53,5 +53,5 @@ jobs:
         with:
           name: gate-pre-git-audit
           path: |
-            gate-pre-git-audit.json
-            gate-pre-git-audit.sarif
+            ${{ runner.temp }}/gate-pre-git-audit.json
+            ${{ runner.temp }}/gate-pre-git-audit.sarif
