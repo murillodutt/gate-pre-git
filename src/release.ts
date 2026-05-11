@@ -354,12 +354,15 @@ function releaseNotesMarkdown(plan: ReleaseReport): string {
     `Range: ${plan.range ?? "unknown"}`,
     "",
     "## Added",
+    "",
     ...entriesForCategory(plan, "added"),
     "",
     "## Fixed",
+    "",
     ...entriesForCategory(plan, "fixed"),
     "",
     "## Changed",
+    "",
     ...entriesForCategory(plan, "changed"),
     ""
   ];

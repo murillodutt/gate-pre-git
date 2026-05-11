@@ -95,7 +95,12 @@ describe("release governance", () => {
       expect(write.ok).toBe(true);
       expect(write.updated).toEqual(["CHANGELOG.md", "docs/releases/v0.2.0.md"]);
       expect(existsSync(join(dir, "docs", "releases", "v0.2.0.md"))).toBe(true);
-      expect(readFileSync(join(dir, "CHANGELOG.md"), "utf8")).toContain("## v0.2.0");
+      const changelog = readFileSync(join(dir, "CHANGELOG.md"), "utf8");
+      const releaseNotes = readFileSync(join(dir, "docs", "releases", "v0.2.0.md"), "utf8");
+      expect(changelog).toContain("## v0.2.0");
+      expect(releaseNotes).toContain("## Added\n\n-");
+      expect(releaseNotes).toContain("## Fixed\n\n-");
+      expect(releaseNotes).toContain("## Changed\n\n-");
 
       const audit = auditReleaseArtifacts({ target: dir });
       expect(audit.ok).toBe(true);

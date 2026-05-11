@@ -10384,12 +10384,15 @@ function releaseNotesMarkdown(plan) {
     `Range: ${plan.range ?? "unknown"}`,
     "",
     "## Added",
+    "",
     ...entriesForCategory(plan, "added"),
     "",
     "## Fixed",
+    "",
     ...entriesForCategory(plan, "fixed"),
     "",
     "## Changed",
+    "",
     ...entriesForCategory(plan, "changed"),
     ""
   ];
