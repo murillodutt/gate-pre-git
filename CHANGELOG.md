@@ -16,4 +16,5 @@ Range: foundation/pre-rc-2026-05-11..HEAD
 
 ### Changed
 
+- 4cf5a938332c record release artifact certification
 - fbcf18b40d80 harden public trust model
