@@ -13,7 +13,15 @@ Date: 2026-05-11.
 
 ## Install
 
-From the target repository:
+Until a public package channel is opened, initialize from the source checkout:
+
+```sh
+bun install --frozen-lockfile
+bun src/cli.ts init --target /path/to/repo --profile auto --yes
+/path/to/repo/.gate-pre-git/bin/gate-pre-git doctor --target /path/to/repo
+```
+
+The intended public command shape is:
 
 ```sh
 gate-pre-git init --target . --profile auto --yes
@@ -83,8 +91,13 @@ make `doctor` fail.
 ## Branch Protection
 
 In GitHub, require the `gate-pre-git-audit` workflow for protected branches.
-The workflow should stay cheap: it emits and validates JSON/SARIF audit
-artifacts instead of duplicating the full local processing graph.
+The workflow should stay cheap: it reruns and validates JSON/SARIF audit
+artifacts for the repository state that reached GitHub instead of duplicating
+the full local processing graph.
+
+The workflow does not prove that every developer ran the local hook before
+push. It proves the remote audit surface and manifest identity. See
+[Trust Model](trust-model.md).
 
 ## Updating Tools
 

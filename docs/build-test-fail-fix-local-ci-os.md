@@ -560,6 +560,21 @@ four_d_scan:
 - `bun run gate` after WAVE_17: first failed on locked Biome formatting, then
   passed over 95 files after reformatting with the vendored Biome shim and
   regenerating the vendored runtime.
+- WAVE_18_BASELINE: committed the pre-RC foundation as `62d3fe3`
+  (`chore: establish pre-rc foundation`), created the local tag
+  `foundation/pre-rc-2026-05-11`, and pointed local `origin/main` at that
+  baseline without configuring or pushing any remote.
+- WAVE_18_PRODUCT_AUDIT: external product review found that the technical
+  foundation was stronger than the public narrative. The fix moved README and
+  docs from internal history to external product language, added an explicit
+  trust model, and corrected competitive positioning against mature hook,
+  linter, and CI tools.
+- WAVE_18_GOVERNANCE_FIX: `CHANGELOG.md` became part of the docs governance
+  zone so generated release artifacts are owned, linted, and auditable.
+- WAVE_18_RETESTED: `bun test tests/gate.test.ts
+  tests/migration-canary.test.ts tests/versioning.test.ts` passed with 17 tests
+  and 93 assertions; `bun run typecheck`, `bun src/cli.ts doctor --target .`,
+  targeted markdownlint, and `bun run gate` all passed over 96 files.
 
 ### Final Decision
 
@@ -568,7 +583,7 @@ build_test_fail_fix:
   mode: persistent_e2e
   final_state: CERTIFIED
   target: gate-pre-git local GitHub governance runtime
-  baseline: main has no commits; current untracked tree is the product package
+  baseline: commit 62d3fe3 with local tag foundation/pre-rc-2026-05-11 and local origin/main range anchor
   hypothesis: local gate can sanitize, govern, validate, audit, and anchor GitHub-bound code before push or PR
   acceptance_criteria:
     - structured governance evidence exists in reports, manifest, and SARIF
@@ -592,7 +607,7 @@ build_test_fail_fix:
   fix: structured governance, adapter runner, evidence policy, impact planner, audit anchor, drift checks, stable manifest projection, specificity-based governance zone selection, version governance runtime, release governance runtime, vendored runtime bundle, workflow shim restoration, clean external migration canary
   exact_retest: bun test; bun run gate; JSON/SARIF audit hash canary
   related_gates: typecheck, doctor, push smoke, markdownlint, Biome, actionlint, Gitleaks
-  canary_integrity: no remotes, commits, tags, pushes, secrets, or global config were mutated
+  canary_integrity: local commits/tags/refs were used only for repository proof; no remote was configured or pushed, and no secrets or global config were mutated
   portable_promotions:
     - semantic audit projection must exclude runtime telemetry
     - vendored governance must be drift-checked against strict defaults
@@ -617,14 +632,14 @@ build_test_fail_fix:
       before running audit in a clean clone
   deferred_learning:
     - `agent:mokh-resume` remains absent from this repository
-    - repository still has no initial commit, so push range uses the no-HEAD path
-      and root release planning remains blocked until a real baseline exists
+    - public branch protection still needs validation on the real GitHub repository
     - Go and Rust replay fixtures run structural lanes locally because Go and
       Cargo are not available in this environment
-    - migration guide is now exercised by a clean external target canary, but
-      public release wording still needs committed-baseline evidence
+    - migration guide is exercised by a clean external target canary, but public
+      release wording still needs release artifacts, license, support policy,
+      and pinned external canaries
   limits:
-    - no commit or push was performed during this convergence campaign
-    - full push mode now passes locally, but the no-HEAD path still needs a committed baseline before release wording claims normal remote range behavior
-  next_loop: create the initial repository baseline commit when authorized, rerun RC evidence from HEAD, then exercise migration in a clean target repository
+    - no remote push was performed during this convergence campaign
+    - local pre-RC is certified, but public RC remains blocked until release artifact audit and public distribution governance are closed
+  next_loop: generate release artifacts from the post-baseline Git interval, commit them with an excluded release commit, rerun release audit, then repeat full RC evidence
 ```

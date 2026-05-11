@@ -42,7 +42,8 @@ A release candidate fails when any clean baseline produces avoidable noise:
 6. The vendored launcher must not include user-local absolute paths.
 7. `doctor` must report no governance drift, tool lock drift, hook drift,
    launcher drift, workflow drift, or smoke-test drift.
-8. No governed file may have `no_provider_for_required_evidence`.
+8. No evidence-enforced `check` or `push` run may have
+   `no_provider_for_required_evidence`.
 9. No generated, sensitive, or unowned path may pass without an active scoped
    exception.
 10. Missing optional toolchains may degrade only the command lane for that
@@ -50,20 +51,23 @@ A release candidate fails when any clean baseline produces avoidable noise:
 
 ## Current Measured Baseline
 
-Latest local evidence after the WAVE_17 migration canary:
+Latest local evidence after commit `62d3fe3` and tag
+`foundation/pre-rc-2026-05-11`:
 
 | Command | Result |
 | --- | --- |
-| `bun test tests/migration-canary.test.ts` | clean external repository migration passed with launcher-only `doctor`, `check`, `staged`, `push`, JSON/SARIF audit parity, and pre-commit block |
-| `bun test tests/replay-fixtures.test.ts` | 8 replay fixtures passed, 238 assertions, about 24s after integration timeout correction |
-| `bun test` | 70 tests passed, 480 assertions after vendored runtime and migration canary |
-| `bun src/cli.ts doctor --target .` | passed over 95 files after vendored runtime and launcher execution checks |
-| `bun run gate` | passed over 95 governed files after vendored runtime promotion |
-| `bun src/cli.ts push --target .` | passed over 92 governed files, with no-HEAD info on this uncommitted repo |
-| JSON/SARIF audit canary | passed, equal manifest hash |
+| `bun src/cli.ts doctor --target .` | passed over 95 files with `vendored_runtime`, launcher execution, workflow, hooks, tools, smoke, and version sync |
+| `bun run typecheck` | passed |
+| `bun test` | 70 tests passed, 480 assertions |
+| `bun run gate` | passed over 95 governed files in about 41s |
+| `bun src/cli.ts push --target . --base origin/main` | passed with `files=0`, no `push_range`, and command evidence |
+| JSON/SARIF audit canary | passed with equal manifest hash `40b62633867f518ab66ab5f0b3a28d594c279703ab1b04281cf1597d4ee19037` |
+| `bun src/cli.ts version audit --target .` | passed for `package.json`, `.gate-pre-git/governance.json`, `.gate-pre-git/lock.json`, and `src/types.ts` at `0.1.0` |
+| `bun src/cli.ts release plan --target . --from foundation/pre-rc-2026-05-11 --to HEAD` | passed with deterministic zero-entry range at the baseline |
 
 These are lower-bound local measurements, not public benchmark claims. Public
-release wording must wait for an initial repository commit and repeated RC runs.
+release wording must wait for release artifacts, license, support policy,
+distribution channel, and repeated RC runs.
 
 ## RC Evidence Commands
 
@@ -85,9 +89,12 @@ payload that contains `durationMs`.
 ## Release Decision
 
 The current local state is a technical RC foundation, not a public global
-release. Public release remains blocked until:
+release. The committed baseline requirement is now satisfied. Public release
+remains blocked until:
 
-1. The repository has a committed baseline.
-2. The full RC evidence command set is rerun from that baseline.
-3. Replay fixture results are recorded after the baseline commit.
-4. The migrated clean-target canary remains green from the committed baseline.
+1. release artifacts pass `release audit`;
+2. the full RC evidence command set is repeated after the release-artifact
+   commit;
+3. a public install channel, license, security policy, and support matrix exist;
+4. a pinned external canary validates adoption outside this checkout;
+5. branch protection is configured on the real GitHub repository.

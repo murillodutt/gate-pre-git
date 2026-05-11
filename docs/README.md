@@ -14,6 +14,7 @@ governance are discovered.
 | [Product Strategy](product-strategy.md) | Defines the category, thesis, pillars, and non-goals. |
 | [Landscape And Lessons](landscape-and-lessons.md) | Captures prior art, learnings, and competitive traps. |
 | [Positioning](positioning.md) | Defines the public comparison and verifiable claims. |
+| [Trust Model](trust-model.md) | Defines what local hooks, GitHub audit, and branch protection do and do not prove. |
 | [Product Roadmap](product-roadmap.md) | Defines the target waves, acceptance gates, and release shape. |
 | [Governance Map Runtime](governance-runtime.md) | Explains executable local repository governance. |
 | [Version Governance Runtime](version-governance.md) | Explains governed version, changelog, and release artifact behavior. |
@@ -39,6 +40,8 @@ machine:
 8. Which project version and release metadata are in sync?
 9. Which commits entered the release interval and why?
 10. Can a clean external repository run from only its vendored launcher?
+11. What does GitHub audit prove, and what remains a branch-protection or owner
+    responsibility?
 
 ## Documentation Governance
 
@@ -59,4 +62,5 @@ bun src/cli.ts check --target . --all
 bun run typecheck
 bun test
 bun src/cli.ts doctor --target .
+bun src/cli.ts release audit --target .
 ```

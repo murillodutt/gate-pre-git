@@ -38,12 +38,13 @@ That creates repeated failure modes:
 
 ## Thesis
 
-The cheapest and most trustworthy place to sanitize a change is the local Git
-boundary.
+The local Git boundary is the earliest practical place to sanitize a change
+with full repository context and developer feedback.
 
 GitHub should receive a repository state that is already formatted, validated,
-classified, and explained. Remote CI should verify the local contract and branch
-protection, not rediscover every preventable defect.
+classified, and explained. Remote CI should verify the audit surface, branch
+protection, and any intentionally remote checks, not rediscover every
+preventable defect by default.
 
 ## North Star
 
@@ -117,9 +118,10 @@ documentation, it is not enforced.
 
 GitHub remains important, but it is not the heavy worker.
 
-The remote workflow should run a small audit that confirms the report, manifest,
-SARIF, and branch protection signals. It should not duplicate the full local
-processing graph by default.
+The remote workflow should rerun and validate the audit surface for the
+repository state that reached GitHub: JSON report, manifest, SARIF, and branch
+protection signals. It should not claim that a local hook was executed, and it
+should not duplicate the full local processing graph by default.
 
 ### Portable Adoption
 

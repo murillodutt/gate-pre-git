@@ -303,7 +303,7 @@ export function defaultGovernanceMap(): Record<string, unknown> {
         description: "User-facing documentation and local evidence notes.",
         owners: ["maintainers"],
         risk: "low",
-        paths: ["README.md", "docs/**/*.md"],
+        paths: ["README.md", "CHANGELOG.md", "docs/**/*.md"],
         requiredEvidence: ["markdown_structure", "markdownlint"]
       },
       {

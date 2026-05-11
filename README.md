@@ -2,34 +2,43 @@
 
 Local repository governance runtime for GitHub-bound repositories.
 
-The goal is not to make GitHub Actions do more work. The goal is to make the
-local Git boundary honest, deterministic, sanitized, and cheap before GitHub
-receives the change.
+`gate-pre-git` is for teams that want GitHub to remain the branch-protection and
+audit anchor, not the first place where preventable formatting, syntax, secret,
+ownership, evidence, and release-governance defects are discovered.
 
-## What Was Missing In The Tilly Gate
+It is not a replacement for `pre-commit`, Lefthook, Husky, MegaLinter,
+Super-Linter, or GitHub Actions. Those tools solve real hook orchestration,
+linting, and CI jobs. This project focuses on the missing layer between them:
+a vendored Git-boundary contract with governed files, locked local tools,
+transactional fixes, manifest identity, doctor drift checks, and cheap
+JSON/SARIF audit evidence.
 
-The Tilly gate is strong, but too project-shaped to drop into other repos as-is.
-The reusable product needs:
+## Current Maturity
 
-1. A small CLI with no Tilly-specific assumptions.
-2. A config file per project.
-3. Real staged-file checks before commit.
-4. JSON and YAML syntax checks.
-5. Modern text coverage for `md`, `json`, `yaml`, `txt`, `ts`, `tsx`, `vue`,
-   `js`, `jsx`, `css`, and `html`.
-6. Non-blocking advice signals for risk classification.
-7. Hook installation that does not self-stage or auto-fix.
-8. Machine-readable output for CI and agents.
-9. Adversarial fixtures that prove the gate fails when it should.
-10. A vendored `.gate-pre-git/` template with explicit tool locking.
-11. Minimal GitHub audit instead of expensive remote processing.
+This repository is a committed pre-RC technical foundation, not a public package
+release yet. The local baseline is:
 
-## Hard Install Recipe
+- commit `62d3fe3` (`chore: establish pre-rc foundation`);
+- tag `foundation/pre-rc-2026-05-11`;
+- local `origin/main` ref pointing to that baseline for range proof;
+- clean worktree after post-baseline evidence.
 
-Do not hand-copy snippets into projects. Run the initializer, then run the
-doctor. If the doctor fails, the gate is not installed.
+Public distribution is intentionally still closed while licensing, support
+matrix, release artifacts, and external pinned canaries are finalized.
 
-From any target Git repository:
+## Install From This Checkout
+
+Until a public package channel is opened, use the source checkout as the
+installer runtime:
+
+```sh
+bun install --frozen-lockfile
+bun src/cli.ts init --target /path/to/repo --profile auto --yes
+/path/to/repo/.gate-pre-git/bin/gate-pre-git doctor --target /path/to/repo
+/path/to/repo/.gate-pre-git/bin/gate-pre-git check --target /path/to/repo --all
+```
+
+The intended public CLI remains:
 
 ```sh
 gate-pre-git init --target . --profile auto --yes
@@ -77,8 +86,9 @@ Default installation writes:
   - `gate:version-audit`
   - `gate:release-plan`
 
-The native Git hook is default because it is the hardest path to forget. Husky
-is supported with `--hook husky`, but it is not required.
+The native Git hook is the default because it avoids requiring a JavaScript hook
+manager in every target repository. Husky is supported with `--hook husky`, but
+it is not required.
 
 The product test suite includes versioned replay workspaces under
 `fixtures/workspaces/**`. These fixtures are materialized into temporary
@@ -90,6 +100,22 @@ The migration canary creates a clean external repository, installs the gate,
 then uses only the installed launcher to run `doctor`, `check`, `staged`,
 `push`, and `audit`. It also attempts a real bad commit and expects the native
 pre-commit hook to block it.
+
+## Trust Model
+
+Local hooks are a powerful default path, not a security boundary. A developer
+can bypass hooks with Git options or local configuration. The product responds
+by making bypass and drift visible:
+
+- `doctor` checks config, lockfile, launcher, vendored runtime, hooks, package
+  scripts, workflow, local shims, staged smoke behavior, and version sync;
+- `check`, `staged`, and `push` emit governed evidence for local decisions;
+- GitHub reruns the audit surface and validates JSON/SARIF manifest identity;
+- branch protection can require the remote audit job.
+
+The GitHub audit proves that the repository state can produce the expected audit
+manifest. It does not prove that every developer ran the local hook before
+push. See [docs/trust-model.md](docs/trust-model.md) for the full boundary.
 
 ## Pass/Fail Contract
 
@@ -251,9 +277,9 @@ Markdown governance, TDS indexes, release certification, Nuxt builds, and
 contract drift checks belong as configured commands or profiles, not as mandatory
 core behavior for every repo.
 
-GitHub should not be the expensive quality processor. GitHub should run the
-small audit workflow and branch protection check that confirms the local
-contract was followed.
+GitHub should not be the first processor for preventable local defects. It
+should run the small audit workflow and branch protection check that confirms
+the repository audit surface is intact.
 
 ## Governance Map
 

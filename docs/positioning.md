@@ -14,13 +14,16 @@ tools, and emits JSON/SARIF audit evidence that GitHub can validate cheaply.
 
 ## Comparison By Job
 
+This comparison is deliberately narrow. The adjacent projects are mature in
+their lanes; `gate-pre-git` should not win by pretending otherwise.
+
 | Alternative | What It Does Well | Where `gate-pre-git` Is Different |
 | --- | --- | --- |
-| pre-commit | Strong hook ecosystem and polyglot hook reuse. | The core product is governance evidence, manifest identity, and GitHub audit anchoring, not hook catalog size. |
-| Lefthook | Fast local hook orchestration. | Commands become evidence required by zone, owner, and risk policy instead of remaining standalone tasks. |
-| Husky plus CI | Simple Node hook plumbing and familiar package workflow. | The installer verifies native or Husky hooks, pre-push, package scripts, tool locks, governance map, runtime launcher, and workflow drift. |
-| MegaLinter or Super-Linter | Broad linter coverage, especially in CI. | The product decides what must run locally, why it satisfies evidence, and what GitHub should audit remotely. |
-| GitHub Actions-heavy workflows | Branch protection and remote audit remain valuable. | GitHub verifies the local contract instead of becoming the first expensive processor for preventable defects. |
+| pre-commit | Mature hook ecosystem, polyglot hook reuse, `--all-files`, and multiple Git hook stages including pre-push. | The core product is governance evidence, manifest identity, vendored runtime, and GitHub audit anchoring, not hook catalog size. |
+| Lefthook | Fast hook orchestration and native support for staging fixed files through `stage_fixed`. | Auto-stage is constrained to trusted transactional fixes, then tied to zone, owner, risk, and evidence policy. |
+| Husky plus CI | Familiar Node hook plumbing and simple local command execution from Git hooks. | The installer verifies native or Husky hooks, package scripts, tool locks, governance map, runtime launcher, and workflow drift. |
+| MegaLinter or Super-Linter | Broad linter coverage and CI-ready source validation across many languages. | The product decides what must run locally, why it satisfies evidence, and what GitHub should audit remotely. |
+| GitHub Actions-heavy workflows | Branch protection and remote audit remain valuable. | GitHub reruns and validates the audit surface instead of being the first processor for preventable local defects. |
 
 ## Verifiable Claims
 
@@ -52,6 +55,17 @@ Avoid until measured:
 3. Enterprise governance.
 4. Percentage cost-reduction claims.
 5. Production-ready global release.
+
+## Source Anchors
+
+The positioning above is checked against public documentation:
+
+1. `pre-commit` documentation: <https://pre-commit.com/>.
+2. Lefthook `stage_fixed`: <https://lefthook.dev/configuration/stage_fixed/>.
+3. Husky how-to: <https://typicode.github.io/husky/how-to.html>.
+4. Super-Linter project and marketplace docs: <https://github.com/super-linter/super-linter>.
+5. MegaLinter marketplace docs: <https://github.com/marketplace/actions/megalinter>.
+6. GitHub Actions reference: <https://docs.github.com/en/actions/reference>.
 
 ## Non-Goals
 

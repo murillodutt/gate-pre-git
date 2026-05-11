@@ -8,8 +8,8 @@ Date: 2026-05-11.
 
 The first goal is not "more checks."
 
-The first goal is perfect trust at the local Git to GitHub boundary. Every wave
-should improve one of these properties:
+The first goal is auditable trust at the local Git to GitHub boundary. Every
+wave should improve one of these properties:
 
 1. Snapshot correctness.
 2. Transaction safety.
@@ -20,7 +20,7 @@ should improve one of these properties:
 
 ## Current Foundation
 
-The repository has the first certified local CI OS foundation:
+The repository has a locally fixture-certified pre-RC foundation:
 
 1. Bun-based CLI.
 2. Vendored `.gate-pre-git/` template.
@@ -53,6 +53,8 @@ The repository has the first certified local CI OS foundation:
     deterministic `CHANGELOG.md`/release-note generation, and artifact audit.
 22. Vendored runtime bundle and clean external migration canary proving a
     repository can run from only `.gate-pre-git/bin/gate-pre-git`.
+23. Committed local baseline `62d3fe3` with tag
+    `foundation/pre-rc-2026-05-11` and post-baseline evidence.
 
 ## Wave 1: Structured Governance Evidence
 
@@ -129,26 +131,29 @@ Acceptance:
 
 ## Wave 6: Fleet Governance
 
-Status: certified as drift detection foundation on 2026-05-11.
+Status: drift detection foundation implemented on 2026-05-11.
 
 Goal: make the runtime useful across many repositories.
 
-Acceptance:
+Current acceptance:
+
+1. Drift between template, lockfile, launcher, hooks, and workflow is detected.
+2. Local repos can extend policy without silently weakening the base contract.
+
+Planned acceptance:
 
 1. Repositories can update policy templates through explicit commands.
-2. Drift between template, lockfile, launcher, hooks, and workflow is detected.
-3. Organizations can define standard zones and evidence names.
-4. Local repos can extend policy without silently weakening the base contract.
-5. Fleet reports can compare adoption and risk without uploading source code.
+2. Organizations can define standard zones and evidence names.
+3. Fleet reports can compare adoption and risk without uploading source code.
 
 ## Next Product Checkpoints
 
-The next maturity layer is moving from local replay fixtures to release
-candidate proof and real pinned external canaries:
+The next maturity layer is moving from pre-RC local proof to release-candidate
+packaging and real pinned external canaries:
 
 1. Add full command canaries for Go and Rust when local toolchains are
    present, with degraded classification when they are not.
-2. Record repeated RC SLO/noise runs from a committed repository baseline.
+2. Add public package channel, license, security policy, and support matrix.
 3. Add optional SARIF upload path in GitHub audit.
 4. Add fleet report format for adoption and drift without source upload.
 5. Add pinned external canaries after local replay proof stays stable.
