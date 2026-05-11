@@ -130,6 +130,9 @@ describe("gate-pre-git", () => {
     expect(readFileSync(init.preCommitHookPath, "utf8")).toContain("managed by gate-pre-git");
     expect(readFileSync(init.prePushHookPath, "utf8")).toContain("push");
     expect(readFileSync(init.workflowPath, "utf8")).toContain("update-tools --target .");
+    expect(readFileSync(init.workflowPath, "utf8")).toContain(
+      "git config --local --unset-all http.https://github.com/.extraheader || true"
+    );
 
     const doctor = runDoctor(dir);
     expect(doctor.ok).toBe(true);

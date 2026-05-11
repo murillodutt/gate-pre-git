@@ -453,6 +453,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+      - name: Drop checkout Git credentials before audit
+        run: git config --local --unset-all http.https://github.com/.extraheader || true
       - name: Install source checkout dependencies
         run: |
           if [ -f package.json ] && grep -q '"name"[[:space:]]*:[[:space:]]*"gate-pre-git"' package.json; then
