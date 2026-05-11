@@ -85,12 +85,15 @@ GitHub is the verifier of the local contract, not the first place governance is
 discovered. The audit workflow should stay cheap:
 
 - run `gate-pre-git audit --all`
-- emit JSON or SARIF with the manifest hash
+- emit JSON or SARIF with the manifest hash outside the audited workspace
 - expose zones, findings, evidence, and expired exceptions
 - let branch protection require the audit result
 
 The heavy work belongs near the developer at the Git boundary. GitHub confirms
 that the same contract was present and that the report is machine-readable.
+The generated workflow writes audit artifacts to the runner temp directory, and
+`gate` plus `doctor` reject workflows that write `gate-pre-git-audit.json` or
+SARIF artifacts into the repository being audited.
 
 ## Runtime Status
 
