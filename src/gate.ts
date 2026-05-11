@@ -27,6 +27,7 @@ import {
   type GateOptions,
   type GateReport
 } from "./types";
+import { checkGitHubAuditWorkflow, shouldCheckGitHubAuditWorkflow } from "./workflow";
 
 export function runGate(options: GateOptions): GateReport {
   const started = Date.now();
@@ -88,6 +89,7 @@ export function runGate(options: GateOptions): GateReport {
     checkMarkdownStructure(target, fileSnapshots, config),
     governance.check,
     checkImpactPlan(impact),
+    ...(shouldCheckGitHubAuditWorkflow(files) ? [checkGitHubAuditWorkflow(target)] : []),
     checkAdapterPlan(target, files, config.tools),
     ...(options.runCommands ? runAdapterChecks(target, files, { enabledTools: config.tools }) : []),
     checkGitDiffWhitespace(target, options.mode),

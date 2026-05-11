@@ -8,6 +8,7 @@ import { defaultLock, inspectTools, lockPath, readLock } from "./tools";
 import type { GateCheck, GateReport } from "./types";
 import { GATE_PRE_GIT_VERSION } from "./types";
 import { auditVersion } from "./versioning";
+import { checkGitHubAuditWorkflow } from "./workflow";
 
 export function runDoctor(target: string, commandProbe = "gate-pre-git"): GateReport {
   const started = Date.now();
@@ -21,7 +22,7 @@ export function runDoctor(target: string, commandProbe = "gate-pre-git"): GateRe
     structuralCheck("vendored_runtime", target, ".gate-pre-git/runtime/cli.js"),
     launcherPortabilityCheck(target),
     launcherExecutionCheck(target),
-    githubAuditWorkflowCheck(target),
+    checkGitHubAuditWorkflow(target),
     hookCheck(target, "pre-commit"),
     hookCheck(target, "pre-push"),
     packageScriptCheck(target),
@@ -88,39 +89,6 @@ function versionSyncCheck(target: string): GateCheck {
     warnings: report.warnings,
     details: report.targets.map((target) => `${target.path}=${target.currentVersion ?? "missing-or-invalid"}`),
     durationMs: report.durationMs
-  };
-}
-
-function githubAuditWorkflowCheck(target: string): GateCheck {
-  const relativePath = ".github/workflows/gate-pre-git-audit.yml";
-  const path = join(target, relativePath);
-  if (!existsSync(path)) return structuralCheck("github_audit_workflow", target, relativePath);
-
-  const text = readFileSync(path, "utf8");
-  const required = [
-    "update-tools --target .",
-    "audit --target . --all --format json",
-    "audit --target . --all --format sarif",
-    "bun install --frozen-lockfile",
-    "gate-pre-git-audit.json",
-    "gate-pre-git-audit.sarif",
-    "manifestHash",
-    "manifest.governance",
-    "manifest.evidence",
-    "manifest.impact",
-    "actions/upload-artifact"
-  ];
-  const failures = required
-    .filter((needle) => !text.includes(needle))
-    .map((needle) => `GitHub audit workflow missing required audit anchor: ${needle}`);
-
-  return {
-    name: "github_audit_workflow",
-    status: failures.length === 0 ? "passed" : "failed",
-    failures,
-    warnings: [],
-    details: [relativePath],
-    durationMs: 0
   };
 }
 

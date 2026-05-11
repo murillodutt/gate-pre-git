@@ -181,6 +181,44 @@ describe("gate-pre-git", () => {
     rmSync(dir, { recursive: true, force: true });
   });
 
+  test("gate and doctor reject audit workflows that write artifacts inside the audited workspace", () => {
+    const dir = fixture("workflow-self-contamination");
+    execFileSync("git", ["init"], { cwd: dir, stdio: "ignore" });
+    writeFileSync(
+      join(dir, "package.json"),
+      `${JSON.stringify({ name: "target", version: "0.0.0", scripts: {} }, null, 2)}\n`,
+      "utf8"
+    );
+    const init = initProject({
+      target: dir,
+      yes: true,
+      force: false,
+      profile: "auto",
+      hook: "native",
+      command: "gate-pre-git"
+    });
+    const runnerTempPrefix = "$" + "{{ runner.temp }}/";
+    const unsafeWorkflow = readFileSync(init.workflowPath, "utf8")
+      .replaceAll('> "$RUNNER_TEMP/gate-pre-git-audit.json"', "> gate-pre-git-audit.json")
+      .replaceAll('> "$RUNNER_TEMP/gate-pre-git-audit.sarif"', "> gate-pre-git-audit.sarif")
+      .replaceAll(`${runnerTempPrefix}gate-pre-git-audit.json`, "gate-pre-git-audit.json")
+      .replaceAll(`${runnerTempPrefix}gate-pre-git-audit.sarif`, "gate-pre-git-audit.sarif");
+    writeFileSync(init.workflowPath, unsafeWorkflow, "utf8");
+
+    const gate = runGate({ target: dir, mode: "push", all: false, json: false, runCommands: false });
+    const doctor = runDoctor(dir);
+
+    expect(gate.ok).toBe(false);
+    expect(gate.checks.find((check) => check.name === "github_audit_workflow")?.failures.join("\n")).toContain(
+      "outside the audited workspace"
+    );
+    expect(doctor.ok).toBe(false);
+    expect(doctor.checks.find((check) => check.name === "github_audit_workflow")?.failures.join("\n")).toContain(
+      "outside the audited workspace"
+    );
+    rmSync(dir, { recursive: true, force: true });
+  });
+
   test("doctor fails when vendored governance weakens required base evidence", () => {
     const dir = fixture("governance-drift");
     execFileSync("git", ["init"], { cwd: dir, stdio: "ignore" });

@@ -59,6 +59,7 @@ It does not prove:
 | Lockfile or governance is weakened | `doctor` fails drift checks against the base template. |
 | Partial staging would make a fix unsafe | Transactional fixes block instead of staging unrelated work. |
 | GitHub workflow is weakened | `doctor` requires the audit workflow and shim restoration step. |
+| GitHub audit artifacts are written into the audited workspace | `gate` and `doctor` reject self-contaminating audit workflows. |
 
 ## Operator Responsibilities
 
@@ -77,7 +78,8 @@ Use precise language:
 1. GitHub reruns and validates the audit surface.
 2. The local gate governs staged and push boundaries.
 3. Branch protection remains mandatory for shared repositories.
-4. Hooks are not a security boundary by themselves.
+4. Audit artifacts are evidence and must stay outside the audited workspace.
+5. Hooks are not a security boundary by themselves.
 
 Avoid:
 

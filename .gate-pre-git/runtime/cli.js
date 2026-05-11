@@ -7072,9 +7072,9 @@ function sarifLevel(severity) {
 
 // src/doctor.ts
 import { execFileSync as execFileSync5 } from "child_process";
-import { existsSync as existsSync11, mkdirSync as mkdirSync3, readFileSync as readFileSync9, rmSync as rmSync2, writeFileSync as writeFileSync5 } from "fs";
+import { existsSync as existsSync12, mkdirSync as mkdirSync3, readFileSync as readFileSync10, rmSync as rmSync2, writeFileSync as writeFileSync5 } from "fs";
 import { tmpdir as tmpdir2 } from "os";
-import { isAbsolute as isAbsolute3, join as join8 } from "path";
+import { isAbsolute as isAbsolute3, join as join9 } from "path";
 
 // src/gate.ts
 import { resolve as resolve3 } from "path";
@@ -8643,6 +8643,59 @@ exit 0
 `;
 }
 
+// src/workflow.ts
+import { existsSync as existsSync8, readFileSync as readFileSync6 } from "fs";
+import { join as join5 } from "path";
+var GITHUB_AUDIT_WORKFLOW_PATH = ".github/workflows/gate-pre-git-audit.yml";
+function shouldCheckGitHubAuditWorkflow(files) {
+  return files.includes(GITHUB_AUDIT_WORKFLOW_PATH);
+}
+function checkGitHubAuditWorkflow(target) {
+  const path = join5(target, GITHUB_AUDIT_WORKFLOW_PATH);
+  if (!existsSync8(path)) {
+    return {
+      name: "github_audit_workflow",
+      status: "failed",
+      failures: [`missing required file: ${GITHUB_AUDIT_WORKFLOW_PATH}`],
+      warnings: [],
+      details: [GITHUB_AUDIT_WORKFLOW_PATH],
+      durationMs: 0
+    };
+  }
+  const text = readFileSync6(path, "utf8");
+  const required = [
+    "update-tools --target .",
+    "audit --target . --all --format json",
+    "audit --target . --all --format sarif",
+    "bun install --frozen-lockfile",
+    "$RUNNER_TEMP/gate-pre-git-audit.json",
+    "$RUNNER_TEMP/gate-pre-git-audit.sarif",
+    "runner.temp",
+    "manifestHash",
+    "manifest.governance",
+    "manifest.evidence",
+    "manifest.impact",
+    "actions/upload-artifact"
+  ];
+  const failures = required.filter((needle) => !text.includes(needle)).map((needle) => `GitHub audit workflow missing required audit anchor: ${needle}`);
+  const unsafeWorkspaceArtifactPatterns = [
+    />\s*["']?gate-pre-git-audit\.(json|sarif)["']?/,
+    /Bun\.file\(\s*["']gate-pre-git-audit\.(json|sarif)["']\s*\)/,
+    /^\s*gate-pre-git-audit\.(json|sarif)\s*$/m
+  ];
+  if (unsafeWorkspaceArtifactPatterns.some((pattern) => pattern.test(text))) {
+    failures.push("GitHub audit workflow must write audit artifacts outside the audited workspace");
+  }
+  return {
+    name: "github_audit_workflow",
+    status: failures.length === 0 ? "passed" : "failed",
+    failures,
+    warnings: [],
+    details: [GITHUB_AUDIT_WORKFLOW_PATH],
+    durationMs: 0
+  };
+}
+
 // src/gate.ts
 function runGate(options) {
   const started = Date.now();
@@ -8701,6 +8754,7 @@ function runGate(options) {
     checkMarkdownStructure(target, fileSnapshots, config),
     governance.check,
     checkImpactPlan(impact),
+    ...shouldCheckGitHubAuditWorkflow(files) ? [checkGitHubAuditWorkflow(target)] : [],
     checkAdapterPlan(target, files, config.tools),
     ...options.runCommands ? runAdapterChecks(target, files, { enabledTools: config.tools }) : [],
     checkGitDiffWhitespace(target, options.mode),
@@ -8794,14 +8848,14 @@ function fileFromMessage(message) {
 
 // src/installer.ts
 import { execFileSync as execFileSync4 } from "child_process";
-import { chmodSync as chmodSync2, existsSync as existsSync9, mkdirSync as mkdirSync2, mkdtempSync, readFileSync as readFileSync7, rmSync, writeFileSync as writeFileSync3 } from "fs";
+import { chmodSync as chmodSync2, existsSync as existsSync10, mkdirSync as mkdirSync2, mkdtempSync, readFileSync as readFileSync8, rmSync, writeFileSync as writeFileSync3 } from "fs";
 import { tmpdir } from "os";
-import { dirname as dirname2, isAbsolute as isAbsolute2, join as join6 } from "path";
+import { dirname as dirname2, isAbsolute as isAbsolute2, join as join7 } from "path";
 import { fileURLToPath } from "url";
 
 // src/profiles.ts
-import { existsSync as existsSync8, readdirSync as readdirSync2, readFileSync as readFileSync6 } from "fs";
-import { extname as extname2, join as join5 } from "path";
+import { existsSync as existsSync9, readdirSync as readdirSync2, readFileSync as readFileSync7 } from "fs";
+import { extname as extname2, join as join6 } from "path";
 function profileConfig(profile, target) {
   const resolvedProfiles = profile === "auto" ? detectProfiles(target) : [profile];
   const packageJson = target === undefined ? null : readPackageJson(target);
@@ -8953,11 +9007,11 @@ function hasBunTestFiles(target) {
   return listFiles(target, 4).some((file) => /(^|\/).*(\.test|\.spec|_test_|_spec_)\.[cm]?[jt]sx?$/.test(file));
 }
 function readPackageJson(target) {
-  const path = join5(target, "package.json");
-  if (!existsSync8(path))
+  const path = join6(target, "package.json");
+  if (!existsSync9(path))
     return null;
   try {
-    return JSON.parse(readFileSync6(path, "utf8"));
+    return JSON.parse(readFileSync7(path, "utf8"));
   } catch {
     return null;
   }
@@ -8973,8 +9027,8 @@ function listFiles(target, maxDepth) {
 function walk(target, relative2, depth, files) {
   if (depth < 0)
     return;
-  const dir = relative2 === "" ? target : join5(target, relative2);
-  if (!existsSync8(dir))
+  const dir = relative2 === "" ? target : join6(target, relative2);
+  if (!existsSync9(dir))
     return;
   for (const entry of readdirSync2(dir, { withFileTypes: true })) {
     if ([".git", "node_modules", "dist", "build", ".next", ".nuxt", ".output", "coverage", "fixtures"].includes(entry.name)) {
@@ -9007,7 +9061,7 @@ function installHook(target, yes, command, kind = "native", force = false, hook 
   if (!yes)
     return { installed: false, path: hookPath, text };
   mkdirSync2(dirname2(hookPath), { recursive: true });
-  if (existsSync9(hookPath) && !force) {
+  if (existsSync10(hookPath) && !force) {
     throw new Error(`refusing to overwrite existing hook: ${hookPath}`);
   }
   writeFileSync3(hookPath, text, "utf8");
@@ -9015,13 +9069,13 @@ function installHook(target, yes, command, kind = "native", force = false, hook 
   return { installed: true, path: hookPath, text };
 }
 function initProject(options) {
-  const configPath = join6(options.target, ".gate-pre-git", "config.json");
-  const governancePath = join6(options.target, ".gate-pre-git", "governance.json");
-  const binPath = join6(options.target, ".gate-pre-git", "bin", "gate-pre-git");
-  const runtimePath = join6(options.target, ".gate-pre-git", "runtime", "cli.js");
-  const workflowPath = join6(options.target, ".github", "workflows", "gate-pre-git-audit.yml");
+  const configPath = join7(options.target, ".gate-pre-git", "config.json");
+  const governancePath = join7(options.target, ".gate-pre-git", "governance.json");
+  const binPath = join7(options.target, ".gate-pre-git", "bin", "gate-pre-git");
+  const runtimePath = join7(options.target, ".gate-pre-git", "runtime", "cli.js");
+  const workflowPath = join7(options.target, ".github", "workflows", "gate-pre-git-audit.yml");
   const config = profileConfig(options.profile, options.target);
-  const biomeConfigPath = join6(options.target, "biome.json");
+  const biomeConfigPath = join7(options.target, "biome.json");
   let wroteConfig = false;
   let wroteGovernance = false;
   if (options.yes) {
@@ -9030,14 +9084,14 @@ function initProject(options) {
     mkdirSync2(dirname2(runtimePath), { recursive: true });
     mkdirSync2(dirname2(workflowPath), { recursive: true });
   }
-  if (!existsSync9(configPath) || options.force) {
+  if (!existsSync10(configPath) || options.force) {
     if (options.yes) {
       writeFileSync3(configPath, `${JSON.stringify(config, null, 2)}
 `, "utf8");
       wroteConfig = true;
     }
   }
-  if (!existsSync9(governancePath) || options.force) {
+  if (!existsSync10(governancePath) || options.force) {
     if (options.yes) {
       writeFileSync3(governancePath, governanceMapText(), "utf8");
       wroteGovernance = true;
@@ -9046,7 +9100,7 @@ function initProject(options) {
   if (options.yes) {
     writeLauncher(binPath, options.command);
     writeRuntimeBundle(runtimePath);
-    if (config.tools.includes("biome") && (!existsSync9(biomeConfigPath) || options.force)) {
+    if (config.tools.includes("biome") && (!existsSync10(biomeConfigPath) || options.force)) {
       writeFileSync3(biomeConfigPath, biomeConfigText(), "utf8");
     }
     const lock = writeDefaultLock(options.target);
@@ -9294,14 +9348,14 @@ function defaultGovernanceMap() {
 }
 function hookPathFor(target, kind, hook) {
   if (kind === "husky")
-    return join6(target, ".husky", hook);
+    return join7(target, ".husky", hook);
   try {
     const path = execFileSync4("git", ["rev-parse", "--git-path", `hooks/${hook}`], {
       cwd: target,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
     }).trim();
-    return isAbsolute2(path) ? path : join6(target, path);
+    return isAbsolute2(path) ? path : join7(target, path);
   } catch {
     throw new Error(`native hook requires a Git repository: ${target}`);
   }
@@ -9339,19 +9393,19 @@ function writeRuntimeBundle(path) {
 function runtimeBundleText() {
   if (cachedRuntimeBundle !== null)
     return cachedRuntimeBundle;
-  const sourceEntry = join6(import.meta.dir, "cli.ts");
-  if (!existsSync9(sourceEntry)) {
-    cachedRuntimeBundle = readFileSync7(fileURLToPath(import.meta.url), "utf8");
+  const sourceEntry = join7(import.meta.dir, "cli.ts");
+  if (!existsSync10(sourceEntry)) {
+    cachedRuntimeBundle = readFileSync8(fileURLToPath(import.meta.url), "utf8");
     return cachedRuntimeBundle;
   }
-  const dir = mkdtempSync(join6(tmpdir(), "gate-pre-git-runtime-"));
-  const outPath = join6(dir, "cli.js");
+  const dir = mkdtempSync(join7(tmpdir(), "gate-pre-git-runtime-"));
+  const outPath = join7(dir, "cli.js");
   try {
     execFileSync4("bun", ["build", sourceEntry, "--target=bun", "--outfile", outPath], {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"]
     });
-    cachedRuntimeBundle = readFileSync7(outPath, "utf8");
+    cachedRuntimeBundle = readFileSync8(outPath, "utf8");
     return cachedRuntimeBundle;
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -9418,10 +9472,10 @@ jobs:
 `, "utf8");
 }
 function patchPackageScripts(target, yes, force) {
-  const packagePath = join6(target, "package.json");
-  if (!existsSync9(packagePath) || !yes)
+  const packagePath = join7(target, "package.json");
+  if (!existsSync10(packagePath) || !yes)
     return false;
-  const pkg = JSON.parse(readFileSync7(packagePath, "utf8"));
+  const pkg = JSON.parse(readFileSync8(packagePath, "utf8"));
   const scripts = pkg.scripts ?? {};
   const desired = {
     gate: ".gate-pre-git/bin/gate-pre-git check --all",
@@ -9448,8 +9502,8 @@ function sortRecord(input) {
 }
 
 // src/versioning.ts
-import { existsSync as existsSync10, readdirSync as readdirSync3, readFileSync as readFileSync8, writeFileSync as writeFileSync4 } from "fs";
-import { join as join7, relative as relative2 } from "path";
+import { existsSync as existsSync11, readdirSync as readdirSync3, readFileSync as readFileSync9, writeFileSync as writeFileSync4 } from "fs";
+import { join as join8, relative as relative2 } from "path";
 var GATE_GENERATED_BY_PREFIX = "gate-pre-git@";
 var VERSION_RE = /^(\d+)\.(\d+)\.(\d+)(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$/;
 var TYPES_VERSION_RE = /export\s+const\s+GATE_PRE_GIT_VERSION\s*=\s*"gate-pre-git@(\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?)";/;
@@ -9509,17 +9563,17 @@ function inspectVersionState(target) {
   return { ok: true, source, targets };
 }
 function detectVersionSource(target, failures) {
-  const versionFile = join7(target, "VERSION");
-  if (existsSync10(versionFile)) {
-    const version = readFileSync8(versionFile, "utf8").trim();
+  const versionFile = join8(target, "VERSION");
+  if (existsSync11(versionFile)) {
+    const version = readFileSync9(versionFile, "utf8").trim();
     if (!isSemVer(version)) {
       failures.push(`VERSION contains invalid SemVer: ${version}`);
       return null;
     }
     return { path: "VERSION", kind: "version-file", version };
   }
-  const packageJson = join7(target, "package.json");
-  if (!existsSync10(packageJson)) {
+  const packageJson = join8(target, "package.json");
+  if (!existsSync11(packageJson)) {
     failures.push("no version source found: expected VERSION or package.json");
     return null;
   }
@@ -9534,8 +9588,8 @@ function discoverVersionTargets(target, source, warnings) {
   const targets = new Map;
   const gateRuntimeProject = isGateRuntimeProject(target);
   const add = (path, kind) => {
-    const absolutePath = join7(target, path);
-    if (!existsSync10(absolutePath))
+    const absolutePath = join8(target, path);
+    if (!existsSync11(absolutePath))
       return;
     targets.set(path, {
       path,
@@ -9558,18 +9612,18 @@ function discoverVersionTargets(target, source, warnings) {
   return [...targets.values()].sort((left, right) => targetOrder(left).localeCompare(targetOrder(right)));
 }
 function isGateRuntimeProject(target) {
-  const packagePath = join7(target, "package.json");
-  if (existsSync10(packagePath)) {
+  const packagePath = join8(target, "package.json");
+  if (existsSync11(packagePath)) {
     const pkg = readJson(packagePath);
     if (pkg.name === "gate-pre-git")
       return true;
   }
-  const typesPath = join7(target, "src", "types.ts");
-  return existsSync10(typesPath) && TYPES_VERSION_RE.test(readFileSync8(typesPath, "utf8"));
+  const typesPath = join8(target, "src", "types.ts");
+  return existsSync11(typesPath) && TYPES_VERSION_RE.test(readFileSync9(typesPath, "utf8"));
 }
 function discoverWorkspacePackages(target, warnings) {
-  const rootPackagePath = join7(target, "package.json");
-  if (!existsSync10(rootPackagePath))
+  const rootPackagePath = join8(target, "package.json");
+  if (!existsSync11(rootPackagePath))
     return [];
   const rootPackage = readJson(rootPackagePath);
   const workspacePatterns = workspacePatternsFrom(rootPackage.workspaces);
@@ -9586,8 +9640,8 @@ function discoverWorkspacePackages(target, warnings) {
   for (const entry of readdirSync3(target, { withFileTypes: true })) {
     if (!entry.isDirectory() || entry.name.startsWith(".") || entry.name === "node_modules")
       continue;
-    const packagePath = join7(entry.name, "package.json");
-    if (existsSync10(join7(target, packagePath)))
+    const packagePath = join8(entry.name, "package.json");
+    if (existsSync11(join8(target, packagePath)))
       packages.add(packagePath);
   }
   return [...packages].sort();
@@ -9613,23 +9667,23 @@ function expandWorkspacePattern(target, pattern, warnings) {
     return packageJsonsRecursive(target, normalized.slice(0, -3));
   }
   if (normalized.endsWith("/package.json")) {
-    return existsSync10(join7(target, normalized)) ? [normalized] : [];
+    return existsSync11(join8(target, normalized)) ? [normalized] : [];
   }
-  if (!normalized.includes("*") && existsSync10(join7(target, normalized, "package.json"))) {
-    return [normalizePath3(join7(normalized, "package.json"))];
+  if (!normalized.includes("*") && existsSync11(join8(target, normalized, "package.json"))) {
+    return [normalizePath3(join8(normalized, "package.json"))];
   }
   warnings.push(`ignored unsupported workspace pattern: ${pattern}`);
   return [];
 }
 function packageJsonsOneLevel(target, base) {
-  const absoluteBase = join7(target, base);
-  if (!existsSync10(absoluteBase))
+  const absoluteBase = join8(target, base);
+  if (!existsSync11(absoluteBase))
     return [];
-  return readdirSync3(absoluteBase, { withFileTypes: true }).filter((entry) => entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules").map((entry) => normalizePath3(join7(base, entry.name, "package.json"))).filter((path) => existsSync10(join7(target, path))).sort();
+  return readdirSync3(absoluteBase, { withFileTypes: true }).filter((entry) => entry.isDirectory() && !entry.name.startsWith(".") && entry.name !== "node_modules").map((entry) => normalizePath3(join8(base, entry.name, "package.json"))).filter((path) => existsSync11(join8(target, path))).sort();
 }
 function packageJsonsRecursive(target, base) {
-  const absoluteBase = join7(target, base);
-  if (!existsSync10(absoluteBase))
+  const absoluteBase = join8(target, base);
+  if (!existsSync11(absoluteBase))
     return [];
   const packages = [];
   walkPackages(target, absoluteBase, packages);
@@ -9639,16 +9693,16 @@ function walkPackages(root, dir, packages) {
   for (const entry of readdirSync3(dir, { withFileTypes: true })) {
     if (!entry.isDirectory() || entry.name.startsWith(".") || entry.name === "node_modules")
       continue;
-    const child = join7(dir, entry.name);
-    const packageJson = join7(child, "package.json");
-    if (existsSync10(packageJson))
+    const child = join8(dir, entry.name);
+    const packageJson = join8(child, "package.json");
+    if (existsSync11(packageJson))
       packages.push(normalizePath3(relative2(root, packageJson)));
     walkPackages(root, child, packages);
   }
 }
 function readVersionTarget(path, kind) {
   if (kind === "version-file") {
-    const version = readFileSync8(path, "utf8").trim();
+    const version = readFileSync9(path, "utf8").trim();
     return isSemVer(version) ? version : null;
   }
   if (kind === "package-json") {
@@ -9662,7 +9716,7 @@ function readVersionTarget(path, kind) {
     const version = parsed.generatedBy.startsWith(GATE_GENERATED_BY_PREFIX) ? parsed.generatedBy.slice(GATE_GENERATED_BY_PREFIX.length) : null;
     return version !== null && isSemVer(version) ? version : null;
   }
-  const match = readFileSync8(path, "utf8").match(TYPES_VERSION_RE);
+  const match = readFileSync9(path, "utf8").match(TYPES_VERSION_RE);
   return match?.[1] ?? null;
 }
 function writeVersionTarget(target, version) {
@@ -9683,7 +9737,7 @@ function writeVersionTarget(target, version) {
     writeJson(target.absolutePath, parsed);
     return;
   }
-  const text = readFileSync8(target.absolutePath, "utf8");
+  const text = readFileSync9(target.absolutePath, "utf8");
   if (!TYPES_VERSION_RE.test(text)) {
     throw new Error("GATE_PRE_GIT_VERSION constant not found");
   }
@@ -9735,7 +9789,7 @@ function isSemVer(value) {
   return VERSION_RE.test(value);
 }
 function readJson(path) {
-  return JSON.parse(readFileSync8(path, "utf8"));
+  return JSON.parse(readFileSync9(path, "utf8"));
 }
 function writeJson(path, value) {
   writeFileSync4(path, `${JSON.stringify(value, null, 2)}
@@ -9765,7 +9819,7 @@ function runDoctor(target, commandProbe = "gate-pre-git") {
     structuralCheck("vendored_runtime", target, ".gate-pre-git/runtime/cli.js"),
     launcherPortabilityCheck(target),
     launcherExecutionCheck(target),
-    githubAuditWorkflowCheck(target),
+    checkGitHubAuditWorkflow(target),
     hookCheck(target, "pre-commit"),
     hookCheck(target, "pre-push"),
     packageScriptCheck(target),
@@ -9827,40 +9881,11 @@ function versionSyncCheck(target) {
     durationMs: report.durationMs
   };
 }
-function githubAuditWorkflowCheck(target) {
-  const relativePath = ".github/workflows/gate-pre-git-audit.yml";
-  const path = join8(target, relativePath);
-  if (!existsSync11(path))
-    return structuralCheck("github_audit_workflow", target, relativePath);
-  const text = readFileSync9(path, "utf8");
-  const required = [
-    "update-tools --target .",
-    "audit --target . --all --format json",
-    "audit --target . --all --format sarif",
-    "bun install --frozen-lockfile",
-    "gate-pre-git-audit.json",
-    "gate-pre-git-audit.sarif",
-    "manifestHash",
-    "manifest.governance",
-    "manifest.evidence",
-    "manifest.impact",
-    "actions/upload-artifact"
-  ];
-  const failures = required.filter((needle) => !text.includes(needle)).map((needle) => `GitHub audit workflow missing required audit anchor: ${needle}`);
-  return {
-    name: "github_audit_workflow",
-    status: failures.length === 0 ? "passed" : "failed",
-    failures,
-    warnings: [],
-    details: [relativePath],
-    durationMs: 0
-  };
-}
 function launcherExecutionCheck(target) {
   const started = Date.now();
   const relativePath = ".gate-pre-git/bin/gate-pre-git";
-  const path = join8(target, relativePath);
-  if (!existsSync11(path))
+  const path = join9(target, relativePath);
+  if (!existsSync12(path))
     return structuralCheck("launcher_execution", target, relativePath);
   try {
     const output = execFileSync5(path, ["version"], {
@@ -9894,10 +9919,10 @@ function launcherExecutionCheck(target) {
 }
 function launcherPortabilityCheck(target) {
   const relativePath = ".gate-pre-git/bin/gate-pre-git";
-  const path = join8(target, relativePath);
-  if (!existsSync11(path))
+  const path = join9(target, relativePath);
+  if (!existsSync12(path))
     return structuralCheck("launcher_portability", target, relativePath);
-  const text = readFileSync9(path, "utf8");
+  const text = readFileSync10(path, "utf8");
   const failures = [
     ...text.includes("/Users/") ? ["vendored launcher contains a user-local absolute path"] : [],
     ...text.includes("repo_root=") ? [] : ["vendored launcher does not resolve the repository root"],
@@ -9919,7 +9944,7 @@ function governanceMapCheck(target) {
     ".gate-pre-git/lock.json",
     ".gate-pre-git/bin/gate-pre-git",
     ".gate-pre-git/runtime/cli.js"
-  ].some((relativePath) => existsSync11(join8(target, relativePath)));
+  ].some((relativePath) => existsSync12(join9(target, relativePath)));
   if (!vendored) {
     return {
       name: "governance_map",
@@ -9930,10 +9955,10 @@ function governanceMapCheck(target) {
       durationMs: 0
     };
   }
-  const path = join8(target, governancePath);
-  if (!existsSync11(path))
+  const path = join9(target, governancePath);
+  if (!existsSync12(path))
     return structuralCheck("governance_map", target, governancePath);
-  const failures = governanceDriftFailures(JSON.parse(readFileSync9(path, "utf8")));
+  const failures = governanceDriftFailures(JSON.parse(readFileSync10(path, "utf8")));
   return {
     name: "governance_map",
     status: failures.length === 0 ? "passed" : "failed",
@@ -10022,8 +10047,8 @@ function toolLockDriftCheck(target) {
   };
 }
 function structuralCheck(name, target, relativePath) {
-  const path = join8(target, relativePath);
-  const ok = existsSync11(path);
+  const path = join9(target, relativePath);
+  const ok = existsSync12(path);
   return {
     name,
     status: ok ? "passed" : "failed",
@@ -10035,9 +10060,9 @@ function structuralCheck(name, target, relativePath) {
 }
 function hookCheck(target, hook) {
   const nativeHook = nativeHookPath(target, hook);
-  const huskyHook = join8(target, ".husky", hook);
-  const hookPath = nativeHook !== null && existsSync11(nativeHook) ? nativeHook : existsSync11(huskyHook) ? huskyHook : null;
-  const text = hookPath === null ? "" : readFileSync9(hookPath, "utf8");
+  const huskyHook = join9(target, ".husky", hook);
+  const hookPath = nativeHook !== null && existsSync12(nativeHook) ? nativeHook : existsSync12(huskyHook) ? huskyHook : null;
+  const text = hookPath === null ? "" : readFileSync10(hookPath, "utf8");
   const expectedCommand = hook === "pre-push" ? "push" : "staged";
   const ok = hookPath !== null && text.includes("gate-pre-git") && text.includes(expectedCommand);
   return {
@@ -10050,8 +10075,8 @@ function hookCheck(target, hook) {
   };
 }
 function packageScriptCheck(target) {
-  const packagePath = join8(target, "package.json");
-  if (!existsSync11(packagePath)) {
+  const packagePath = join9(target, "package.json");
+  if (!existsSync12(packagePath)) {
     return {
       name: "package_scripts",
       status: "skipped",
@@ -10061,7 +10086,7 @@ function packageScriptCheck(target) {
       durationMs: 0
     };
   }
-  const pkg = JSON.parse(readFileSync9(packagePath, "utf8"));
+  const pkg = JSON.parse(readFileSync10(packagePath, "utf8"));
   const scripts = pkg.scripts ?? {};
   const required = [
     ["gate", [".gate-pre-git/bin/gate-pre-git check --all", "gate-pre-git check --all", "src/cli.ts check --all"]],
@@ -10086,10 +10111,10 @@ function binaryReferenceCheck(target, commandProbe) {
   const texts = [
     nativeHookPath(target, "pre-commit"),
     nativeHookPath(target, "pre-push"),
-    join8(target, ".husky", "pre-commit"),
-    join8(target, ".husky", "pre-push"),
-    join8(target, ".gate-pre-git", "bin", "gate-pre-git")
-  ].filter((path) => path !== null).filter(existsSync11).map((path) => readFileSync9(path, "utf8"));
+    join9(target, ".husky", "pre-commit"),
+    join9(target, ".husky", "pre-push"),
+    join9(target, ".gate-pre-git", "bin", "gate-pre-git")
+  ].filter((path) => path !== null).filter(existsSync12).map((path) => readFileSync10(path, "utf8"));
   const ok = texts.some((text) => text.includes(commandProbe) || text.includes("src/cli.ts") || text.includes(".gate-pre-git/bin/gate-pre-git"));
   return {
     name: "hook_command_reference",
@@ -10117,14 +10142,14 @@ function toolCacheCheck(toolReports) {
   };
 }
 function smokeCheck() {
-  const dir = join8(tmpdir2(), `gate-pre-git-doctor-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  const dir = join9(tmpdir2(), `gate-pre-git-doctor-${Date.now()}-${Math.random().toString(16).slice(2)}`);
   const started = Date.now();
   try {
     mkdirSync3(dir, { recursive: true });
     execFileSync5("git", ["init"], { cwd: dir, stdio: "ignore" });
-    writeFileSync5(join8(dir, "bad.json"), "{", "utf8");
+    writeFileSync5(join9(dir, "bad.json"), "{", "utf8");
     execFileSync5("git", ["add", "bad.json"], { cwd: dir, stdio: "ignore" });
-    writeFileSync5(join8(dir, "bad.json"), `{}
+    writeFileSync5(join9(dir, "bad.json"), `{}
 `, "utf8");
     const report = runGate({ target: dir, mode: "staged", all: false, json: false, runCommands: false });
     const ok = !report.ok && report.findings.some((finding) => finding.code === "json_syntax");
@@ -10147,7 +10172,7 @@ function nativeHookPath(target, hook) {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
     }).trim();
-    return isAbsolute3(path) ? path : join8(target, path);
+    return isAbsolute3(path) ? path : join9(target, path);
   } catch {
     return null;
   }
@@ -10156,8 +10181,8 @@ function nativeHookPath(target, hook) {
 // src/release.ts
 import { execFileSync as execFileSync6 } from "child_process";
 import { createHash as createHash3 } from "crypto";
-import { existsSync as existsSync12, mkdirSync as mkdirSync4, readFileSync as readFileSync10, writeFileSync as writeFileSync6 } from "fs";
-import { dirname as dirname3, join as join9 } from "path";
+import { existsSync as existsSync13, mkdirSync as mkdirSync4, readFileSync as readFileSync11, writeFileSync as writeFileSync6 } from "fs";
+import { dirname as dirname3, join as join10 } from "path";
 var CONVENTIONAL_RE = /^(feat|fix|refactor|perf|docs|style|revert)(?:\(([^)]+)\))?(!)?: (.+)$/;
 var SEMVER_TAG_RE = /^v\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$/;
 function buildReleasePlan(options) {
@@ -10214,9 +10239,9 @@ function writeReleaseArtifacts(options) {
   const releasePath = `docs/releases/${plan.version}.md`;
   const releaseMarkdown = releaseNotesMarkdown(plan);
   const changelogMarkdown = changelogWithRelease(options.target, plan, releaseMarkdown);
-  writeText(join9(options.target, changelogPath), changelogMarkdown);
+  writeText(join10(options.target, changelogPath), changelogMarkdown);
   updated.push(changelogPath);
-  writeText(join9(options.target, releasePath), releaseMarkdown);
+  writeText(join10(options.target, releasePath), releaseMarkdown);
   updated.push(releasePath);
   return {
     ...plan,
@@ -10235,22 +10260,22 @@ function auditReleaseArtifacts(options) {
   const changelogPath = "CHANGELOG.md";
   const expectedRelease = releaseNotesMarkdown(plan);
   const failures = [];
-  const releaseAbsolutePath = join9(options.target, releasePath);
-  const changelogAbsolutePath = join9(options.target, changelogPath);
-  if (!existsSync12(releaseAbsolutePath)) {
+  const releaseAbsolutePath = join10(options.target, releasePath);
+  const changelogAbsolutePath = join10(options.target, changelogPath);
+  if (!existsSync13(releaseAbsolutePath)) {
     failures.push(`missing ${releasePath}`);
-  } else if (readFileSync10(releaseAbsolutePath, "utf8") !== expectedRelease) {
+  } else if (readFileSync11(releaseAbsolutePath, "utf8") !== expectedRelease) {
     failures.push(`${releasePath} drifted from generated release plan`);
   }
-  if (!existsSync12(changelogAbsolutePath)) {
+  if (!existsSync13(changelogAbsolutePath)) {
     failures.push(`missing ${changelogPath}`);
-  } else if (!readFileSync10(changelogAbsolutePath, "utf8").includes(`## ${plan.version}`)) {
+  } else if (!readFileSync11(changelogAbsolutePath, "utf8").includes(`## ${plan.version}`)) {
     failures.push(`${changelogPath} missing ${plan.version}`);
   }
   return {
     ...plan,
     action: "audit",
-    artifactHash: artifactHash(existsSync12(releaseAbsolutePath) ? readFileSync10(releaseAbsolutePath, "utf8") : "", existsSync12(changelogAbsolutePath) ? readFileSync10(changelogAbsolutePath, "utf8") : ""),
+    artifactHash: artifactHash(existsSync13(releaseAbsolutePath) ? readFileSync11(releaseAbsolutePath, "utf8") : "", existsSync13(changelogAbsolutePath) ? readFileSync11(changelogAbsolutePath, "utf8") : ""),
     failures: [...plan.failures, ...failures],
     durationMs: Date.now() - started,
     ok: plan.ok && failures.length === 0
@@ -10286,12 +10311,12 @@ function readReleaseVersion(target, failures) {
   return `v${version.currentVersion}`;
 }
 function readProjectName(target, warnings) {
-  const packagePath = join9(target, "package.json");
-  if (!existsSync12(packagePath)) {
+  const packagePath = join10(target, "package.json");
+  if (!existsSync13(packagePath)) {
     warnings.push("package.json not found; project name unavailable");
     return null;
   }
-  const pkg = JSON.parse(readFileSync10(packagePath, "utf8"));
+  const pkg = JSON.parse(readFileSync11(packagePath, "utf8"));
   return typeof pkg.name === "string" ? pkg.name : null;
 }
 function previousVersionRef(target) {
@@ -10436,8 +10461,8 @@ function entriesForCategory(plan, category) {
   });
 }
 function changelogWithRelease(target, plan, releaseMarkdown) {
-  const changelogPath = join9(target, "CHANGELOG.md");
-  const existing = existsSync12(changelogPath) ? readFileSync10(changelogPath, "utf8") : `# Changelog
+  const changelogPath = join10(target, "CHANGELOG.md");
+  const existing = existsSync13(changelogPath) ? readFileSync11(changelogPath, "utf8") : `# Changelog
 
 `;
   const releaseBody = releaseMarkdown.replace(/^# Release .+\n\n/, `## ${plan.version}

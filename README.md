@@ -20,8 +20,8 @@ JSON/SARIF audit evidence.
 
 ## Current Maturity
 
-This repository is a committed pre-RC technical foundation published under the
-MIT License. It is not a public package release yet. The local baseline is:
+This repository is a public pre-RC technical foundation published under the MIT
+License. It is not a public package release yet. The local baseline is:
 
 - commit `62d3fe3` (`chore: establish pre-rc foundation`);
 - tag `foundation/pre-rc-2026-05-11`;
@@ -30,6 +30,15 @@ MIT License. It is not a public package release yet. The local baseline is:
 
 Public package distribution is intentionally still closed while the support
 matrix, package artifacts, and external pinned canaries are finalized.
+
+The public repository also preserves the first GitHub audit failures instead of
+rewriting or hiding them. On 2026-05-11, three `main` workflow runs failed
+because the audit workflow wrote its JSON/SARIF artifacts into the same
+workspace being audited. The root cause and corrective control are recorded in
+[docs/incidents/2026-05-11-github-audit-self-contamination.md](docs/incidents/2026-05-11-github-audit-self-contamination.md).
+The product contract is not "GitHub can never go red"; it is "preventable
+governance failures become executable local rules, and GitHub remains the cheap
+final auditor protected by branch rules."
 
 ## Install From This Checkout
 
@@ -121,6 +130,11 @@ by making bypass and drift visible:
 The GitHub audit proves that the repository state can produce the expected audit
 manifest. It does not prove that every developer ran the local hook before
 push. See [docs/trust-model.md](docs/trust-model.md) for the full boundary.
+
+Audit artifacts must be emitted outside the audited workspace. The generated
+workflow writes them to the runner temp directory, and both `gate` and `doctor`
+reject workflows that write `gate-pre-git-audit.json` or SARIF artifacts into
+the repository tree.
 
 ## Pass/Fail Contract
 
