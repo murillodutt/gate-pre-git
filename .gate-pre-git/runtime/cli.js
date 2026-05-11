@@ -10416,8 +10416,8 @@ function changelogWithRelease(target, plan, releaseMarkdown) {
 `;
   const releaseBody = releaseMarkdown.replace(/^# Release .+\n\n/, `## ${plan.version}
 
-`);
-  const withoutExistingVersion = existing.replace(new RegExp(`\\n?## ${escapeRegExp2(plan.version ?? "")}[\\s\\S]*?(?=\\n## |$)`), `
+`).replace(/^## (Added|Fixed|Changed)$/gm, "### $1");
+  const withoutExistingVersion = existing.replace(new RegExp(`\\n?## ${escapeRegExp2(plan.version ?? "")}[\\s\\S]*?(?=\\n## v\\d+\\.\\d+\\.\\d+|$)`), `
 `);
   return `${withoutExistingVersion.trimEnd()}
 

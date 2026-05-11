@@ -383,9 +383,11 @@ function entriesForCategory(plan: ReleaseReport, category: ReleaseCategory): str
 function changelogWithRelease(target: string, plan: ReleaseReport, releaseMarkdown: string): string {
   const changelogPath = join(target, "CHANGELOG.md");
   const existing = existsSync(changelogPath) ? readFileSync(changelogPath, "utf8") : "# Changelog\n\n";
-  const releaseBody = releaseMarkdown.replace(/^# Release .+\n\n/, `## ${plan.version}\n\n`);
+  const releaseBody = releaseMarkdown
+    .replace(/^# Release .+\n\n/, `## ${plan.version}\n\n`)
+    .replace(/^## (Added|Fixed|Changed)$/gm, "### $1");
   const withoutExistingVersion = existing.replace(
-    new RegExp(`\\n?## ${escapeRegExp(plan.version ?? "")}[\\s\\S]*?(?=\\n## |$)`),
+    new RegExp(`\\n?## ${escapeRegExp(plan.version ?? "")}[\\s\\S]*?(?=\\n## v\\d+\\.\\d+\\.\\d+|$)`),
     "\n"
   );
   return `${withoutExistingVersion.trimEnd()}\n\n${releaseBody}`;
