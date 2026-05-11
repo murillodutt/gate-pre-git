@@ -6,38 +6,23 @@ import type { CommandCheckConfig, GateConfig, GateProfile } from "./types";
 export function profileConfig(profile: GateProfile, target?: string): GateConfig {
   const resolvedProfiles = profile === "auto" ? detectProfiles(target) : [profile];
   const packageJson = target === undefined ? null : readPackageJson(target);
+  const nodeCommands = nodeCommandChecks(packageJson, target);
   const commands: Record<GateProfile, CommandCheckConfig[]> = {
     auto: [],
     strict: [],
     docs: [],
-    node: [
-      {
-        name: "typecheck",
-        run: "bun run typecheck",
-        modes: ["check", "push"]
-      },
-      {
-        name: "test",
-        run: nodeTestCommand(packageJson),
-        modes: ["check", "push"]
-      }
-    ],
+    node: nodeCommands,
     nuxt: [
-      {
-        name: "typecheck",
-        run: "bun run typecheck",
-        modes: ["check", "push"]
-      },
-      {
-        name: "test",
-        run: nodeTestCommand(packageJson),
-        modes: ["check", "push"]
-      },
-      {
-        name: "build",
-        run: "bun run build",
-        modes: ["push"]
-      }
+      ...nodeCommands,
+      ...(hasPackageScript(packageJson, "build")
+        ? [
+            {
+              name: "build",
+              run: "bun run build",
+              modes: ["push" as const]
+            }
+          ]
+        : [])
     ],
     python: [
       {
@@ -150,9 +135,45 @@ function uniqueCommands(commands: readonly CommandCheckConfig[]): CommandCheckCo
   return [...byName.values()];
 }
 
-function nodeTestCommand(packageJson: null | { scripts?: unknown }): string {
+function nodeCommandChecks(
+  packageJson: null | { scripts?: unknown },
+  target: string | undefined
+): CommandCheckConfig[] {
+  const checks: CommandCheckConfig[] = [];
+  if (hasPackageScript(packageJson, "typecheck")) {
+    checks.push({
+      name: "typecheck",
+      run: "bun run typecheck",
+      modes: ["check", "push"]
+    });
+  }
+
+  const testCommand = nodeTestCommand(packageJson, target);
+  if (testCommand !== null) {
+    checks.push({
+      name: "test",
+      run: testCommand,
+      modes: ["check", "push"]
+    });
+  }
+
+  return checks;
+}
+
+function nodeTestCommand(packageJson: null | { scripts?: unknown }, target: string | undefined): string | null {
   const scripts = packageJson?.scripts;
-  return isRecord(scripts) && typeof scripts.test === "string" ? "bun run test" : "bun test";
+  if (isRecord(scripts) && typeof scripts.test === "string") return "bun run test";
+  if (target !== undefined && hasBunTestFiles(target)) return "bun test";
+  return null;
+}
+
+function hasPackageScript(packageJson: null | { scripts?: unknown }, name: string): boolean {
+  const scripts = packageJson?.scripts;
+  return isRecord(scripts) && typeof scripts[name] === "string";
+}
+
+function hasBunTestFiles(target: string): boolean {
+  return listFiles(target, 4).some((file) => /(^|\/).*(\.test|\.spec|_test_|_spec_)\.[cm]?[jt]sx?$/.test(file));
 }
 
 function readPackageJson(

@@ -145,6 +145,31 @@ describe("auto profile fixture pack", () => {
     }
   });
 
+  test("does not invent Node command checks for package-only targets", () => {
+    const dir = fixture("node-package-only");
+    try {
+      writeJson(join(dir, "package.json"), {
+        name: "package-only-target",
+        version: "0.0.0",
+        scripts: {}
+      });
+      writeFileSync(join(dir, "README.md"), "# Package Only Target\n", "utf8");
+
+      initProject({ target: dir, yes: true, force: false, profile: "auto", hook: "native", command: "gate-pre-git" });
+
+      const config = readConfig(dir);
+      expect(config.profiles).toEqual(["node", "docs", "security"]);
+      expect(config.commandChecks).toEqual([]);
+
+      const report = runGate({ target: dir, mode: "check", all: true, json: false, runCommands: true });
+      expect(report.ok).toBe(true);
+      expect(report.findings.map((finding) => finding.code)).not.toContain("command:typecheck");
+      expect(report.findings.map((finding) => finding.code)).not.toContain("command:test");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   test("blocks secret fixture paths after vendored auto init", () => {
     const dir = fixture("security-negative");
     try {

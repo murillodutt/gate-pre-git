@@ -245,6 +245,11 @@ bun src/cli.ts update-tools --target /path/to/repo
 - runs configured project commands
 - emits JSON/SARIF audit output
 
+Auto profiles do not invent Node/Nuxt command checks. They register `typecheck`
+only when `package.json#scripts.typecheck` exists, `test` when
+`package.json#scripts.test` or Bun-discoverable test files exist, and `build`
+only when a Nuxt target exposes `package.json#scripts.build`.
+
 ## Config
 
 Prefer `init`. Manual config is allowed only when a project needs a custom
