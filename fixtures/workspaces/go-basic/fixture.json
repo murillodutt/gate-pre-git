@@ -1,0 +1,21 @@
+{
+  "name": "go-basic",
+  "description": "Replayable Go workspace with command evidence when Go is available.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["go", "docs", "security"],
+  "expectedBaselineTools": ["markdownlint", "actionlint", "gitleaks"],
+  "runCommands": "whenAvailable",
+  "commandProbes": ["go"],
+  "checkEvidence": ["go-test", "gitleaks"],
+  "pushEvidence": ["go-test", "gitleaks"],
+  "mutations": [
+    {
+      "name": "unowned-note",
+      "files": {
+        "notes.txt": "temporary note\n"
+      },
+      "expectedFiles": ["notes.txt"],
+      "expectedFindings": ["governance"]
+    }
+  ]
+}

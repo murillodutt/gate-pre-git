@@ -1,0 +1,21 @@
+{
+  "name": "python-basic",
+  "description": "Replayable Python workspace with Ruff evidence when Python is available.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["python", "docs", "security"],
+  "expectedBaselineTools": ["markdownlint", "actionlint", "gitleaks", "ruff"],
+  "runCommands": "whenAvailable",
+  "commandProbes": ["python3"],
+  "checkEvidence": ["ruff", "gitleaks"],
+  "pushEvidence": ["ruff", "gitleaks"],
+  "mutations": [
+    {
+      "name": "unowned-note",
+      "files": {
+        "notes.txt": "temporary note\n"
+      },
+      "expectedFiles": ["notes.txt"],
+      "expectedFindings": ["governance"]
+    }
+  ]
+}

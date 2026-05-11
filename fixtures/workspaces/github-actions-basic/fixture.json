@@ -1,0 +1,20 @@
+{
+  "name": "github-actions-basic",
+  "description": "Replayable GitHub Actions workspace with actionlint evidence.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["docs", "security"],
+  "expectedBaselineTools": ["markdownlint", "actionlint", "gitleaks"],
+  "runCommands": true,
+  "checkEvidence": ["yaml_syntax", "actionlint", "markdownlint"],
+  "pushEvidence": ["yaml_syntax", "actionlint", "markdownlint"],
+  "mutations": [
+    {
+      "name": "bad-workflow-yaml",
+      "files": {
+        ".github/workflows/ci.yml": "name: ci\non: [push\n"
+      },
+      "expectedFiles": [".github/workflows/ci.yml"],
+      "expectedFindings": ["yaml_syntax"]
+    }
+  ]
+}

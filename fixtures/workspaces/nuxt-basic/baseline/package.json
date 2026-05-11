@@ -1,0 +1,13 @@
+{
+  "name": "nuxt-basic-target",
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "nuxt": "0.0.0"
+  },
+  "scripts": {
+    "build": "bun -e \"process.exit(0)\"",
+    "test": "bun spec/value-check.ts",
+    "typecheck": "bun -e \"process.exit(0)\""
+  }
+}

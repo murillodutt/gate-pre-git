@@ -1,0 +1,9 @@
+{
+  "name": "node-basic-target",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "bun spec/value-check.ts",
+    "typecheck": "bun -e \"process.exit(0)\""
+  }
+}

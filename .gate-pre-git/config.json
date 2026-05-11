@@ -1,0 +1,66 @@
+{
+  "textExtensions": [
+    ".md",
+    ".txt",
+    ".json",
+    ".jsonc",
+    ".js",
+    ".jsx",
+    ".mjs",
+    ".cjs",
+    ".ts",
+    ".tsx",
+    ".vue",
+    ".yml",
+    ".yaml",
+    ".css",
+    ".html",
+    ".py",
+    ".pyi",
+    ".go",
+    ".rs",
+    ".toml",
+    ".mod",
+    ".sum"
+  ],
+  "blockedBasenames": [".DS_Store"],
+  "blockedMarkers": ["[STAGE_BLOCK:OPEN]"],
+  "secretPathPatterns": [
+    "\\.env($|\\.)",
+    "\\.(pem|key|p12|pfx)$",
+    "(^|/)id_rsa$",
+    "(^|/)id_ed25519$",
+    "(^|/)secrets?\\."
+  ],
+  "ignoreDirs": [".git", "node_modules", "dist", "build", ".next", ".nuxt", ".output", "coverage", ".cache"],
+  "markdown": {
+    "requireH1": false,
+    "maxHeadingDepth": 4
+  },
+  "policy": {
+    "strict": true,
+    "autoStageFixes": true
+  },
+  "profiles": ["node", "docs", "security"],
+  "tools": ["biome", "markdownlint", "actionlint", "gitleaks"],
+  "hooks": {
+    "preCommit": true,
+    "prePush": true
+  },
+  "githubAudit": {
+    "enabled": true,
+    "workflowPath": ".github/workflows/gate-pre-git-audit.yml"
+  },
+  "commandChecks": [
+    {
+      "name": "typecheck",
+      "run": "bun run typecheck",
+      "modes": ["check", "push"]
+    },
+    {
+      "name": "test",
+      "run": "bun run test",
+      "modes": ["check", "push"]
+    }
+  ]
+}

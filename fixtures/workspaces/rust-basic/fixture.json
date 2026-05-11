@@ -1,0 +1,21 @@
+{
+  "name": "rust-basic",
+  "description": "Replayable Rust workspace with command evidence when Cargo is available.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["rust", "docs", "security"],
+  "expectedBaselineTools": ["markdownlint", "actionlint", "gitleaks"],
+  "runCommands": "whenAvailable",
+  "commandProbes": ["cargo"],
+  "checkEvidence": ["cargo-check", "gitleaks"],
+  "pushEvidence": ["cargo-check", "gitleaks"],
+  "mutations": [
+    {
+      "name": "unowned-note",
+      "files": {
+        "notes.txt": "temporary note\n"
+      },
+      "expectedFiles": ["notes.txt"],
+      "expectedFindings": ["governance"]
+    }
+  ]
+}

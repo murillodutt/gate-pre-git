@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "generatedBy": "gate-pre-git@0.1.0",
+  "zones": [
+    {
+      "name": "source_js",
+      "description": "JavaScript, TypeScript, Vue, and frontend/server source files.",
+      "owners": ["platform"],
+      "risk": "high",
+      "paths": [
+        "src/**/*.js",
+        "src/**/*.jsx",
+        "src/**/*.mjs",
+        "src/**/*.cjs",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "app/**/*.js",
+        "app/**/*.jsx",
+        "app/**/*.ts",
+        "app/**/*.tsx",
+        "app/**/*.vue",
+        "lib/**/*.js",
+        "lib/**/*.ts",
+        "server/**/*.js",
+        "server/**/*.ts"
+      ],
+      "requiredEvidence": ["biome", "gitleaks", "typecheck", "test", "gate"]
+    },
+    {
+      "name": "source_python",
+      "description": "Python application, package, and script source files.",
+      "owners": ["platform"],
+      "risk": "high",
+      "paths": ["**/*.py", "**/*.pyi"],
+      "requiredEvidence": ["ruff", "gitleaks", "gate"]
+    },
+    {
+      "name": "source_go",
+      "description": "Go application, package, and command source files.",
+      "owners": ["platform"],
+      "risk": "high",
+      "paths": ["**/*.go"],
+      "requiredEvidence": ["go-test", "gitleaks", "gate"]
+    },
+    {
+      "name": "source_rust",
+      "description": "Rust crate and workspace source files.",
+      "owners": ["platform"],
+      "risk": "high",
+      "paths": ["**/*.rs"],
+      "requiredEvidence": ["cargo-check", "gitleaks", "gate"]
+    },
+    {
+      "name": "tests_js",
+      "description": "JavaScript and TypeScript automated tests.",
+      "owners": ["quality"],
+      "risk": "medium",
+      "paths": [
+        "tests/**/*.test.ts",
+        "tests/**/*.spec.ts",
+        "tests/**/*.ts",
+        "test/**/*.test.ts",
+        "test/**/*.spec.ts",
+        "test/**/*.ts",
+        "spec/**/*.ts",
+        "__tests__/**/*.ts",
+        "tests/**/*.test.js",
+        "tests/**/*.spec.js",
+        "tests/**/*.js",
+        "test/**/*.test.js",
+        "test/**/*.spec.js",
+        "test/**/*.js",
+        "spec/**/*.js",
+        "__tests__/**/*.js"
+      ],
+      "requiredEvidence": ["biome", "test"]
+    },
+    {
+      "name": "tests_python",
+      "description": "Python automated tests.",
+      "owners": ["quality"],
+      "risk": "medium",
+      "paths": ["tests/**/*.py", "test/**/*.py"],
+      "requiredEvidence": ["ruff"]
+    },
+    {
+      "name": "tests_go",
+      "description": "Go automated tests.",
+      "owners": ["quality"],
+      "risk": "medium",
+      "paths": ["tests/**/*.go", "test/**/*.go", "**/*_test.go"],
+      "requiredEvidence": ["go-test"]
+    },
+    {
+      "name": "tests_rust",
+      "description": "Rust automated tests.",
+      "owners": ["quality"],
+      "risk": "medium",
+      "paths": ["tests/**/*.rs", "benches/**/*.rs"],
+      "requiredEvidence": ["cargo-check"]
+    },
+    {
+      "name": "vendored_gate",
+      "description": "Vendored gate configuration, lockfile, launcher, and local tool shims.",
+      "owners": ["platform"],
+      "risk": "critical",
+      "paths": [
+        ".gate-pre-git/config.json",
+        ".gate-pre-git/governance.json",
+        ".gate-pre-git/lock.json",
+        ".gate-pre-git/bin/**",
+        ".gate-pre-git/runtime/**",
+        ".gate-pre-git/cache/.gitignore"
+      ],
+      "requiredEvidence": ["text_hygiene", "gitleaks"]
+    },
+    {
+      "name": "github_workflow",
+      "description": "GitHub audit workflow that verifies the local gate contract remotely.",
+      "owners": ["platform"],
+      "risk": "high",
+      "paths": [".github/workflows/**"],
+      "requiredEvidence": ["yaml_syntax", "actionlint"]
+    },
+    {
+      "name": "docs",
+      "description": "User-facing documentation and local evidence notes.",
+      "owners": ["maintainers"],
+      "risk": "low",
+      "paths": ["README.md", "docs/**/*.md"],
+      "requiredEvidence": ["markdown_structure", "markdownlint"]
+    },
+    {
+      "name": "package_tooling",
+      "description": "Package manifests, compiler configuration, lockfiles, and root gate examples.",
+      "owners": ["platform"],
+      "risk": "high",
+      "paths": [
+        "package.json",
+        "bun.lock",
+        "tsconfig.json",
+        "nuxt.config.*",
+        "vite.config.*",
+        "next.config.*",
+        "biome.json",
+        ".markdownlint-cli2.jsonc",
+        "gate-pre-git.config*.json",
+        "pyproject.toml",
+        "requirements*.txt",
+        "setup.py",
+        "go.mod",
+        "go.sum",
+        "Cargo.toml",
+        "Cargo.lock",
+        ".gitignore"
+      ],
+      "requiredEvidence": ["text_hygiene", "gate"]
+    },
+    {
+      "name": "shell_scripts",
+      "description": "Repository automation and release shell scripts.",
+      "owners": ["platform"],
+      "risk": "medium",
+      "paths": ["scripts/**/*.sh", "**/*.sh", "**/*.bash", "**/*.zsh", "**/*.ksh"],
+      "requiredEvidence": ["text_hygiene", "shellcheck"]
+    },
+    {
+      "name": "templates",
+      "description": "Files copied or referenced by installer templates.",
+      "owners": ["platform"],
+      "risk": "medium",
+      "paths": ["templates/**"],
+      "requiredEvidence": ["text_hygiene"]
+    },
+    {
+      "name": "fixture_workspaces",
+      "description": "Versioned replay workspaces and fixture metadata used to certify portability.",
+      "owners": ["quality"],
+      "risk": "medium",
+      "paths": ["fixtures/**"],
+      "requiredEvidence": ["text_hygiene"]
+    }
+  ],
+  "sensitivePaths": [".env", ".env.*", "**/*.pem", "**/*.key", "**/*.p12", "**/*.pfx"],
+  "generatedPaths": ["dist/**", "build/**", ".next/**", ".nuxt/**", ".output/**"],
+  "exceptions": []
+}

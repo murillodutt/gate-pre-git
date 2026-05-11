@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "generatedBy": "gate-pre-git@0.1.0",
+  "tools": {
+    "biome": {
+      "kind": "npm",
+      "package": "@biomejs/biome",
+      "version": "2.4.15",
+      "command": "biome"
+    },
+    "markdownlint": {
+      "kind": "npm",
+      "package": "markdownlint-cli2",
+      "version": "0.22.1",
+      "command": "markdownlint-cli2"
+    },
+    "actionlint": {
+      "kind": "npm",
+      "package": "github-actionlint",
+      "version": "1.7.12",
+      "command": "actionlint"
+    },
+    "shellcheck": {
+      "kind": "npm",
+      "package": "shellcheck",
+      "version": "4.1.0",
+      "command": "shellcheck"
+    },
+    "gitleaks": {
+      "kind": "npm",
+      "package": "@0xts/gitleaks-cli",
+      "version": "0.1.3",
+      "command": "gitleaks"
+    },
+    "ruff": {
+      "kind": "python",
+      "package": "ruff",
+      "version": "0.15.12",
+      "command": "ruff"
+    }
+  }
+}

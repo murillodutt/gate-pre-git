@@ -1,0 +1,20 @@
+{
+  "name": "docs-basic",
+  "description": "Replayable docs-only workspace with markdown evidence.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["docs", "security"],
+  "expectedBaselineTools": ["markdownlint", "actionlint", "gitleaks"],
+  "runCommands": true,
+  "checkEvidence": ["markdown_structure", "markdownlint"],
+  "pushEvidence": ["markdown_structure", "markdownlint"],
+  "mutations": [
+    {
+      "name": "bad-markdown",
+      "files": {
+        "docs/guide.md": "# Guide\n\n```\nunclosed\n"
+      },
+      "expectedFiles": ["docs/guide.md"],
+      "expectedFindings": ["markdown_structure"]
+    }
+  ]
+}

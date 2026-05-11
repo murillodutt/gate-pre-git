@@ -1,0 +1,3 @@
+# Guide
+
+Stable documentation fixture.

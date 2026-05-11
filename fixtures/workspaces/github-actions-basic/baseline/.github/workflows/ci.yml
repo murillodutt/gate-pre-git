@@ -1,0 +1,10 @@
+name: ci
+
+on:
+  push:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok

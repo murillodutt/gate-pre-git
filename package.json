@@ -1,0 +1,35 @@
+{
+  "name": "gate-pre-git",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "gate-pre-git": "./src/cli.ts"
+  },
+  "scripts": {
+    "advice": "bun src/cli.ts advice",
+    "check": "bun src/cli.ts check",
+    "check:all": "bun src/cli.ts check --all",
+    "doctor": "bun src/cli.ts doctor",
+    "gate": ".gate-pre-git/bin/gate-pre-git check --all",
+    "gate:audit": ".gate-pre-git/bin/gate-pre-git audit --all --format json",
+    "gate:doctor": ".gate-pre-git/bin/gate-pre-git doctor",
+    "gate:push": ".gate-pre-git/bin/gate-pre-git push",
+    "gate:release-plan": ".gate-pre-git/bin/gate-pre-git release plan",
+    "gate:replay": "bun test tests/replay-fixtures.test.ts",
+    "gate:staged": ".gate-pre-git/bin/gate-pre-git staged",
+    "gate:version-audit": ".gate-pre-git/bin/gate-pre-git version audit",
+    "init:dry": "bun src/cli.ts init",
+    "staged": "bun src/cli.ts staged",
+    "test": "bun test",
+    "test:migration": "bun test tests/migration-canary.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "yaml": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.0",
+    "typescript": "^6.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+set -eu
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+
+if [ -f "$repo_root/.gate-pre-git/runtime/cli.js" ]; then
+  exec bun "$repo_root/.gate-pre-git/runtime/cli.js" "$@"
+fi
+
+if [ -f "$repo_root/.gate-pre-git/runtime/cli.ts" ]; then
+  exec bun "$repo_root/.gate-pre-git/runtime/cli.ts" "$@"
+fi
+
+if [ -f "$repo_root/package.json" ] && [ -f "$repo_root/src/cli.ts" ] && grep -q '"name"[[:space:]]*:[[:space:]]*"gate-pre-git"' "$repo_root/package.json"; then
+  exec bun "$repo_root/src/cli.ts" "$@"
+fi
+
+if command -v gate-pre-git >/dev/null 2>&1; then
+  exec gate-pre-git "$@"
+fi
+
+echo "gate-pre-git launcher could not find a local runtime. Tried .gate-pre-git/runtime/cli.ts, source checkout src/cli.ts, and gate-pre-git on PATH." >&2
+exit 127

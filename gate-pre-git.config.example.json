@@ -1,0 +1,33 @@
+{
+  "policy": {
+    "strict": true,
+    "autoStageFixes": true
+  },
+  "profiles": ["auto"],
+  "tools": ["biome", "markdownlint", "actionlint", "shellcheck", "gitleaks", "ruff"],
+  "hooks": {
+    "preCommit": true,
+    "prePush": true
+  },
+  "githubAudit": {
+    "enabled": true,
+    "workflowPath": ".github/workflows/gate-pre-git-audit.yml"
+  },
+  "markdown": {
+    "requireH1": false,
+    "maxHeadingDepth": 6
+  },
+  "blockedMarkers": ["[STAGE_BLOCK:OPEN]", "TODO-SECURITY-BLOCKER"],
+  "commandChecks": [
+    {
+      "name": "typecheck",
+      "run": "bun run typecheck",
+      "modes": ["check", "push"]
+    },
+    {
+      "name": "test",
+      "run": "bun test",
+      "modes": ["check", "push"]
+    }
+  ]
+}

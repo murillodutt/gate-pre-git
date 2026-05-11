@@ -1,0 +1,6 @@
+[project]
+name = "python-basic-target"
+version = "0.0.0"
+
+[tool.ruff.lint]
+select = ["F401"]

@@ -1,0 +1,20 @@
+{
+  "name": "security-basic",
+  "description": "Replayable security-only workspace with strict sensitive path blocking.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["docs", "security"],
+  "expectedBaselineTools": ["markdownlint", "actionlint", "gitleaks"],
+  "runCommands": true,
+  "checkEvidence": ["markdown_structure", "markdownlint", "gitleaks"],
+  "pushEvidence": ["markdown_structure", "markdownlint", "gitleaks"],
+  "mutations": [
+    {
+      "name": "private-key-path",
+      "files": {
+        "keys/service.pem": "not a real key\n"
+      },
+      "expectedFiles": ["keys/service.pem"],
+      "expectedFindings": ["staged_safety", "governance"]
+    }
+  ]
+}

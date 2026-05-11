@@ -1,0 +1,16 @@
+{
+  "name": "node-basic",
+  "description": "Replayable Node workspace with committed baseline, local origin/main ref, and security mutation.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["node", "docs", "security"],
+  "mutations": [
+    {
+      "name": "secret-path",
+      "files": {
+        ".env": "TOKEN=abc\n"
+      },
+      "expectedFiles": [".env"],
+      "expectedFindings": ["staged_safety", "governance"]
+    }
+  ]
+}

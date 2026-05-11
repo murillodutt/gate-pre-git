@@ -1,0 +1,20 @@
+{
+  "name": "nuxt-basic",
+  "description": "Replayable Nuxt-shaped workspace with explicit scripts and GitHub audit-friendly mutation.",
+  "baselineDir": "baseline",
+  "expectedBaselineProfiles": ["nuxt", "docs", "security"],
+  "expectedBaselineTools": ["biome", "markdownlint", "actionlint", "gitleaks"],
+  "runCommands": true,
+  "checkEvidence": ["biome", "gitleaks", "typecheck", "test"],
+  "pushEvidence": ["biome", "gitleaks", "typecheck", "test", "build"],
+  "mutations": [
+    {
+      "name": "bad-json",
+      "files": {
+        "package.json": "{\n"
+      },
+      "expectedFiles": ["package.json"],
+      "expectedFindings": ["json_syntax"]
+    }
+  ]
+}

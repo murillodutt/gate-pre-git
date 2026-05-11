@@ -1,0 +1,44 @@
+name: gate-pre-git-audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Install source checkout dependencies
+        run: |
+          if [ -f package.json ] && grep -q '"name"[[:space:]]*:[[:space:]]*"gate-pre-git"' package.json; then
+            bun install --frozen-lockfile
+          fi
+      - name: Restore gate tool shims from lockfile
+        run: .gate-pre-git/bin/gate-pre-git update-tools --target .
+      - name: Gate audit JSON
+        run: .gate-pre-git/bin/gate-pre-git audit --target . --all --format json > gate-pre-git-audit.json
+      - name: Gate audit SARIF
+        run: .gate-pre-git/bin/gate-pre-git audit --target . --all --format sarif > gate-pre-git-audit.sarif
+      - name: Validate audit manifest
+        run: |
+          bun -e '
+          const json = JSON.parse(await Bun.file("gate-pre-git-audit.json").text());
+          const sarif = JSON.parse(await Bun.file("gate-pre-git-audit.sarif").text());
+          if (!json.manifestHash || json.manifestHash.length !== 64) throw new Error("missing manifestHash");
+          if (!Array.isArray(json.manifest.files)) throw new Error("missing manifest.files");
+          if (!Array.isArray(json.manifest.tools)) throw new Error("missing manifest.tools");
+          if (!Array.isArray(json.manifest.governance)) throw new Error("missing manifest.governance");
+          if (!Array.isArray(json.manifest.evidence)) throw new Error("missing manifest.evidence");
+          if (!Array.isArray(json.manifest.impact)) throw new Error("missing manifest.impact");
+          const props = sarif.runs?.[0]?.properties ?? {};
+          if (props.gatePreGitManifestHash !== json.manifestHash) throw new Error("SARIF manifest hash mismatch");
+          '
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gate-pre-git-audit
+          path: |
+            gate-pre-git-audit.json
+            gate-pre-git-audit.sarif
