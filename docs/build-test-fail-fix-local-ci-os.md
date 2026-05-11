@@ -575,6 +575,24 @@ four_d_scan:
   tests/migration-canary.test.ts tests/versioning.test.ts` passed with 17 tests
   and 93 assertions; `bun run typecheck`, `bun src/cli.ts doctor --target .`,
   targeted markdownlint, and `bun run gate` all passed over 96 files.
+- WAVE_19_FAILURE_OBSERVED: `release audit` originally failed because
+  `CHANGELOG.md` and `docs/releases/v0.1.0.md` did not exist. The first
+  generated artifacts then failed staged markdownlint because the release
+  generator emitted headings without blank lines and reused `##` category
+  headings inside `CHANGELOG.md`.
+- WAVE_19_CAUSE_CLASSIFIED: `product_bug` in the release artifact generator,
+  plus `evidence_gap` because the public release path lacked committed,
+  markdownlint-clean artifacts.
+- WAVE_19_FIX_APPLIED: release notes now include markdownlint-compliant
+  spacing, `CHANGELOG.md` uses `###` category headings under the version
+  section, and the replacement regex removes the whole prior version block
+  instead of stopping at the first category heading.
+- WAVE_19_RETESTED: `bun test tests/release.test.ts` passed with 5 tests and
+  26 assertions; generated `CHANGELOG.md` and `docs/releases/v0.1.0.md` passed
+  markdownlint; `bun src/cli.ts release audit --target . --from
+  foundation/pre-rc-2026-05-11 --to HEAD` passed after the release commit with
+  3 entries, 1 excluded release commit, and artifact hash
+  `da1a7acd01da78f2ed8f1e6cd0088b2617f34ab2546eb08c8f0fc1ab6380f1b0`.
 
 ### Final Decision
 
@@ -636,10 +654,10 @@ build_test_fail_fix:
     - Go and Rust replay fixtures run structural lanes locally because Go and
       Cargo are not available in this environment
     - migration guide is exercised by a clean external target canary, but public
-      release wording still needs release artifacts, license, support policy,
-      and pinned external canaries
+      release wording still needs license, support policy, public package
+      channel, branch protection validation, and pinned external canaries
   limits:
     - no remote push was performed during this convergence campaign
-    - local pre-RC is certified, but public RC remains blocked until release artifact audit and public distribution governance are closed
-  next_loop: generate release artifacts from the post-baseline Git interval, commit them with an excluded release commit, rerun release audit, then repeat full RC evidence
+    - local pre-RC is certified, but public RC remains blocked until public distribution governance is closed
+  next_loop: repeat the full RC evidence chain after the final release-artifact update, then package the public install channel and validate branch protection on GitHub
 ```

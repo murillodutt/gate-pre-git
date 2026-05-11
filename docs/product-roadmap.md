@@ -55,6 +55,8 @@ The repository has a locally fixture-certified pre-RC foundation:
     repository can run from only `.gate-pre-git/bin/gate-pre-git`.
 23. Committed local baseline `62d3fe3` with tag
     `foundation/pre-rc-2026-05-11` and post-baseline evidence.
+24. Release artifacts for `v0.1.0` generated and audited from the local Git
+    interval, with release commits excluded from changelog classification.
 
 ## Wave 1: Structured Governance Evidence
 

@@ -24,7 +24,7 @@ release yet. The local baseline is:
 - clean worktree after post-baseline evidence.
 
 Public distribution is intentionally still closed while licensing, support
-matrix, release artifacts, and external pinned canaries are finalized.
+matrix, package artifacts, and external pinned canaries are finalized.
 
 ## Install From This Checkout
 
