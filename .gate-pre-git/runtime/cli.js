@@ -8805,38 +8805,21 @@ import { extname as extname2, join as join5 } from "path";
 function profileConfig(profile, target) {
   const resolvedProfiles = profile === "auto" ? detectProfiles(target) : [profile];
   const packageJson = target === undefined ? null : readPackageJson(target);
+  const nodeCommands = nodeCommandChecks(packageJson, target);
   const commands = {
     auto: [],
     strict: [],
     docs: [],
-    node: [
-      {
-        name: "typecheck",
-        run: "bun run typecheck",
-        modes: ["check", "push"]
-      },
-      {
-        name: "test",
-        run: nodeTestCommand(packageJson),
-        modes: ["check", "push"]
-      }
-    ],
+    node: nodeCommands,
     nuxt: [
-      {
-        name: "typecheck",
-        run: "bun run typecheck",
-        modes: ["check", "push"]
-      },
-      {
-        name: "test",
-        run: nodeTestCommand(packageJson),
-        modes: ["check", "push"]
-      },
-      {
-        name: "build",
-        run: "bun run build",
-        modes: ["push"]
-      }
+      ...nodeCommands,
+      ...hasPackageScript(packageJson, "build") ? [
+        {
+          name: "build",
+          run: "bun run build",
+          modes: ["push"]
+        }
+      ] : []
     ],
     python: [
       {
@@ -8935,9 +8918,39 @@ function uniqueCommands(commands) {
     byName.set(command.name, command);
   return [...byName.values()];
 }
-function nodeTestCommand(packageJson) {
+function nodeCommandChecks(packageJson, target) {
+  const checks = [];
+  if (hasPackageScript(packageJson, "typecheck")) {
+    checks.push({
+      name: "typecheck",
+      run: "bun run typecheck",
+      modes: ["check", "push"]
+    });
+  }
+  const testCommand = nodeTestCommand(packageJson, target);
+  if (testCommand !== null) {
+    checks.push({
+      name: "test",
+      run: testCommand,
+      modes: ["check", "push"]
+    });
+  }
+  return checks;
+}
+function nodeTestCommand(packageJson, target) {
   const scripts = packageJson?.scripts;
-  return isRecord(scripts) && typeof scripts.test === "string" ? "bun run test" : "bun test";
+  if (isRecord(scripts) && typeof scripts.test === "string")
+    return "bun run test";
+  if (target !== undefined && hasBunTestFiles(target))
+    return "bun test";
+  return null;
+}
+function hasPackageScript(packageJson, name) {
+  const scripts = packageJson?.scripts;
+  return isRecord(scripts) && typeof scripts[name] === "string";
+}
+function hasBunTestFiles(target) {
+  return listFiles(target, 4).some((file) => /(^|\/).*(\.test|\.spec|_test_|_spec_)\.[cm]?[jt]sx?$/.test(file));
 }
 function readPackageJson(target) {
   const path = join5(target, "package.json");
@@ -9220,7 +9233,7 @@ function defaultGovernanceMap() {
         description: "User-facing documentation and local evidence notes.",
         owners: ["maintainers"],
         risk: "low",
-        paths: ["README.md", "CHANGELOG.md", "docs/**/*.md"],
+        paths: ["README.md", "CHANGELOG.md", "LICENSE", "LICENSE.*", "docs/**/*.md"],
         requiredEvidence: ["markdown_structure", "markdownlint"]
       },
       {

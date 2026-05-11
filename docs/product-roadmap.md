@@ -155,7 +155,7 @@ packaging and real pinned external canaries:
 
 1. Add full command canaries for Go and Rust when local toolchains are
    present, with degraded classification when they are not.
-2. Add public package channel, license, security policy, and support matrix.
+2. Add public package channel, security policy, and support matrix.
 3. Add optional SARIF upload path in GitHub audit.
 4. Add fleet report format for adoption and drift without source upload.
 5. Add pinned external canaries after local replay proof stays stable.
@@ -173,8 +173,8 @@ The first serious release is ready when:
 6. GitHub audit is minimal and documented.
 7. Fixtures cover Node/Nuxt, Python, Go, Rust, docs, security, and GitHub
    Actions surfaces.
-8. Documentation includes a versioned migration guide and public release
-   checkup.
+8. Documentation includes an MIT license, a versioned migration guide, and
+   public release checkup.
 
 ## Go/No-Go Gate
 

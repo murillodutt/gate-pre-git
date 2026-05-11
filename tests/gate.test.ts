@@ -101,7 +101,7 @@ describe("gate-pre-git", () => {
     expect(existsSync(join(dir, ".gate-pre-git", "runtime", "cli.js"))).toBe(true);
     expect(existsSync(join(dir, ".github", "workflows", "gate-pre-git-audit.yml"))).toBe(true);
     const governance = JSON.parse(readFileSync(init.governancePath, "utf8")) as {
-      zones: Array<{ name: string; owners: string[] }>;
+      zones: Array<{ name: string; owners: string[]; paths: string[] }>;
     };
     expect(governance.zones.map((zone) => zone.name)).toEqual([
       "source_js",
@@ -121,6 +121,7 @@ describe("gate-pre-git", () => {
       "fixture_workspaces"
     ]);
     expect(governance.zones.every((zone) => zone.owners.length > 0)).toBe(true);
+    expect(governance.zones.find((zone) => zone.name === "docs")?.paths).toContain("LICENSE");
     const launcherText = readFileSync(init.binPath, "utf8");
     expect(launcherText).not.toContain("/Users/");
     expect(launcherText).toContain("repo_root=");

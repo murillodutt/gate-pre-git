@@ -2,6 +2,11 @@
 
 Local repository governance runtime for GitHub-bound repositories.
 
+`gate-pre-git` runs at the local Git boundary. Despite the name, it is not a
+replacement for Git and does not run before `git init`; it catches repository
+governance failures before they become commits, pushes, pull requests, or
+expensive GitHub feedback.
+
 `gate-pre-git` is for teams that want GitHub to remain the branch-protection and
 audit anchor, not the first place where preventable formatting, syntax, secret,
 ownership, evidence, and release-governance defects are discovered.
@@ -15,15 +20,15 @@ JSON/SARIF audit evidence.
 
 ## Current Maturity
 
-This repository is a committed pre-RC technical foundation, not a public package
-release yet. The local baseline is:
+This repository is a committed pre-RC technical foundation published under the
+MIT License. It is not a public package release yet. The local baseline is:
 
 - commit `62d3fe3` (`chore: establish pre-rc foundation`);
 - tag `foundation/pre-rc-2026-05-11`;
 - local `origin/main` ref pointing to that baseline for range proof;
 - clean worktree after post-baseline evidence.
 
-Public distribution is intentionally still closed while licensing, support
+Public package distribution is intentionally still closed while the support
 matrix, package artifacts, and external pinned canaries are finalized.
 
 ## Install From This Checkout

@@ -68,7 +68,7 @@ Repository owners remain responsible for:
 2. reviewing governance zones, owners, risks, evidence, and exceptions;
 3. deciding which project commands belong in `check` and `push`;
 4. reviewing files staged by trusted fixes before commit history is published;
-5. choosing the public distribution, license, and support policy before release.
+5. choosing the public distribution and support policy before release.
 
 ## Release Language
 
