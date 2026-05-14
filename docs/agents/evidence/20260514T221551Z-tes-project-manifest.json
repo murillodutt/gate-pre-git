@@ -1,0 +1,1000 @@
+{
+  "file_count": 153,
+  "files": [
+    {
+      "bytes": 480,
+      "path": ".agents/plugins/marketplace.json",
+      "sha256": "6c6ee6717ac987852cf26d5e0df4122a38c6de05dc662d3c71a7cda724e57e4f",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 863,
+      "path": ".claude/settings.json",
+      "sha256": "fcdcac7419dc175465e3bf25ca02823751f624b487c15a2baa76eb8d4e1ea8e1",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 577,
+      "path": ".codex/config.toml",
+      "sha256": "b35c4056223b08b65425f5c0f867e8fa029335ba671e2400a092fcff6b9b40c0",
+      "suffix": ".toml"
+    },
+    {
+      "bytes": 168,
+      "path": ".codex/config.toml.bak-20260514T221540Z",
+      "sha256": "cb2079e3a497e356bb36925a8894d70b76c4da4ccc9baff6b00c95effb2aebc1",
+      "suffix": ".bak-20260514T221540Z"
+    },
+    {
+      "bytes": 422,
+      "path": ".cursor/hooks.json",
+      "sha256": "c3feb57ce4c142b6aa1256cfa64a4479e452cf23b86a6b777a52bf194fd32241",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 214,
+      "path": ".cursor/mcp.json",
+      "sha256": "7725d3930cd36eee7373db1f118223bb78adc92255f6737ad5581fa421709e38",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 2597,
+      "path": ".cursor/rules/tes-runtime-capabilities.mdc",
+      "sha256": "01d29f454fcb5c265193b473f3db477e6cfd5af2eb49b1e8168f054b813c92f4",
+      "suffix": ".mdc"
+    },
+    {
+      "bytes": 778,
+      "path": ".gate-pre-git/bin/gate-pre-git",
+      "sha256": "4d58275c77b780d0f81c364dfcc2f269c15904160ebe798cf458269d6ec1f96b",
+      "suffix": ""
+    },
+    {
+      "bytes": 14,
+      "path": ".gate-pre-git/cache/.gitignore",
+      "sha256": "240a3e0d37d2e86b614063f5347eb02d4f99ca6c254de6b82871ff8d95532a7d",
+      "suffix": ""
+    },
+    {
+      "bytes": 1274,
+      "path": ".gate-pre-git/config.json",
+      "sha256": "710051bc5b0f4c8ce536116f693554cb978d95f12ff3af61360fe65be9acd47d",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 6362,
+      "path": ".gate-pre-git/governance.json",
+      "sha256": "bc59b422a020540ac7b3c8db4cd03989ff9ba4fe34374fb2a9bd76d74a3c7ba4",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 896,
+      "path": ".gate-pre-git/lock.json",
+      "sha256": "341655037b2f196de4a3f745fda548f0d484b71763e70a505caf2f0a477e787f",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 365875,
+      "path": ".gate-pre-git/runtime/cli.js",
+      "sha256": "965696000399a00323a841fa5ad0318eafbe8f56afedc503aab728991372a216",
+      "suffix": ".js"
+    },
+    {
+      "bytes": 2781,
+      "path": ".github/workflows/gate-pre-git-audit.yml",
+      "sha256": "364db5cf78e3196b07e04405266eae116fae16ad2ae54e5fdbc853216fe66315",
+      "suffix": ".yml"
+    },
+    {
+      "bytes": 40,
+      "path": ".gitignore",
+      "sha256": "28b481c03ae214c4729673088b937c1b3bd9491868b98a274ad3ec6663edd9fb",
+      "suffix": ""
+    },
+    {
+      "bytes": 209,
+      "path": ".markdownlint-cli2.jsonc",
+      "sha256": "90325144f30942dc26d6389a5f77689bae99108b7a0b505e3e1371ed169ac4ca",
+      "suffix": ".jsonc"
+    },
+    {
+      "bytes": 178,
+      "path": ".mcp.json",
+      "sha256": "78ccf3803b07559b353a41bf53276e0b54ace66ec94d492a181f5ccda3cfc1d5",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 2742,
+      "path": "AGENTS.md",
+      "sha256": "37985c2d31fcc1607f0b965036e6f148725b0832b1ecf5d2391f020a46ce5ea7",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 340,
+      "path": "CHANGELOG.md",
+      "sha256": "68d88dece41e70015f412c735baaad06f473ba54ad1d8a9e11de7ff201bb6e49",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 2309,
+      "path": "CLAUDE.md",
+      "sha256": "2864a6740b22717a4753f4ea83797aca55b72a27b8f63d85c3b818d90c6ef66e",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1861,
+      "path": "CURSOR.md",
+      "sha256": "e558b1e9dd55c80e391e2ca8cc0f6f66c184c373a23645b6c84265265611bed6",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1069,
+      "path": "LICENSE",
+      "sha256": "34e1c45aced1917fd91b77c3617f21c45982694f93c4d65c8cfb57e10d934723",
+      "suffix": ""
+    },
+    {
+      "bytes": 10812,
+      "path": "README.md",
+      "sha256": "d6e97650c87e867aaa225acf87235bd6d3b0c543782073157a879b04caba4da7",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 463,
+      "path": "biome.json",
+      "sha256": "1c738f5cac564ae6cc6b64677656dcd023bd346734f21fcef625505f16991801",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 1399,
+      "path": "bun.lock",
+      "sha256": "954d533e851b417e2d7e2e4fa4c84fb90866043cd65dec4e2f6ad30103309a53",
+      "suffix": ".lock"
+    },
+    {
+      "bytes": 3080,
+      "path": "docs/README.md",
+      "sha256": "eead1c080632c3f96bb9d09da05fd88b007fdfcbc10e4cb85cba5f15f7ce4e12",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1157,
+      "path": "docs/agents/INDEX.md",
+      "sha256": "606e3ddf71d0d6733275e1769ddee913232f19beef8cd27aa5eeaca90c69c80b",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 646,
+      "path": "docs/agents/adapters/claude.md",
+      "sha256": "aed01ea1ac43448cadefd17f754eef9cd2f3541ed05623e22925d1eb3d7bd080",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 760,
+      "path": "docs/agents/adapters/codex.md",
+      "sha256": "586f236968b4401e5147fb9c333364df0a960f165406233af1d41d4097ef95e3",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 695,
+      "path": "docs/agents/adapters/cursor.md",
+      "sha256": "25dd125b2622585ed2f922087d5bda04ce70c2ba5ddf21a1bdf1b85d9393c6eb",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 961,
+      "path": "docs/agents/contracts/core.md",
+      "sha256": "2d2d516cd0dd4536603d31703f335df7440c4098f171f5f5a03fe7b42cc61b4d",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1219,
+      "path": "docs/agents/contracts/domain-boundaries.md",
+      "sha256": "af10abebe3c789dfc1e02917d811782da5de62afd2634d48d07dbb7b339bb9b0",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 840,
+      "path": "docs/agents/contracts/execution.md",
+      "sha256": "3801f94687b646c13bb269648c6952451ccd2cd6ae601bfafec0b3396c99c78e",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 899,
+      "path": "docs/agents/contracts/quality.md",
+      "sha256": "833b8e835fa86df2e9b36de7dfc51574dab07e75d7ab70e768a8cbb4206c73e1",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1040,
+      "path": "docs/agents/maps/assets.md",
+      "sha256": "b5da7ded18328cae0cc33c70a1b5f2cc4d845e2a54d3f614f2cf25968625a7ed",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 41681,
+      "path": "docs/build-test-fail-fix-local-ci-os.md",
+      "sha256": "a109340501e9962eb0056b2207e68adbe5fc542ae4d4916d8ec9c61e918b8100",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 6966,
+      "path": "docs/certified-installation.md",
+      "sha256": "2b4e16f68d4f4d05a96a7d7ca9fe467a3f79b8fbbf6bd87abbe10db725db026a",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 6179,
+      "path": "docs/governance-runtime.md",
+      "sha256": "7c088dfca56c1e3837ff7cc9620cb27f8afeec9cec22047a35dd42d224359e79",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 3397,
+      "path": "docs/incidents/2026-05-11-github-audit-self-contamination.md",
+      "sha256": "62214f84a7cd277056268c6c6f1d69ca8fe855cfbc165fe3d4263f34dd572177",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 6894,
+      "path": "docs/landscape-and-lessons.md",
+      "sha256": "e58ad38f04027417053eeeffe8da5d9dd0c9a40133f0e195c966d8a2de3e84a6",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 5096,
+      "path": "docs/migration-v0.1.0-rc.md",
+      "sha256": "d58c2f37959a5c2994c9571f9ed96237299d624a5196faafbfe7da9a73cb5401",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 4179,
+      "path": "docs/positioning.md",
+      "sha256": "9cac94f83d33a9f2ebfdbeb23ab512224a022573d8a9feefa6bfb6cb79f6b2f9",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 7260,
+      "path": "docs/product-roadmap.md",
+      "sha256": "84667ad86e5c84a7a0ec7b49ca6d9c23078e4617f76066268f0855eca0a09fb9",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 5108,
+      "path": "docs/product-strategy.md",
+      "sha256": "41f7dcbe2d1cdf06ac0a0655ddd8f1912f15917e02c61e8bcb5e2e7c68be7bd1",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 4419,
+      "path": "docs/release-slo-and-noise.md",
+      "sha256": "ea446db215f315be7251f79c9aeca4e7a772b4c0e37136434d8133f8a0c82a97",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 331,
+      "path": "docs/releases/v0.1.0.md",
+      "sha256": "5737248f19ae2c201738d91ab71d938c337e076407a4ed736e5d1c3cf9a773a7",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 3816,
+      "path": "docs/trust-model.md",
+      "sha256": "e20f325592ccc7fdbf66734fd62f2ce6efce4c7298867d40b5c6e3fbc416677c",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 2960,
+      "path": "docs/version-governance.md",
+      "sha256": "90f39e157d77d1a4636693c6114d7407bd80dfc308453d63c647ea7240af3749",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 60,
+      "path": "fixtures/workspaces/docs-basic/baseline/README.md",
+      "sha256": "5fe4c5349906cdd4a9397683c3860cc3aaeec919ae264a7287a71a6a9ee5b9c5",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 39,
+      "path": "fixtures/workspaces/docs-basic/baseline/docs/guide.md",
+      "sha256": "9e889594f4cd501f3547b20f425d912d69e9cba7fc686cadcb61e35216295c0a",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 629,
+      "path": "fixtures/workspaces/docs-basic/fixture.json",
+      "sha256": "29be97c7b50b85467a9043d7e7dacbd2f0fdff5f026fa57b90a0cf1860ae00dc",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 97,
+      "path": "fixtures/workspaces/github-actions-basic/baseline/.github/workflows/ci.yml",
+      "sha256": "1ee9893d3704cabb4e2e0c33fa1391ca3195883456cf66604819280c8f7fc0bc",
+      "suffix": ".yml"
+    },
+    {
+      "bytes": 69,
+      "path": "fixtures/workspaces/github-actions-basic/baseline/README.md",
+      "sha256": "c9b7db2c47f589e2d4e04572eee574e53a71f06a8640861900eae554c4ffdd77",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 675,
+      "path": "fixtures/workspaces/github-actions-basic/fixture.json",
+      "sha256": "886b724515c36a211156cf2a2942ad1d7ba13d18772e9406f3f5cb43da37eac7",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 87,
+      "path": "fixtures/workspaces/go-basic/baseline/README.md",
+      "sha256": "9785ecfe865460eda814761f9bbaa0218123f3345a25598ad61e16b09e189520",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 29,
+      "path": "fixtures/workspaces/go-basic/baseline/cmd/app/main.go",
+      "sha256": "55a60bb97151b2b4b680462447ce60ec34511b14fa10d77440c97b9777101566",
+      "suffix": ".go"
+    },
+    {
+      "bytes": 37,
+      "path": "fixtures/workspaces/go-basic/baseline/go.mod",
+      "sha256": "68fe589f0c60d96fbe4356870455316c6fa55e47b0d027b6e5bebd20437d0c0a",
+      "suffix": ".mod"
+    },
+    {
+      "bytes": 628,
+      "path": "fixtures/workspaces/go-basic/fixture.json",
+      "sha256": "29c861909f7b2918e5aadc80e5085c9e14154dbe826d3b76e8069ee9e3d9f6dd",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 85,
+      "path": "fixtures/workspaces/node-basic/baseline/README.md",
+      "sha256": "4c5397747b910531a8d0a08c2bd7877b29eca18767befd6dee047e6046673dfd",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 181,
+      "path": "fixtures/workspaces/node-basic/baseline/package.json",
+      "sha256": "b46f774fe1e1a80431f405682f0f122cd7c5577b4b3f0d6e522501142915b605",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 113,
+      "path": "fixtures/workspaces/node-basic/baseline/spec/value-check.ts",
+      "sha256": "e1bb28aa5874f7583bb04391f2781ecbc4015023798b6809c2a1e9944eb015e1",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 24,
+      "path": "fixtures/workspaces/node-basic/baseline/src/index.ts",
+      "sha256": "5d8f65d2774e206bc9f7a7a4ad39ca2dc563b5c31e46ab57ef4874961237ce29",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 443,
+      "path": "fixtures/workspaces/node-basic/fixture.json",
+      "sha256": "57898f5fd8ad4d86d6e9560c479a119f916b9e7fd4a4b71831daa48c67033af1",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 101,
+      "path": "fixtures/workspaces/nuxt-basic/baseline/README.md",
+      "sha256": "c0485715d4d3d40bde77a16aef0f6f6569db1be7d832ce8fc156e3fd4e5293c6",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 51,
+      "path": "fixtures/workspaces/nuxt-basic/baseline/app/app.vue",
+      "sha256": "32fe67efc88b1227e01af490d8d1cd506f32e4c4e937bee641a1afab1f5ba3e4",
+      "suffix": ".vue"
+    },
+    {
+      "bytes": 37,
+      "path": "fixtures/workspaces/nuxt-basic/baseline/nuxt.config.ts",
+      "sha256": "8146761a41c6f2159a550dc6726d6dd5073431046ccc5957000a865222186f9f",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 269,
+      "path": "fixtures/workspaces/nuxt-basic/baseline/package.json",
+      "sha256": "cd6fa396947b8c6e5d2e17973715cd5824831c9e0c144427945c0c990bf27b96",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 101,
+      "path": "fixtures/workspaces/nuxt-basic/baseline/spec/value-check.ts",
+      "sha256": "834fdb858fa958c30960bac076d6b80d9eadb7e0359f42ea8fc931f1c2486ec4",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 663,
+      "path": "fixtures/workspaces/nuxt-basic/fixture.json",
+      "sha256": "29f5d1ce075948fa8d1b05535571bce8ecce1cf06faca0c2314ed61f7d1cb346",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 86,
+      "path": "fixtures/workspaces/python-basic/baseline/README.md",
+      "sha256": "84f5a2c5f6b1799fdf744d8503cd4ec8fe610d264be084f3aae8b51432c2c954",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 10,
+      "path": "fixtures/workspaces/python-basic/baseline/pkg/app.py",
+      "sha256": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886",
+      "suffix": ".py"
+    },
+    {
+      "bytes": 93,
+      "path": "fixtures/workspaces/python-basic/baseline/pyproject.toml",
+      "sha256": "f6064aec3cb007b6c3ee3a1ced314bfb2bd9c155489575adc8393016d98f0ef4",
+      "suffix": ".toml"
+    },
+    {
+      "bytes": 648,
+      "path": "fixtures/workspaces/python-basic/fixture.json",
+      "sha256": "feeb7aa10800f785d77686529d96ed969ec8435db176fd2c35b8b80ae9641c8b",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 72,
+      "path": "fixtures/workspaces/rust-basic/baseline/Cargo.toml",
+      "sha256": "0ab1b91c18de79c232aa200d86b0ef9066992d78591bb0b1c8a8ff6ea6ec038b",
+      "suffix": ".toml"
+    },
+    {
+      "bytes": 91,
+      "path": "fixtures/workspaces/rust-basic/baseline/README.md",
+      "sha256": "8e4a2e11a4e5bb56f22a8b1d0486e2bfff584b2a9ba50d9233d75915eda23a1a",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 13,
+      "path": "fixtures/workspaces/rust-basic/baseline/src/main.rs",
+      "sha256": "536e506bb90914c243a12b397b9a998f85ae2cbd9ba02dfd03a9e155ca5ca0f4",
+      "suffix": ".rs"
+    },
+    {
+      "bytes": 648,
+      "path": "fixtures/workspaces/rust-basic/fixture.json",
+      "sha256": "8d2e139f6df97c1000e37dd0969689a04bceab8eba7c0cd9c06fc6da54c61013",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 69,
+      "path": "fixtures/workspaces/security-basic/baseline/README.md",
+      "sha256": "517244d87be2b1bb9335a41536d56c1e9b17b02ff50bc7da10030000f009e034",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 683,
+      "path": "fixtures/workspaces/security-basic/fixture.json",
+      "sha256": "6909508a27fbe1a98179953e52f8e24732188e844ace13e00708c6b5efe1f62a",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 712,
+      "path": "gate-pre-git.config.example.json",
+      "sha256": "ddc954f03f578b0cd6c917f6e225b128daba69ddb858e25e879dc0a63c5eec6e",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 725,
+      "path": "gate-pre-git.config.json",
+      "sha256": "04ac7628fa52d04f44029cd11912f49446a3fd3b7804ea8496fbb2a4fbd7a86e",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 1442,
+      "path": "package.json",
+      "sha256": "f82246a382300a2c9b15ff62bd10f874c04487bba3ae78ae7fdbc15df16f2d7b",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 1595,
+      "path": "plugins/tilly-engineer-skills/.codex-plugin/plugin.json",
+      "sha256": "8667115388e27e7e60909b38d26043c2d5be28835bd3b5afd5e272a16005e8e1",
+      "suffix": ".json"
+    },
+    {
+      "bytes": 1134,
+      "path": "plugins/tilly-engineer-skills/skills/tes-adapter/SKILL.md",
+      "sha256": "5edf68726e3ae15fca3687ad15c7ced9138294823f5abc7d103741444fa5561c",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 3977,
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/SKILL.md",
+      "sha256": "c448f674e9a0175023db63f2af5cc517a81e3e5c9d0b5d84646ba96ed2925deb",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 479,
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/agents/openai.yaml",
+      "sha256": "0c74bcc6bf0bb2e880ba5c60c5cf9e3f007b1b3e6508e04cc895336842d0a2c2",
+      "suffix": ".yaml"
+    },
+    {
+      "bytes": 2888,
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "sha256": "14bfeda153e34dae855e1b5781c75f6921bcb2d19d161cf65ff1e8fe122d3b89",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1767,
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/references/alignment-procedure.md",
+      "sha256": "9c14f459ffb2db3fa1d71236594a2b815d9d15737a997e2c04d0401282a12f88",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 958,
+      "path": "plugins/tilly-engineer-skills/skills/tes-bench/SKILL.md",
+      "sha256": "4df0055a3517bc66e7fcace9057740cc32b4839749157f43a8e991c005af446e",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1797,
+      "path": "plugins/tilly-engineer-skills/skills/tes-cortex/SKILL.md",
+      "sha256": "350b8bff9a4b1e882f67f68f9f8ae68f208e49aeeda96900169242777e3e7559",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1210,
+      "path": "plugins/tilly-engineer-skills/skills/tes-doctor/SKILL.md",
+      "sha256": "c63dbe40f2208b9f1aea8450232e08ba45af35609a5651c0fa3f6593456303a5",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 4954,
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/SKILL.md",
+      "sha256": "101dc5f2273b187d8e818bd7d0affe216772ae36ed7462c0c450a50c7e299488",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 310,
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/agents/openai.yaml",
+      "sha256": "45854b4fdad1323db8fe5b293a35c3054cc4d6062835e89cf9740627b845002a",
+      "suffix": ".yaml"
+    },
+    {
+      "bytes": 1788,
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/references/failure-patterns.md",
+      "sha256": "17227ef3bf226a142993300ff41cb1f034b737e3ca94a6702dd302a2b5ac4bb9",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1626,
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/references/source-portability.md",
+      "sha256": "0f72ed27522919622611cf46c02b749a82d87213a1f405873a5cdfd410afeb8c",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1512,
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/scripts/discipline_oracle.py",
+      "sha256": "48d974bc598d6bae5a3839f20de47a6a11d8cbb25c3e9c5546399cca82acc9ec",
+      "suffix": ".py"
+    },
+    {
+      "bytes": 1953,
+      "path": "plugins/tilly-engineer-skills/skills/tes-field-reports/SKILL.md",
+      "sha256": "43cbf6f19d63c0c12743a7d63910d661f72098b4d75e4073c5882ef9d0316f8f",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 391,
+      "path": "plugins/tilly-engineer-skills/skills/tes-field-reports/agents/openai.yaml",
+      "sha256": "84ce5974882f8df07e7d294d1058330e9898fe5563e10ab3787b1424e0f9484d",
+      "suffix": ".yaml"
+    },
+    {
+      "bytes": 2445,
+      "path": "plugins/tilly-engineer-skills/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "sha256": "69e007a78463bf109d1d7b46601cf5d725948faed1bc60569eab3d57723eaf60",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 7169,
+      "path": "plugins/tilly-engineer-skills/skills/tes-init/SKILL.md",
+      "sha256": "1112981b25866bf4a0f7c3d107faaa0db51947aa1ae3f5bc5d0d24c588fa1e3f",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1317,
+      "path": "plugins/tilly-engineer-skills/skills/tes-mcp/SKILL.md",
+      "sha256": "35daed8b54d4c4f317c1957b8eda53bf701d52f17da94fa21400f1f90309ba44",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 5261,
+      "path": "plugins/tilly-engineer-skills/skills/tes-mine/SKILL.md",
+      "sha256": "39f28eef66fff33a1935789fa31309dc56f47670df5f986b518305622e0f3a23",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 588,
+      "path": "plugins/tilly-engineer-skills/skills/tes-mine/agents/openai.yaml",
+      "sha256": "74013f78cac1d16404ab63523e88476c2a16244529776acc39ee6ec0b3579d86",
+      "suffix": ".yaml"
+    },
+    {
+      "bytes": 3937,
+      "path": "plugins/tilly-engineer-skills/skills/tes-mine/docs/CONTRACT-HISTORY.md",
+      "sha256": "96381d2fdc1473da44dfb0fd6f8977c46581146f7f302c011ff7a7b7450704aa",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 2761,
+      "path": "plugins/tilly-engineer-skills/skills/tes-mine/references/ADR-FORMAT.md",
+      "sha256": "84c4eb8e5b7d84126376c830e185a6c55667d364095fc4def5efd005b8d0f631",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 3138,
+      "path": "plugins/tilly-engineer-skills/skills/tes-mine/references/CONTEXT-FORMAT.md",
+      "sha256": "c07adf007c91578e27df77d1f63faadc1741250c1a29ba7a4c2a750f9f976421",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 2742,
+      "path": "plugins/tilly-engineer-skills/skills/tes-open-obsidian/SKILL.md",
+      "sha256": "bcd6acab6cb6b8b6de47326aec78ab8fb832ed92b46a15a2761820a43bfb7c85",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 424,
+      "path": "plugins/tilly-engineer-skills/skills/tes-open-obsidian/agents/openai.yaml",
+      "sha256": "4ca15411785874567587884f45cbf6efff6e06658be2a49c1ac1e4bd68c1976d",
+      "suffix": ".yaml"
+    },
+    {
+      "bytes": 2851,
+      "path": "plugins/tilly-engineer-skills/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "sha256": "8b6d21a7cd305f1e075261332fbaaad47c1762b0614608e0188935d5e25e0f37",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 2365,
+      "path": "plugins/tilly-engineer-skills/skills/tes-prospect/SKILL.md",
+      "sha256": "010b2351f2e3f0eebe96fd93d6f8aeac8f63cfe53f5ef2a5274ecaa31e35de04",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 515,
+      "path": "plugins/tilly-engineer-skills/skills/tes-prospect/agents/openai.yaml",
+      "sha256": "c3717c5abdaed93a713547f8d14ef6a13bcafb58e8409800937ff5173ceb14a0",
+      "suffix": ".yaml"
+    },
+    {
+      "bytes": 2950,
+      "path": "plugins/tilly-engineer-skills/skills/tes-prospect/docs/CONTRACT-HISTORY.md",
+      "sha256": "38e0286452f7b2b2db95370f1c6c4ebe306b82f684a32a8c4fd30e4863314b94",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 1908,
+      "path": "plugins/tilly-engineer-skills/skills/tes-setup/SKILL.md",
+      "sha256": "0294fa57d2d8560b27bdd4ec15b7b51b5245f85539587b7aa152cf01807adc25",
+      "suffix": ".md"
+    },
+    {
+      "bytes": 3525,
+      "path": "src/adapter-runner.ts",
+      "sha256": "ac7b3f118600886e7c34dce8da75a1afed733affb7fce7448de31c4acc38a0c4",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 5241,
+      "path": "src/adapters.ts",
+      "sha256": "83c70dcd50f2c840c9ec7c9d2db2167694ddae182032301121cc007c1f1cd4bc",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 2725,
+      "path": "src/audit.ts",
+      "sha256": "808e72acdad9607f1555ad7fcf9cdeffb51bb24d2597e404709e51df8d76e2cd",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 6890,
+      "path": "src/checks.ts",
+      "sha256": "c4fd13d87c97a7e092fd059996f1b92161a1e591b54f13310b31e0e9f03c0b37",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 14786,
+      "path": "src/cli.ts",
+      "sha256": "203ced6db8f5ce40071d8278b49480157f5967458748751cec8fc46fc9b19db9",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 2754,
+      "path": "src/config.ts",
+      "sha256": "0754c5d4cc41505f27cb8ac35ec23715f20af64884ecdf301632287d590b946b",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 14979,
+      "path": "src/doctor.ts",
+      "sha256": "73ef82b3384950a1b9425137c987a400e0fca7c173a16aca977240fc960c8581",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4377,
+      "path": "src/evidence.ts",
+      "sha256": "173ba980edeb8d3a530d41e48afef974f8dfe242ddf0b749ea23caf6112fef58",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 8954,
+      "path": "src/fixes.ts",
+      "sha256": "bb8d6e1f8b35a28abd9f558cfe47976958d3ae1602aa2d908378d89ea582d946",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 6805,
+      "path": "src/gate.ts",
+      "sha256": "feac8b9f67c68232e57f4c8587d02a39a984eab04e3c60f2f872579f41f6e969",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4069,
+      "path": "src/git.ts",
+      "sha256": "a42e2fe34e72acd7bcf7b84b064db93709ef30f79421cd06aeea9215a366fce7",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 9682,
+      "path": "src/governance.ts",
+      "sha256": "b8c1e1f3c3b4fac661cf56e0987cedb1cc1584a7db6e9dd34c69231da5aba130",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4296,
+      "path": "src/impact.ts",
+      "sha256": "fcb4639f53abc2f9d293e4d0086c8aae012a0feb6bad174a94f8532d2635afe6",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 17794,
+      "path": "src/installer.ts",
+      "sha256": "70921f482e51bb3e598299bbf6b42d0ca791ed85241de5836ef82fd709745dd1",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 2371,
+      "path": "src/manifest.ts",
+      "sha256": "f922f8c87d61833009e01d19c13f63320c719e1f72d1c1659834e2086896f7a4",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 7363,
+      "path": "src/profiles.ts",
+      "sha256": "998f10ef3f4d098764b1a111b33bc5c8a03ce7d1fda8305862f0a6eba221565c",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 3134,
+      "path": "src/push.ts",
+      "sha256": "0f0887d49b15e14a0332432317c0b067c359edca45da3424ba33a347731afdc8",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 12547,
+      "path": "src/release.ts",
+      "sha256": "b29763a5e9c386dd5bd630de7686c403b006acf01078c373c020a2c9a8b99eb2",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 2314,
+      "path": "src/snapshot.ts",
+      "sha256": "08ccb196bc756337dd6090bb46dbf547c3a9df4991e9e06a55076428df4509d9",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4159,
+      "path": "src/tools.ts",
+      "sha256": "b7f21b6d8574f8d99a298fecc390ea2f3139d7d347d8c6ed4a98b6e61781bc10",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4364,
+      "path": "src/types.ts",
+      "sha256": "ead69cac80d91a9d9ddf39e71b6ff7840ed08e7886aa8a06fd0554cee4a2ba56",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 14547,
+      "path": "src/versioning.ts",
+      "sha256": "0543f264a98282ee232fc40fa31baa58cc468ba29e80c52cb9f7384c09d9c3cf",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 1985,
+      "path": "src/workflow.ts",
+      "sha256": "04f89f84ed527ecc90ca2e55533e021f332ebc7cf45c2cee0aac3a42de0cd75e",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 151,
+      "path": "templates/pre-commit",
+      "sha256": "dc6684f527d3a7000c5d9df2569ed14250986d68ed62350c71985894560743b3",
+      "suffix": ""
+    },
+    {
+      "bytes": 2896,
+      "path": "tests/adapter-runner.test.ts",
+      "sha256": "1eac5c65e88d28a7b54b5a0c815dc003aa849e4c7d6f8689bca9c4b80f4cca6d",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 2317,
+      "path": "tests/adapters.test.ts",
+      "sha256": "1a0ea96561e11d0d51355d9e38fc5f198aaf4d0352067c0c2410020e12328068",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 7576,
+      "path": "tests/audit-manifest.test.ts",
+      "sha256": "07b4528c94fae0a7ac7ae3f6fc53c6ec707d947854115370042f4700ec21574f",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 3861,
+      "path": "tests/evidence.test.ts",
+      "sha256": "972352b35e607083b709e4a2fec6132cd919a5e82e9a46f2288096d3e78b17c7",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 14601,
+      "path": "tests/gate.test.ts",
+      "sha256": "ab072e77c99ec118c923ed25f18f7edfee81b77f81093d3dd312affb713a433b",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 5399,
+      "path": "tests/governance-integration.test.ts",
+      "sha256": "6c5b0473053b8d43f6ea1843233a6ba416805e9ea7a56f3aee24e4ef1e5e1e38",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 5229,
+      "path": "tests/governance.test.ts",
+      "sha256": "5f57f60378fa85d2b0e4ae4d42b310d2afbff3af027e013077815bbf4644eb48",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 3005,
+      "path": "tests/impact.test.ts",
+      "sha256": "3e614acce5cb7b4bbf3ffe0df1387a3b7afe7cb232bb077060e371ffd58c932d",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4131,
+      "path": "tests/migration-canary.test.ts",
+      "sha256": "5d7dbb60287676d90dfe30a241529fbdcb5c9e898c19fab8898435233cd907ea",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 9745,
+      "path": "tests/profile-fixtures.test.ts",
+      "sha256": "c32134df99518ab1952bf9c3bc6639d584dca6f9094b9f73bb8bfc8ccf8ba48a",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 4304,
+      "path": "tests/push.test.ts",
+      "sha256": "66b5ae45b17d032972ee40f929644ae9268c2f6abf4c64ef78869c6c122b08ad",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 6413,
+      "path": "tests/release.test.ts",
+      "sha256": "0ad947e9f7d39bbc62afa01e536a025ce9ea0f2569bec405822d10070b32ee13",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 7926,
+      "path": "tests/replay-fixtures.test.ts",
+      "sha256": "88ed01fd1e56fdfb448ea4e9d422b64fae826dbf62231d16599693d0b446b009",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 3521,
+      "path": "tests/transaction.test.ts",
+      "sha256": "07147c209eae99138a688423ca67dc33e66bb9d7543674d9aa9b0468b29bf384",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 5287,
+      "path": "tests/versioning.test.ts",
+      "sha256": "5b5ce598b4c79989ac5ddaf83a59ab214fcf96a68500469e1f1d59bef982ddc0",
+      "suffix": ".ts"
+    },
+    {
+      "bytes": 277,
+      "path": "tsconfig.json",
+      "sha256": "5ca07fcea613a2512b608f918880db717c892ef6ccc606ee8b0c1f2bb36c25a6",
+      "suffix": ".json"
+    }
+  ],
+  "generated_at": "2026-05-14T22:15:51Z",
+  "git_head": "2ef45d6da46a42fa6d6014ab4b97f0b20f93d4af",
+  "git_status": "## main...origin/main [ahead 2]\n M .agents/plugins/marketplace.json\n M .agents/skills/tes-engineering-discipline/agents/openai.yaml\n M .agents/skills/tes-init/SKILL.md\n M .claude-plugin/marketplace.json\n M .claude-plugin/plugin.json\n M .claude/skills/tes-guidelines/SKILL.md\n M .claude/skills/tes-init/SKILL.md\n M .codex/config.toml\n M .cursor/rules/tes-runtime-capabilities.mdc\n M .tes/bin/command_trigger_oracle.py\n M .tes/bin/cortex_mcp.py\n M .tes/bin/field_reports.py\n M .tes/bin/materialize_adapter.py\n M .tes/bin/project_alignment_oracle.py\n M .tes/bin/project_context_oracle.py\n M .tes/bin/root_context.py\n M .tes/bin/tes_bundle.py\n M .tes/bin/tes_init.py\n M .tes/bin/tes_legacy_retirement.py\n M .tes/bin/tes_open_obsidian.py\n M .tes/bin/tes_update.py\n M .tes/manifest.json\n M docs/agents/PROJECT-CONTEXT.md\n M docs/agents/PROJECT-REGISTER.md\n M plugins/tilly-engineer-skills/.codex-plugin/plugin.json\n M plugins/tilly-engineer-skills/skills/tes-engineering-discipline/agents/openai.yaml\n M plugins/tilly-engineer-skills/skills/tes-init/SKILL.md\n M skills/tes-guidelines/SKILL.md\n M skills/tes-init/SKILL.md\n?? .agents/skills/tes-mine/SKILL.md\n?? .agents/skills/tes-mine/agents/openai.yaml\n?? .agents/skills/tes-mine/docs/CONTRACT-HISTORY.md\n?? .agents/skills/tes-mine/references/ADR-FORMAT.md\n?? .agents/skills/tes-mine/references/CONTEXT-FORMAT.md\n?? .agents/skills/tes-prospect/SKILL.md\n?? .agents/skills/tes-prospect/agents/openai.yaml\n?? .agents/skills/tes-prospect/docs/CONTRACT-HISTORY.md\n?? .agents/skills/tes-setup/SKILL.md\n?? .claude/settings.json\n?? .claude/skills/tes-mine/SKILL.md\n?? .claude/skills/tes-mine/agents/openai.yaml\n?? .claude/skills/tes-mine/docs/CONTRACT-HISTORY.md\n?? .claude/skills/tes-mine/references/ADR-FORMAT.md\n?? .claude/skills/tes-mine/references/CONTEXT-FORMAT.md\n?? .claude/skills/tes-prospect/SKILL.md\n?? .claude/skills/tes-prospect/agents/openai.yaml\n?? .claude/skills/tes-prospect/docs/CONTRACT-HISTORY.md\n?? .claude/skills/tes-setup/SKILL.md\n?? .codex/config.toml.bak-20260514T221540Z\n?? .cursor/hooks.json\n?? .tes/bin/tes_install.py\n?? .tes/postinstall.json\n?? .tes/tes-install-lock.json\n?? docs/agents/evidence/20260514T221551Z-tes-initialization.md\n?? docs/agents/evidence/20260514T221551Z-tes-project-manifest.json\n?? plugins/tilly-engineer-skills/skills/tes-mine/SKILL.md\n?? plugins/tilly-engineer-skills/skills/tes-mine/agents/openai.yaml\n?? plugins/tilly-engineer-skills/skills/tes-mine/docs/CONTRACT-HISTORY.md\n?? plugins/tilly-engineer-skills/skills/tes-mine/references/ADR-FORMAT.md\n?? plugins/tilly-engineer-skills/skills/tes-mine/references/CONTEXT-FORMAT.md\n?? plugins/tilly-engineer-skills/skills/tes-prospect/SKILL.md\n?? plugins/tilly-engineer-skills/skills/tes-prospect/agents/openai.yaml\n?? plugins/tilly-engineer-skills/skills/tes-prospect/docs/CONTRACT-HISTORY.md\n?? plugins/tilly-engineer-skills/skills/tes-setup/SKILL.md\n?? skills/tes-mine/SKILL.md\n?? skills/tes-mine/agents/openai.yaml\n?? skills/tes-mine/docs/CONTRACT-HISTORY.md\n?? skills/tes-mine/references/ADR-FORMAT.md\n?? skills/tes-mine/references/CONTEXT-FORMAT.md\n?? skills/tes-prospect/SKILL.md\n?? skills/tes-prospect/agents/openai.yaml\n?? skills/tes-prospect/docs/CONTRACT-HISTORY.md\n?? skills/tes-setup/SKILL.md",
+  "suffixes": {
+    ".bak-20260514T221540Z": 1,
+    ".go": 1,
+    ".js": 1,
+    ".json": 24,
+    ".jsonc": 1,
+    ".lock": 1,
+    ".md": 60,
+    ".mdc": 1,
+    ".mod": 1,
+    ".py": 2,
+    ".rs": 1,
+    ".toml": 3,
+    ".ts": 42,
+    ".vue": 1,
+    ".yaml": 6,
+    ".yml": 2,
+    "[none]": 5
+  },
+  "surfaces": {
+    "claude_mcp": true,
+    "claude_md": true,
+    "claude_plugin": true,
+    "claude_plugin_skill": true,
+    "claude_project_skill": true,
+    "codex_agents": true,
+    "codex_mcp": true,
+    "codex_skill": true,
+    "cortex_contract": true,
+    "cursor_bootloader": true,
+    "cursor_mcp": true,
+    "cursor_rules": true,
+    "docs_agents": true,
+    "tes_field_reports_disabled": false,
+    "tes_field_reports_helper": true,
+    "tes_field_reports_outbox": true,
+    "tes_field_reports_pre_push": true,
+    "tes_legacy_retirement_helper": true,
+    "tes_mcp_embed_helper": true,
+    "tes_mcp_server": true,
+    "tes_root_context_helper": true,
+    "tes_update_helper": true
+  },
+  "target": "/Users/murillo/Dev/gate-pre-git",
+  "top_level": {
+    ".agents": 1,
+    ".claude": 1,
+    ".codex": 2,
+    ".cursor": 3,
+    ".gate-pre-git": 6,
+    ".github": 1,
+    ".gitignore": 1,
+    ".markdownlint-cli2.jsonc": 1,
+    ".mcp.json": 1,
+    "AGENTS.md": 1,
+    "CHANGELOG.md": 1,
+    "CLAUDE.md": 1,
+    "CURSOR.md": 1,
+    "LICENSE": 1,
+    "README.md": 1,
+    "biome.json": 1,
+    "bun.lock": 1,
+    "docs": 23,
+    "fixtures": 31,
+    "gate-pre-git.config.example.json": 1,
+    "gate-pre-git.config.json": 1,
+    "package.json": 1,
+    "plugins": 31,
+    "src": 23,
+    "templates": 1,
+    "tests": 15,
+    "tsconfig.json": 1
+  },
+  "total_bytes": 839026
+}

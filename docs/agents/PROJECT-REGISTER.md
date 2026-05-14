@@ -2,10 +2,10 @@
 tes_doc: project-register
 status: active
 owner: project
-updated: 2026-05-11
+updated: 2026-05-14
 confidence: medium
 evidence:
-  - path: docs/agents/evidence/20260511T220733Z-tes-project-manifest.json
+  - path: docs/agents/evidence/20260514T221551Z-tes-project-manifest.json
   - path: docs/agents/PROJECT-CONTEXT.md
 tags:
   - tes
@@ -18,7 +18,7 @@ related:
 
 # Tilly Project Register
 
-Generated: `2026-05-11T22:07:33Z`
+Generated: `2026-05-14T22:15:51Z`
 
 This register is a deterministic project inventory for Tilly agents. It records
 the project shape; it is not compiled Cortex knowledge and it is not a
@@ -29,10 +29,10 @@ replacement for Git history.
 | Field | Value |
 |-------|-------|
 | Target | `/Users/murillo/Dev/gate-pre-git` |
-| Git HEAD | `57af462bf51a2f6dd6e2c589563436a60220e2b2` |
-| File count | `128` |
-| Total bytes | `789223` |
-| Manifest | `docs/agents/evidence/20260511T220733Z-tes-project-manifest.json` |
+| Git HEAD | `2ef45d6da46a42fa6d6014ab4b97f0b20f93d4af` |
+| File count | `153` |
+| Total bytes | `839026` |
+| Manifest | `docs/agents/evidence/20260514T221551Z-tes-project-manifest.json` |
 | Project context | `docs/agents/PROJECT-CONTEXT.md` |
 
 ## Tilly Surfaces
@@ -66,12 +66,13 @@ replacement for Git history.
 
 | Suffix | Count |
 |--------|-------|
+| `.bak-20260514T221540Z` | 1 |
 | `.go` | 1 |
 | `.js` | 1 |
-| `.json` | 22 |
+| `.json` | 24 |
 | `.jsonc` | 1 |
 | `.lock` | 1 |
-| `.md` | 40 |
+| `.md` | 60 |
 | `.mdc` | 1 |
 | `.mod` | 1 |
 | `.py` | 2 |
@@ -79,7 +80,7 @@ replacement for Git history.
 | `.toml` | 3 |
 | `.ts` | 42 |
 | `.vue` | 1 |
-| `.yaml` | 4 |
+| `.yaml` | 6 |
 | `.yml` | 2 |
 | `[none]` | 5 |
 

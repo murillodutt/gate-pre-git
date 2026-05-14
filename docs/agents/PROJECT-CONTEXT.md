@@ -2,13 +2,13 @@
 tes_doc: project-context
 status: active
 owner: project
-updated: 2026-05-11
+updated: 2026-05-14
 confidence: medium
 evidence:
   - path: README.md
   - path: docs/README.md
-  - path: package.json
-  - path: docs/agents/evidence/20260511T220733Z-tes-project-manifest.json
+  - path: AGENTS.md
+  - path: docs/agents/evidence/20260514T221551Z-tes-project-manifest.json
 tags:
   - tes
   - project-context
@@ -21,7 +21,7 @@ related:
 
 # Tilly Project Context
 
-Generated: `2026-05-11T22:07:33Z`
+Generated: `2026-05-14T22:15:51Z`
 
 This is the initial project context compiled by `/tes-init`. It is a durable
 starting map for agents, not a substitute for the source files. Agents should
@@ -36,8 +36,8 @@ context when new durable understanding is learned.
 | Description | `Local repository governance runtime for GitHub-bound repositories.` |
 | Identity source | `package.json + README` |
 | Target | `/Users/murillo/Dev/gate-pre-git` |
-| Git HEAD | `57af462bf51a2f6dd6e2c589563436a60220e2b2` |
-| Manifest | `docs/agents/evidence/20260511T220733Z-tes-project-manifest.json` |
+| Git HEAD | `2ef45d6da46a42fa6d6014ab4b97f0b20f93d4af` |
+| Manifest | `docs/agents/evidence/20260514T221551Z-tes-project-manifest.json` |
 
 ## Initial Semantic Signals
 
@@ -49,41 +49,6 @@ are starting evidence for the active agent, not a final semantic analysis.
 | README heading | gate-pre-git | README.md |
 | README summary | Local repository governance runtime for GitHub-bound repositories. | README.md |
 | Detected stack | TypeScript codebase | package/config files |
-
-## Active Semantic Context
-
-This section was refined during the TES installation after opening the project
-anchors `AGENTS.md`, `CLAUDE.md`, `CURSOR.md`, `README.md`,
-`docs/README.md`, `docs/governance-runtime.md`, `docs/trust-model.md`,
-`docs/product-roadmap.md`,
-`docs/release-slo-and-noise.md`, `docs/version-governance.md`, `src/cli.ts`,
-`src/gate.ts`, `src/governance.ts`, and
-`tests/replay-fixtures.test.ts`.
-
-`gate-pre-git` is a Bun/TypeScript local repository governance runtime. Its
-product boundary is the local Git-to-GitHub transition: staged snapshots,
-trusted fixes, push ranges, governance maps, evidence policy, adapter/tool
-execution, JSON/SARIF audit manifests, and GitHub audit workflow validation.
-
-The current public maturity is pre-RC. `README.md` and release docs state that
-public package distribution remains closed while support policy, package
-artifacts, and pinned external canaries are finalized.
-
-Core runtime ownership is concentrated in `src/cli.ts` for command routing,
-`src/gate.ts` for check composition, `src/governance.ts` for path/zone/risk
-classification, `src/installer.ts` for vendored install behavior, and the
-release/version modules for governed release artifacts.
-
-The strongest project quality gates are `bun run typecheck`, `bun test`,
-`bun test tests/replay-fixtures.test.ts`, `bun src/cli.ts doctor --target .`,
-and `bun src/cli.ts check --target . --all`. Release or audit work may also
-need version, release, JSON, SARIF, and migration canary gates listed in
-`docs/release-slo-and-noise.md`.
-
-Durable uncertainty remains around public distribution, branch-protection
-configuration on the real GitHub repository, repeated RC measurements, and
-pinned external canaries. Do not claim those as complete without current
-evidence.
 
 ## Maximum-Depth Initialization Contract
 
@@ -109,8 +74,8 @@ evidence.
 
 | Field | Value |
 |-------|-------|
-| File count | `128` |
-| Total bytes | `789223` |
+| File count | `153` |
+| Total bytes | `839026` |
 | Anchor count | `40` |
 | Gate status | `PASS` |
 
@@ -119,14 +84,15 @@ evidence.
 | Territory | Initial role | Files | Sample anchors |
 | --- | --- | --- | --- |
 | fixtures | experiments, reproductions, and fixtures | 31 | `fixtures/workspaces/docs-basic/baseline/README.md`, `fixtures/workspaces/docs-basic/baseline/docs/guide.md`, `fixtures/workspaces/docs-basic/fixture.json`, `fixtures/workspaces/github-actions-basic/baseline/.github/workflows/ci.yml`, `fixtures/workspaces/github-actions-basic/baseline/README.md`, `fixtures/workspaces/github-actions-basic/fixture.json` |
+| plugins | plugin or extension product surface | 31 | `plugins/tilly-engineer-skills/.codex-plugin/plugin.json`, `plugins/tilly-engineer-skills/skills/tes-adapter/SKILL.md`, `plugins/tilly-engineer-skills/skills/tes-align/SKILL.md`, `plugins/tilly-engineer-skills/skills/tes-align/agents/openai.yaml`, `plugins/tilly-engineer-skills/skills/tes-align/docs/CONTRACT-HISTORY.md`, `plugins/tilly-engineer-skills/skills/tes-align/references/alignment-procedure.md` |
+| docs | documentation and durable explanation | 23 | `docs/README.md`, `docs/agents/INDEX.md`, `docs/agents/adapters/claude.md`, `docs/agents/adapters/codex.md`, `docs/agents/adapters/cursor.md`, `docs/agents/contracts/core.md` |
 | src | product/source code territory | 23 | `src/adapter-runner.ts`, `src/adapters.ts`, `src/audit.ts`, `src/checks.ts`, `src/cli.ts`, `src/config.ts` |
-| plugins | project territory to inspect | 22 | `plugins/tilly-engineer-skills/.codex-plugin/plugin.json`, `plugins/tilly-engineer-skills/skills/tes-adapter/SKILL.md`, `plugins/tilly-engineer-skills/skills/tes-align/SKILL.md`, `plugins/tilly-engineer-skills/skills/tes-align/agents/openai.yaml`, `plugins/tilly-engineer-skills/skills/tes-align/docs/CONTRACT-HISTORY.md`, `plugins/tilly-engineer-skills/skills/tes-align/references/alignment-procedure.md` |
 | tests | test or verification territory | 15 | `tests/adapter-runner.test.ts`, `tests/adapters.test.ts`, `tests/audit-manifest.test.ts`, `tests/evidence.test.ts`, `tests/gate.test.ts`, `tests/governance-integration.test.ts` |
-| docs | documentation and durable explanation | 13 | `docs/README.md`, `docs/build-test-fail-fix-local-ci-os.md`, `docs/governance-runtime.md`, `docs/incidents/2026-05-11-github-audit-self-contamination.md`, `docs/landscape-and-lessons.md`, `docs/migration-v0.1.0-rc.md` |
 | .gate-pre-git | project territory to inspect | 6 | `.gate-pre-git/bin/gate-pre-git`, `.gate-pre-git/cache/.gitignore`, `.gate-pre-git/config.json`, `.gate-pre-git/governance.json`, `.gate-pre-git/lock.json`, `.gate-pre-git/runtime/cli.js` |
-| .cursor | agent runtime surface | 2 | `.cursor/mcp.json`, `.cursor/rules/tes-runtime-capabilities.mdc` |
+| .cursor | agent runtime surface | 3 | `.cursor/hooks.json`, `.cursor/mcp.json`, `.cursor/rules/tes-runtime-capabilities.mdc` |
+| .codex | agent runtime surface | 2 | `.codex/config.toml`, `.codex/config.toml.bak-20260514T221540Z` |
 | .agents | agent runtime surface | 1 | `.agents/plugins/marketplace.json` |
-| .codex | agent runtime surface | 1 | `.codex/config.toml` |
+| .claude | agent runtime surface | 1 | `.claude/settings.json` |
 | .github | repository automation and collaboration | 1 | `.github/workflows/gate-pre-git-audit.yml` |
 | templates | project territory to inspect | 1 | `templates/pre-commit` |
 
@@ -138,14 +104,15 @@ surfaces. It is meant to guide first reads, not replace source inspection.
 | Territory | Likely boundary | Evidence | Next move |
 | --- | --- | --- | --- |
 | fixtures | fixture/example boundary; good for repros, weak evidence for product architecture | `fixtures/workspaces/docs-basic/baseline/README.md`, `fixtures/workspaces/docs-basic/baseline/docs/guide.md`, `fixtures/workspaces/docs-basic/fixture.json` | do not promote fixture shape as core runtime design |
-| src | unclassified territory; evidence is inventory-level until anchors are read | `src/adapter-runner.ts`, `src/adapters.ts`, `src/audit.ts` | open the listed anchors before claiming ownership or runtime role |
 | plugins | unclassified territory; evidence is inventory-level until anchors are read | `plugins/tilly-engineer-skills/.codex-plugin/plugin.json`, `plugins/tilly-engineer-skills/skills/tes-adapter/SKILL.md`, `plugins/tilly-engineer-skills/skills/tes-align/SKILL.md` | open the listed anchors before claiming ownership or runtime role |
+| docs | documentation/API contract boundary; useful for public behavior but not sufficient runtime proof | `docs/README.md`, `docs/agents/INDEX.md`, `docs/agents/adapters/claude.md` | cross-check claims against source anchors before editing behavior |
+| src | unclassified territory; evidence is inventory-level until anchors are read | `src/adapter-runner.ts`, `src/adapters.ts`, `src/audit.ts` | open the listed anchors before claiming ownership or runtime role |
 | tests | verification boundary; use this to choose focused tests rather than infer runtime design | `tests/adapter-runner.test.ts`, `tests/adapters.test.ts`, `tests/audit-manifest.test.ts` | start with local test governance and smallest related test command |
-| docs | documentation/API contract boundary; useful for public behavior but not sufficient runtime proof | `docs/README.md`, `docs/build-test-fail-fix-local-ci-os.md`, `docs/governance-runtime.md` | cross-check claims against source anchors before editing behavior |
 | .gate-pre-git | unclassified territory; evidence is inventory-level until anchors are read | `.gate-pre-git/bin/gate-pre-git`, `.gate-pre-git/cache/.gitignore`, `.gate-pre-git/config.json` | open the listed anchors before claiming ownership or runtime role |
-| .cursor | agent governance boundary; clean runtime replaces active bootloaders after central backup | `.cursor/mcp.json`, `.cursor/rules/tes-runtime-capabilities.mdc` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
-| .agents | agent governance boundary; clean runtime replaces active bootloaders after central backup | `.agents/plugins/marketplace.json` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
-| .codex | agent governance boundary; clean runtime replaces active bootloaders after central backup | `.codex/config.toml` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
+| .cursor | project-owned agent governance boundary; clean runtime replaces active bootloaders after central backup | `.cursor/hooks.json`, `.cursor/mcp.json`, `.cursor/rules/tes-runtime-capabilities.mdc` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
+| .codex | project-owned agent governance boundary; clean runtime replaces active bootloaders after central backup | `.codex/config.toml`, `.codex/config.toml.bak-20260514T221540Z` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
+| .agents | project-owned agent governance boundary; clean runtime replaces active bootloaders after central backup | `.agents/plugins/marketplace.json` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
+| .claude | project-owned agent governance boundary; clean runtime replaces active bootloaders after central backup | `.claude/settings.json` | recover durable local semantics from `.tes/bk/**` into docs/agents evidence |
 | .github | repository automation, ownership, and CI boundary | `.github/workflows/gate-pre-git-audit.yml` | check workflows and CODEOWNERS before workflow or ownership changes |
 | templates | unclassified territory; evidence is inventory-level until anchors are read | `templates/pre-commit` | open the listed anchors before claiming ownership or runtime role |
 
@@ -162,6 +129,7 @@ useful for focused work, but they should not dominate first-pass understanding.
 
 | Zone | Evidence | Guidance |
 | --- | --- | --- |
+| project-owned agent governance | AGENTS.md | clean runtime after central backup; recover durable semantics from backup evidence |
 | fixtures and generated data | fixtures/workspaces/docs-basic/baseline/README.md | avoid deriving product boundaries from these alone |
 
 ## Workspace Boundaries
@@ -173,11 +141,12 @@ useful for focused work, but they should not dominate first-pass understanding.
 
 | Path | Kind | Bytes |
 | --- | --- | --- |
-| AGENTS.md | .md | active thin Codex bootloader |
-| CLAUDE.md | .md | active thin Claude bootloader |
-| CURSOR.md | .md | active thin Cursor bootloader |
 | README.md | .md | 10812 |
-| docs/README.md | .md | 2951 |
+| docs/README.md | .md | 3080 |
+| AGENTS.md | .md | 2742 |
+| CLAUDE.md | .md | 2309 |
+| CURSOR.md | .md | 1861 |
+| docs/agents/INDEX.md | .md | 1157 |
 | package.json | .json | 1442 |
 | tsconfig.json | .json | 277 |
 | src/adapter-runner.ts | .ts | 3525 |
@@ -204,18 +173,14 @@ useful for focused work, but they should not dominate first-pass understanding.
 | src/versioning.ts | .ts | 14547 |
 | src/workflow.ts | .ts | 1985 |
 | docs/build-test-fail-fix-local-ci-os.md | .md | 41681 |
+| docs/certified-installation.md | .md | 6966 |
 | docs/governance-runtime.md | .md | 6179 |
 | docs/incidents/2026-05-11-github-audit-self-contamination.md | .md | 3397 |
 | docs/landscape-and-lessons.md | .md | 6894 |
 | docs/migration-v0.1.0-rc.md | .md | 5096 |
 | docs/positioning.md | .md | 4179 |
-| docs/product-roadmap.md | .md | 7042 |
+| docs/product-roadmap.md | .md | 7260 |
 | docs/product-strategy.md | .md | 5108 |
-| docs/release-slo-and-noise.md | .md | 4419 |
-| docs/releases/v0.1.0.md | .md | 331 |
-| docs/trust-model.md | .md | 3816 |
-| docs/version-governance.md | .md | 2960 |
-| .cursor/rules/tes-runtime-capabilities.mdc | .mdc | 1844 |
 
 ## Runtime And Governance Surfaces
 
@@ -299,27 +264,27 @@ useful for focused work, but they should not dominate first-pass understanding.
 
 - `README.md`
 - `docs/README.md`
+- `AGENTS.md`
+- `CLAUDE.md`
+- `CURSOR.md`
+- `docs/agents/INDEX.md`
 - `package.json`
 - `tsconfig.json`
 - `src/adapter-runner.ts`
 - `src/adapters.ts`
 - `src/audit.ts`
 - `src/checks.ts`
-- `src/cli.ts`
-- `src/config.ts`
-- `src/doctor.ts`
-- `src/evidence.ts`
 
 ## Next Work Guidance
 
 - For `fixtures`, do not promote fixture shape as core runtime design.
-- For `src`, open the listed anchors before claiming ownership or runtime role.
 - For `plugins`, open the listed anchors before claiming ownership or runtime role.
-- For `tests`, start with local test governance and smallest related test command.
 - For `docs`, cross-check claims against source anchors before editing behavior.
+- For `src`, open the listed anchors before claiming ownership or runtime role.
+- For `tests`, start with local test governance and smallest related test command.
 - For `.gate-pre-git`, open the listed anchors before claiming ownership or runtime role.
 - For `.cursor`, recover durable local semantics from `.tes/bk/**` into docs/agents evidence.
-- For `.agents`, recover durable local semantics from `.tes/bk/**` into docs/agents evidence.
+- For `.codex`, recover durable local semantics from `.tes/bk/**` into docs/agents evidence.
 
 ## Open Context Questions
 
