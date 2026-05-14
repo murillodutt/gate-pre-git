@@ -85,7 +85,7 @@ Emit a plan with three classes of writes:
 | --- | --- | --- |
 | `gate-owned` | `.gate-pre-git/**`, generated audit workflow. | May overwrite only after backup. |
 | `merge-owned` | `package.json` scripts, existing hooks. | Preserve local intent or stop with conflict. |
-| `project-owned` | Existing configs such as `biome.json`. | Create only when absent unless `--force`. |
+| `project-owned` | Existing configs such as `biome.json`. | Create only when absent unless `--force`, except for narrow compatibility merges such as missing `json.formatter.expand=auto`. |
 
 The plan should include exact files, action, reason, and rollback source.
 
@@ -202,7 +202,8 @@ rollback=see_report
 3. Do not make installation depend on an LLM.
 4. Do not install dependencies during adoption.
 5. Do not silently overwrite existing hooks, package scripts, workflows, or
-   project formatter configs.
+   project formatter configs; narrow compatibility merges must be named in the
+   install report.
 6. Do not call a repo covered until `doctor` and the structural gate pass.
 
 ## Implementation Wave

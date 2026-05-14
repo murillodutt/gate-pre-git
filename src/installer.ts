@@ -19,6 +19,7 @@ export type InitOptions = {
 export type InitResult = {
   wroteConfig: boolean;
   wroteGovernance: boolean;
+  wroteBiomeConfig: boolean;
   preCommitHookPath: string;
   prePushHookPath: string;
   hookPath: string;
@@ -26,6 +27,7 @@ export type InitResult = {
   installedPrePushHook: boolean;
   patchedPackage: boolean;
   configPath: string;
+  biomeConfigPath: string;
   governancePath: string;
   lockPath: string;
   binPath: string;
@@ -77,6 +79,7 @@ export function initProject(options: InitOptions): InitResult {
   const biomeConfigPath = join(options.target, "biome.json");
   let wroteConfig = false;
   let wroteGovernance = false;
+  let wroteBiomeConfig = false;
 
   if (options.yes) {
     mkdirSync(dirname(configPath), { recursive: true });
@@ -102,9 +105,7 @@ export function initProject(options: InitOptions): InitResult {
   if (options.yes) {
     writeLauncher(binPath, options.command);
     writeRuntimeBundle(runtimePath);
-    if (config.tools.includes("biome") && (!existsSync(biomeConfigPath) || options.force)) {
-      writeFileSync(biomeConfigPath, biomeConfigText(), "utf8");
-    }
+    wroteBiomeConfig = ensureBiomeConfig(options.target, config.tools.includes("biome"), options.force);
     const lock = writeDefaultLock(options.target);
     writeToolShims(options.target, lock);
     writeWorkflow(workflowPath);
@@ -125,6 +126,7 @@ export function initProject(options: InitOptions): InitResult {
   return {
     wroteConfig,
     wroteGovernance,
+    wroteBiomeConfig,
     preCommitHookPath: preCommitHook.path,
     prePushHookPath: prePushHook.path,
     hookPath: preCommitHook.path,
@@ -132,6 +134,7 @@ export function initProject(options: InitOptions): InitResult {
     installedPrePushHook: prePushHook.installed,
     patchedPackage,
     configPath,
+    biomeConfigPath,
     governancePath,
     lockPath: lockPath(options.target),
     binPath,
@@ -163,6 +166,7 @@ function biomeConfigText(): string {
       },
       json: {
         formatter: {
+          expand: "auto",
           trailingCommas: "none"
         }
       }
@@ -170,6 +174,45 @@ function biomeConfigText(): string {
     null,
     2
   )}\n`;
+}
+
+type JsonRecord = Record<string, unknown>;
+
+function ensureBiomeConfig(target: string, biomeEnabled: boolean, force: boolean): boolean {
+  if (!biomeEnabled) return false;
+
+  const path = join(target, "biome.json");
+  if (!existsSync(path) || force) {
+    writeFileSync(path, biomeConfigText(), "utf8");
+    return true;
+  }
+
+  return mergeBiomePackageJsonExpand(path);
+}
+
+function mergeBiomePackageJsonExpand(path: string): boolean {
+  let config: unknown;
+  try {
+    config = JSON.parse(readFileSync(path, "utf8"));
+  } catch {
+    return false;
+  }
+
+  if (!isJsonRecord(config)) return false;
+
+  const json = isJsonRecord(config.json) ? config.json : {};
+  const formatter = isJsonRecord(json.formatter) ? json.formatter : {};
+  if (formatter.expand !== undefined && formatter.expand !== null) return false;
+
+  formatter.expand = "auto";
+  json.formatter = formatter;
+  config.json = json;
+  writeFileSync(path, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+  return true;
+}
+
+function isJsonRecord(value: unknown): value is JsonRecord {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
 export function defaultGovernanceMap(): Record<string, unknown> {

@@ -47,7 +47,8 @@ The initializer writes or updates:
 4. `.gate-pre-git/bin/gate-pre-git`
 5. `.gate-pre-git/runtime/cli.js`
 6. `.gate-pre-git/cache/.gitignore`
-7. `biome.json` when Biome is enabled and no project Biome config exists
+7. `biome.json` when Biome is enabled; existing JSON configs are merged only
+   to add `json.formatter.expand=auto` when that key is absent
 8. native Git `pre-commit` and `pre-push` hooks
 9. `.github/workflows/gate-pre-git-audit.yml`
 10. package scripts when `package.json` exists
@@ -132,6 +133,7 @@ Rollback should be deliberate and auditable:
 | `doctor` reports governance drift | Restore missing base zone paths, evidence, sensitive paths, or generated paths. |
 | `staged` fails while worktree looks fixed | The Git index still contains the failing snapshot; run `git add` after review. |
 | `fix` blocks on partial staging | Review unstaged drift and stage intentionally before retrying. |
+| `adapter:biome` rejects `package.json` array expansion after `builtin:json-format` fixed the same file | Set or keep `"json": { "formatter": { "expand": "auto" } }` in `biome.json`; the installer writes or merges this default for Biome-enabled projects. |
 | `push` reports no base | Pass `--base <ref>` or create/update the local base ref. |
 | Secret path is blocked | Remove the file or add a narrow governance exception only when policy allows it. |
 | GitHub audit fails but local gate passes | Compare JSON/SARIF manifest hash and confirm the workflow uses the vendored launcher. |

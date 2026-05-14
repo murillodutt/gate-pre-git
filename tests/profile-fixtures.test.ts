@@ -145,6 +145,55 @@ describe("auto profile fixture pack", () => {
     }
   });
 
+  test("merges biome package-json formatter compatibility into existing configs", () => {
+    const dir = fixture("node-existing-biome");
+    try {
+      writeJson(join(dir, "package.json"), {
+        name: "node-existing-biome",
+        version: "0.0.0",
+        scripts: {}
+      });
+      writeJson(join(dir, "biome.json"), {
+        $schema: "https://biomejs.dev/schemas/2.4.15/schema.json",
+        formatter: {
+          lineWidth: 88
+        },
+        javascript: {
+          formatter: {
+            quoteStyle: "single"
+          }
+        },
+        json: {
+          formatter: {
+            trailingCommas: "none"
+          }
+        }
+      });
+
+      const init = initProject({
+        target: dir,
+        yes: true,
+        force: false,
+        profile: "auto",
+        hook: "native",
+        command: "gate-pre-git"
+      });
+      const biomeConfig = JSON.parse(readFileSync(join(dir, "biome.json"), "utf8")) as {
+        formatter?: { lineWidth?: number };
+        javascript?: { formatter?: { quoteStyle?: string } };
+        json?: { formatter?: { expand?: string; trailingCommas?: string } };
+      };
+
+      expect(init.wroteBiomeConfig).toBe(true);
+      expect(biomeConfig.formatter?.lineWidth).toBe(88);
+      expect(biomeConfig.javascript?.formatter?.quoteStyle).toBe("single");
+      expect(biomeConfig.json?.formatter?.trailingCommas).toBe("none");
+      expect(biomeConfig.json?.formatter?.expand).toBe("auto");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   test("does not invent Node command checks for package-only targets", () => {
     const dir = fixture("node-package-only");
     try {

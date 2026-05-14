@@ -87,6 +87,7 @@ try {
     console.log(`init=${args.yes ? "applied" : "dry_run"}`);
     console.log(`profile=${args.profile}`);
     console.log(`config=${result.configPath}`);
+    console.log(`biome_config=${result.biomeConfigPath}`);
     console.log(`lock=${result.lockPath}`);
     console.log(`bin=${result.binPath}`);
     console.log(`runtime=${result.runtimePath}`);
@@ -94,6 +95,7 @@ try {
     console.log(`pre_push_hook=${result.prePushHookPath}`);
     console.log(`workflow=${result.workflowPath}`);
     console.log(`wrote_config=${result.wroteConfig}`);
+    console.log(`wrote_biome_config=${result.wroteBiomeConfig}`);
     console.log(`installed_pre_commit_hook=${result.installedHook}`);
     console.log(`installed_pre_push_hook=${result.installedPrePushHook}`);
     console.log(`patched_package=${result.patchedPackage}`);

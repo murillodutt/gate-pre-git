@@ -47,8 +47,12 @@ describe("migration canary", () => {
 
       const launcher = join(dir, ".gate-pre-git", "bin", "gate-pre-git");
       const runtime = join(dir, ".gate-pre-git", "runtime", "cli.js");
+      const biomeConfig = JSON.parse(readFileSync(join(dir, "biome.json"), "utf8")) as {
+        json?: { formatter?: { expand?: string } };
+      };
       expect(existsSync(launcher)).toBe(true);
       expect(existsSync(runtime)).toBe(true);
+      expect(biomeConfig.json?.formatter?.expand).toBe("auto");
       expect(readFileSync(launcher, "utf8")).toContain(".gate-pre-git/runtime/cli.js");
 
       expect(run(launcher, ["doctor", "--target", dir], dir)).toContain("gate_pre_git=passed");
@@ -73,6 +77,23 @@ describe("migration canary", () => {
       expect(auditJson.governance.length).toBeGreaterThan(0);
       expect(auditSarif.runs[0]?.properties.gatePreGitManifestHash).toBe(auditJson.manifestHash);
 
+      const packageJson = JSON.parse(readFileSync(join(dir, "package.json"), "utf8")) as {
+        pnpm?: { onlyBuiltDependencies: string[] };
+      };
+      packageJson.pnpm = { onlyBuiltDependencies: ["@parcel/watcher", "esbuild", "vue-demi"] };
+      writeFileSync(join(dir, "package.json"), `${JSON.stringify(packageJson, null, 2)}\n`, "utf8");
+      git(dir, ["add", "package.json"]);
+      const packageCommit = spawnSync("git", ["commit", "-m", "test: package array formatting"], {
+        cwd: dir,
+        encoding: "utf8"
+      });
+      const packageCommitOutput = `${packageCommit.stdout}\n${packageCommit.stderr}`;
+      expect(packageCommit.status).toBe(0);
+      expect(packageCommitOutput).toContain("gate_pre_git=passed");
+      expect(readFileSync(join(dir, "package.json"), "utf8")).toContain(
+        '"onlyBuiltDependencies": ["@parcel/watcher", "esbuild", "vue-demi"]'
+      );
+
       rmSync(join(dir, ".gate-pre-git", "cache", "bin"), { recursive: true, force: true });
       expect(run(launcher, ["update-tools", "--target", dir], dir)).toContain("gate_pre_git=passed");
       expect(existsSync(join(dir, ".gate-pre-git", "cache", "bin", "biome"))).toBe(true);
@@ -88,5 +109,5 @@ describe("migration canary", () => {
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
-  });
+  }, 30000);
 });

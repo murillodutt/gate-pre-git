@@ -85,7 +85,9 @@ Default installation writes:
 - `.gate-pre-git/bin/gate-pre-git`
 - `.gate-pre-git/runtime/cli.js`
 - `.gate-pre-git/cache/.gitignore`
-- `biome.json` when Biome is enabled and no project Biome config exists
+- `biome.json` when Biome is enabled, including
+  `json.formatter.expand=auto` to align Biome's `package.json` formatting
+  with the built-in JSON normalizer
 - a portable `.gate-pre-git/bin/gate-pre-git` launcher that resolves the repo
   root before choosing a vendored runtime, source checkout, or PATH runtime
 - native Git hooks at the repository's actual `hooks/pre-commit` and
