@@ -1,0 +1,559 @@
+#!/usr/bin/env python3
+"""Certify TES command-trigger parity across adapter surfaces."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+VERSION = "0.3.82"
+
+PREFERRED_TRIGGERS = (
+    "/tes-init",
+    "/tes-update",
+    "/tes-align",
+    "/tes-open-obsidian",
+    "/tes-cortex",
+    "/tes-curate",
+    "/tes-mcp",
+    "/tes-field-reports",
+    "/tes-doctor",
+    "/tes-adapter",
+    "/tes-bench",
+)
+
+COMPATIBLE_ALIASES = (
+    "/tes:init",
+    "/tes:update",
+    "/tes:align",
+    "/tes:open-obsidian",
+    "/tes:cortex",
+    "/tes:mcp",
+    "/tes:field-reports",
+    "/tes:doctor",
+    "/tes:adapter",
+    "/tes:bench",
+    "/tes:check",
+    "/tes:certify",
+    "/tes:recall",
+    "/tes:learn",
+    "/tes:reflect",
+    "/tes:curate",
+)
+
+NATURAL_INTENTS = (
+    "tes init",
+    "tes update",
+    "tes align",
+    "tes open obsidian",
+    "align TES",
+    "align this project",
+    "open Obsidian",
+    "open this project in Obsidian",
+    "Atualizar TES",
+    "atualizar TES",
+    "alinhar TES",
+    "alinhar projeto",
+    "abrir Obsidian",
+    "abrir no Obsidian",
+    "initialize TES",
+    "install TES",
+    "recertify TES",
+    "inicializar TES",
+    "instalar TES",
+    "recertificar TES",
+)
+
+CLAUDE_INVALID_SLASH_TERMS = (
+    "/tes:*",
+    "invalid slash",
+    "TES intent",
+    "do not stop to ask",
+)
+
+INIT_ROUTER_TERMS = (
+    "Install/Update Gate",
+    "Project Context Gate",
+    "Project-Start Gate",
+    "Step Zero protects installer/update writes",
+    "must not block project-context initialization",
+    "preflight context PASS does not replace project-start execution",
+    "after helper-only",
+)
+
+REPORT_GOVERNANCE_TERMS = (
+    "Project quality gates",
+    "lint",
+    "typecheck",
+    "test",
+    "BLOCKED",
+    "NEEDS_REVIEW",
+)
+
+DOC_SOURCE_GROUPS = {
+    "command_triggers_doc": ("docs/install/COMMAND-TRIGGERS.md",),
+    "platform_differences_doc": ("docs/adapters/PLATFORM-DIFFERENCES.md",),
+}
+
+PLATFORM_SOURCE_GROUPS = {
+    "codex": (
+        "src/adapters/codex/AGENTS.md",
+        "src/adapters/codex/skills/tes-init/SKILL.md",
+        "src/adapters/codex/skills/tes-align/SKILL.md",
+        "src/adapters/codex/skills/tes-open-obsidian/SKILL.md",
+        "src/adapters/codex/skills/tes-cortex/SKILL.md",
+        "src/adapters/codex/skills/tes-mcp/SKILL.md",
+        "src/adapters/codex/skills/tes-field-reports/SKILL.md",
+        "src/adapters/codex/skills/tes-doctor/SKILL.md",
+        "src/adapters/codex/skills/tes-adapter/SKILL.md",
+        "src/adapters/codex/skills/tes-bench/SKILL.md",
+    ),
+    "claude": (
+        "src/adapters/claude/CLAUDE.md",
+        "src/adapters/claude/skills/tes-init/SKILL.md",
+        "src/adapters/claude/skills/tes-align/SKILL.md",
+        "src/adapters/claude/skills/tes-open-obsidian/SKILL.md",
+        "src/adapters/claude/skills/tes-cortex/SKILL.md",
+        "src/adapters/claude/skills/tes-mcp/SKILL.md",
+        "src/adapters/claude/skills/tes-field-reports/SKILL.md",
+        "src/adapters/claude/skills/tes-doctor/SKILL.md",
+        "src/adapters/claude/skills/tes-adapter/SKILL.md",
+        "src/adapters/claude/skills/tes-bench/SKILL.md",
+    ),
+    "cursor": (
+        "src/adapters/cursor/rules/tes-guidelines.mdc",
+        "src/adapters/cursor/rules/tes-runtime-capabilities.mdc",
+    ),
+}
+
+INIT_ROUTER_SOURCE_PATHS = (
+    "docs/install/COMMAND-TRIGGERS.md",
+    "docs/install/ASSISTED-CONTEXT-INSTALLER.prompt.md",
+    "src/adapters/codex/AGENTS.md",
+    "src/adapters/codex/skills/tes-init/SKILL.md",
+    "src/adapters/claude/CLAUDE.md",
+    "src/adapters/claude/skills/tes-init/SKILL.md",
+    "src/adapters/cursor/rules/tes-guidelines.mdc",
+    "src/adapters/cursor/rules/tes-runtime-capabilities.mdc",
+)
+
+REPORT_GOVERNANCE_SOURCE_PATHS = (
+    "docs/install/COMMAND-TRIGGERS.md",
+    "docs/install/ASSISTED-CONTEXT-INSTALLER.prompt.md",
+    "docs/install/INSTALL.md",
+    "docs/install/AGENT-MANUAL.md",
+    "docs/install/MINI-PROMPT.md",
+)
+
+
+CLAUDE_PROJECT_SKILLS = (
+    "tes-guidelines",
+    "tes-init",
+    "tes-align",
+    "tes-open-obsidian",
+    "tes-cortex",
+    "tes-mcp",
+    "tes-field-reports",
+    "tes-doctor",
+    "tes-adapter",
+    "tes-bench",
+)
+CODEX_PROJECT_SKILLS = (
+    "tes-engineering-discipline",
+    "tes-init",
+    "tes-align",
+    "tes-open-obsidian",
+    "tes-cortex",
+    "tes-mcp",
+    "tes-field-reports",
+    "tes-doctor",
+    "tes-adapter",
+    "tes-bench",
+)
+
+VISIBLE_SKILL_ROUTES = {
+    "codex": {
+        "tes-field-reports": ("/tes-field-reports", "/tes:field-reports", "field_reports.py"),
+    },
+    "claude": {
+        "tes-field-reports": ("/tes-field-reports", "/tes:field-reports", "field_reports.py"),
+    },
+}
+
+GROUPED_INTENT_ROUTES = {
+    "codex": {
+        "tes-init": ("/tes-update", "/tes:update"),
+        "tes-cortex": ("/tes-curate", "/tes:curate"),
+    },
+    "claude": {
+        "tes-init": ("/tes-update", "/tes:update"),
+        "tes-cortex": ("/tes-curate", "/tes:curate"),
+    },
+}
+
+
+def read_group(root: Path, paths: tuple[str, ...]) -> tuple[str, list[str]]:
+    chunks: list[str] = []
+    failures: list[str] = []
+    for relpath in paths:
+        path = root / relpath
+        if not path.exists():
+            failures.append(f"missing trigger source: {relpath}")
+            continue
+        chunks.append(path.read_text(encoding="utf-8"))
+    return "\n".join(chunks), failures
+
+
+def missing_exact(text: str, terms: tuple[str, ...]) -> list[str]:
+    return [term for term in terms if term not in text]
+
+
+def missing_natural(text: str) -> list[str]:
+    folded = text.casefold()
+    return [term for term in NATURAL_INTENTS if term.casefold() not in folded]
+
+
+def normalized(text: str) -> str:
+    return re.sub(r"\s+", " ", text)
+
+
+def check_text(name: str, text: str) -> list[str]:
+    failures: list[str] = []
+    for term in missing_exact(text, PREFERRED_TRIGGERS):
+        failures.append(f"{name} missing preferred trigger: {term}")
+    for term in missing_exact(text, COMPATIBLE_ALIASES):
+        failures.append(f"{name} missing compatible alias: {term}")
+    for term in missing_natural(text):
+        failures.append(f"{name} missing natural intent: {term}")
+    return failures
+
+
+def check_claude_invalid_slash(text: str) -> list[str]:
+    failures: list[str] = []
+    for term in CLAUDE_INVALID_SLASH_TERMS:
+        if term not in text:
+            failures.append(f"claude missing invalid-slash fallback term: {term}")
+    return failures
+
+
+def check_init_router(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    checked: list[dict[str, Any]] = []
+    failures: list[str] = []
+    for relpath in INIT_ROUTER_SOURCE_PATHS:
+        path = root / relpath
+        if not path.exists():
+            failures.append(f"missing init router source: {relpath}")
+            checked.append({"path": relpath, "status": "MISSING"})
+            continue
+        text = path.read_text(encoding="utf-8")
+        normalized_text = normalized(text).casefold()
+        missing = [term for term in INIT_ROUTER_TERMS if term.casefold() not in normalized_text]
+        failures.extend(f"{relpath} missing init router term: {term}" for term in missing)
+        checked.append({"path": relpath, "status": "PASS" if not missing else "FAIL"})
+    return checked, failures
+
+
+def check_report_governance(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    checked: list[dict[str, Any]] = []
+    failures: list[str] = []
+    for relpath in REPORT_GOVERNANCE_SOURCE_PATHS:
+        path = root / relpath
+        if not path.exists():
+            failures.append(f"missing report governance source: {relpath}")
+            checked.append({"path": relpath, "status": "MISSING"})
+            continue
+        text = normalized(path.read_text(encoding="utf-8")).casefold()
+        missing = [term for term in REPORT_GOVERNANCE_TERMS if term.casefold() not in text]
+        failures.extend(f"{relpath} missing report governance term: {term}" for term in missing)
+        checked.append({"path": relpath, "status": "PASS" if not missing else "FAIL"})
+    return checked, failures
+
+
+def check_skill_route_contracts(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    checked: list[dict[str, Any]] = []
+    failures: list[str] = []
+    for platform, skills in VISIBLE_SKILL_ROUTES.items():
+        skill_root = "src/adapters/codex/skills" if platform == "codex" else "src/adapters/claude/skills"
+        for skill, terms in skills.items():
+            relpath = f"{skill_root}/{skill}/SKILL.md"
+            path = root / relpath
+            if not path.exists():
+                failures.append(f"{platform} missing visible skill route: {relpath}")
+                checked.append({"platform": platform, "skill": skill, "path": relpath, "status": "MISSING"})
+                continue
+            text = path.read_text(encoding="utf-8")
+            missing = [term for term in terms if term not in text]
+            failures.extend(f"{relpath} missing visible route term: {term}" for term in missing)
+            checked.append({"platform": platform, "skill": skill, "path": relpath, "status": "PASS" if not missing else "FAIL"})
+
+    for platform, skills in GROUPED_INTENT_ROUTES.items():
+        skill_root = "src/adapters/codex/skills" if platform == "codex" else "src/adapters/claude/skills"
+        for skill, terms in skills.items():
+            relpath = f"{skill_root}/{skill}/SKILL.md"
+            path = root / relpath
+            if not path.exists():
+                failures.append(f"{platform} missing grouped intent router: {relpath}")
+                checked.append({"platform": platform, "skill": skill, "path": relpath, "status": "MISSING"})
+                continue
+            text = path.read_text(encoding="utf-8")
+            missing = [term for term in terms if term not in text]
+            failures.extend(f"{relpath} missing grouped route term: {term}" for term in missing)
+            checked.append({"platform": platform, "skill": skill, "path": relpath, "status": "PASS" if not missing else "FAIL"})
+    return checked, failures
+
+
+def installed_platform_paths(root: Path, platform: str) -> tuple[str, ...]:
+    if platform == "codex":
+        return (
+            "AGENTS.md",
+            *(f".agents/skills/{skill}/SKILL.md" for skill in CODEX_PROJECT_SKILLS),
+        )
+    if platform == "claude":
+        return (
+            "CLAUDE.md",
+            *(f".claude/skills/{skill}/SKILL.md" for skill in CLAUDE_PROJECT_SKILLS),
+            *(f"skills/{skill}/SKILL.md" for skill in CLAUDE_PROJECT_SKILLS),
+        )
+    if platform == "cursor":
+        cursor_rules = tuple(
+            path.relative_to(root).as_posix()
+            for path in sorted((root / ".cursor/rules").glob("*.mdc"))
+            if path.is_file()
+        )
+        return ("CURSOR.md", *cursor_rules)
+    return ()
+
+
+def installed_platform_detected(root: Path, platform: str) -> bool:
+    if platform == "codex":
+        return (root / "AGENTS.md").exists() or (root / ".agents/skills").exists()
+    if platform == "claude":
+        return (
+            (root / "CLAUDE.md").exists()
+            or (root / ".claude/skills").exists()
+            or (root / "skills").exists()
+            or (root / ".claude-plugin/plugin.json").exists()
+        )
+    if platform == "cursor":
+        return (root / "CURSOR.md").exists() or (root / ".cursor/rules").exists()
+    return False
+
+
+def required_installed_files(platform: str) -> tuple[str, ...]:
+    if platform == "codex":
+        return (
+            "AGENTS.md",
+            ".agents/skills/tes-engineering-discipline/SKILL.md",
+            ".agents/skills/tes-init/SKILL.md",
+            ".agents/skills/tes-field-reports/SKILL.md",
+        )
+    if platform == "claude":
+        return (
+            "CLAUDE.md",
+            ".claude/skills/tes-guidelines/SKILL.md",
+            ".claude/skills/tes-init/SKILL.md",
+            ".claude/skills/tes-field-reports/SKILL.md",
+        )
+    if platform == "cursor":
+        return (".cursor/rules/*.mdc",)
+    return ()
+
+
+def check_installed_target(root: Path) -> dict[str, Any]:
+    failures: list[str] = []
+    checked: list[dict[str, Any]] = []
+
+    for platform in ("codex", "claude", "cursor"):
+        if not installed_platform_detected(root, platform):
+            checked.append({"group": platform, "paths": [], "status": "NOT_APPLIED"})
+            continue
+
+        paths = installed_platform_paths(root, platform)
+        existing_paths = tuple(path for path in paths if (root / path).exists())
+        text, group_failures = read_group(root, existing_paths)
+        missing_required = []
+        for relpath in required_installed_files(platform):
+            if relpath.endswith("*.mdc"):
+                if not any((root / ".cursor/rules").glob("*.mdc")):
+                    missing_required.append(relpath)
+                continue
+            if not (root / relpath).exists():
+                missing_required.append(relpath)
+        group_failures.extend(f"missing installed trigger surface: {relpath}" for relpath in missing_required)
+        group_failures.extend(check_text(platform, text))
+        if platform == "claude":
+            group_failures.extend(check_claude_invalid_slash(text))
+        failures.extend(group_failures)
+        checked.append(
+            {
+                "group": platform,
+                "paths": list(existing_paths),
+                "status": "PASS" if not group_failures else "FAIL",
+            }
+        )
+
+    return {
+        "version": VERSION,
+        "status": "PASS" if not failures else "FAIL",
+        "mode": "installed-target",
+        "target": str(root),
+        "preferred_triggers": list(PREFERRED_TRIGGERS),
+        "compatible_aliases": list(COMPATIBLE_ALIASES),
+        "natural_intents": list(NATURAL_INTENTS),
+        "checked": checked,
+        "failures": failures,
+    }
+
+
+def analyze(root: Path = ROOT) -> dict[str, Any]:
+    failures: list[str] = []
+    checked: list[dict[str, Any]] = []
+
+    for group, paths in DOC_SOURCE_GROUPS.items():
+        text, group_failures = read_group(root, paths)
+        failures.extend(group_failures)
+        group_failures.extend(check_text(group, text))
+        failures.extend(item for item in group_failures if item not in failures)
+        checked.append({"group": group, "paths": list(paths), "status": "PASS" if not group_failures else "FAIL"})
+
+    for platform, paths in PLATFORM_SOURCE_GROUPS.items():
+        text, group_failures = read_group(root, paths)
+        failures.extend(group_failures)
+        group_failures.extend(check_text(platform, text))
+        if platform == "claude":
+            group_failures.extend(check_claude_invalid_slash(text))
+        failures.extend(item for item in group_failures if item not in failures)
+        checked.append({"group": platform, "paths": list(paths), "status": "PASS" if not group_failures else "FAIL"})
+
+    init_router_checked, init_router_failures = check_init_router(root)
+    failures.extend(init_router_failures)
+    checked.append(
+        {
+            "group": "init_router",
+            "paths": list(INIT_ROUTER_SOURCE_PATHS),
+            "status": "PASS" if not init_router_failures else "FAIL",
+            "files": init_router_checked,
+        }
+    )
+
+    report_governance_checked, report_governance_failures = check_report_governance(root)
+    failures.extend(report_governance_failures)
+    checked.append(
+        {
+            "group": "report_governance",
+            "paths": list(REPORT_GOVERNANCE_SOURCE_PATHS),
+            "status": "PASS" if not report_governance_failures else "FAIL",
+            "files": report_governance_checked,
+        }
+    )
+
+    skill_route_checked, skill_route_failures = check_skill_route_contracts(root)
+    failures.extend(skill_route_failures)
+    checked.append(
+        {
+            "group": "skill_route_contracts",
+            "status": "PASS" if not skill_route_failures else "FAIL",
+            "files": skill_route_checked,
+        }
+    )
+
+    return {
+        "version": VERSION,
+        "status": "PASS" if not failures else "FAIL",
+        "preferred_triggers": list(PREFERRED_TRIGGERS),
+        "compatible_aliases": list(COMPATIBLE_ALIASES),
+        "natural_intents": list(NATURAL_INTENTS),
+        "checked": checked,
+        "failures": failures,
+    }
+
+
+def run_fixture_tests() -> list[str]:
+    failures: list[str] = []
+    good_text = "\n".join(
+        [
+            *PREFERRED_TRIGGERS,
+            *COMPATIBLE_ALIASES,
+            *NATURAL_INTENTS,
+            *CLAUDE_INVALID_SLASH_TERMS,
+        ]
+    )
+    if check_text("fixture_good", good_text) or check_claude_invalid_slash(good_text):
+        failures.append("good fixture must pass trigger and Claude fallback checks")
+
+    bad_claude = good_text.replace("invalid slash", "invalid command")
+    if not any("invalid-slash fallback" in item for item in check_claude_invalid_slash(bad_claude)):
+        failures.append("bad Claude fixture must fail without invalid-slash fallback")
+
+    bad_trigger = good_text.replace("/tes-align", "")
+    if not any("/tes-align" in item for item in check_text("fixture_bad_trigger", bad_trigger)):
+        failures.append("bad trigger fixture must fail when a preferred trigger is absent")
+
+    bad_natural = good_text.replace("recertificar TES", "")
+    if not any("recertificar TES" in item for item in check_text("fixture_bad_natural", bad_natural)):
+        failures.append("bad natural fixture must fail when a natural intent is absent")
+
+    import tempfile
+
+    with tempfile.TemporaryDirectory(prefix="tes-trigger-oracle-good-") as tempdir:
+        target = Path(tempdir)
+        (target / ".claude/skills/tes-guidelines").mkdir(parents=True)
+        (target / ".claude/skills/tes-init").mkdir(parents=True)
+        (target / ".claude/skills/tes-field-reports").mkdir(parents=True)
+        (target / "CLAUDE.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-guidelines/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-init/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-field-reports/SKILL.md").write_text(good_text, encoding="utf-8")
+        if check_installed_target(target)["status"] != "PASS":
+            failures.append("good installed Claude fixture must pass")
+
+    with tempfile.TemporaryDirectory(prefix="tes-trigger-oracle-bad-") as tempdir:
+        target = Path(tempdir)
+        (target / "CLAUDE.md").write_text(good_text, encoding="utf-8")
+        result = check_installed_target(target)
+        if result["status"] != "FAIL" or not any(".claude/skills/tes-init/SKILL.md" in item for item in result["failures"]):
+            failures.append("bad installed Claude fixture must fail without project skills")
+
+    return failures
+
+
+def installed_helper_target() -> Path | None:
+    if ROOT.name == ".tes" and Path(__file__).resolve().parent.name == "bin":
+        return ROOT.parent
+    return None
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--target", type=Path, help="validate installed trigger surfaces in a target project")
+    args = parser.parse_args()
+
+    installed_target = installed_helper_target()
+    if args.target:
+        result = check_installed_target(args.target.resolve())
+    elif args.self_test and installed_target is not None:
+        result = check_installed_target(installed_target)
+        result["self_test_mode"] = "installed"
+        result["coverage"] = "installed-helper-contract"
+    else:
+        result = analyze()
+    fixture_failures = run_fixture_tests() if args.self_test else []
+    if fixture_failures:
+        result["status"] = "FAIL"
+        result["fixture_failures"] = fixture_failures
+        result["failures"] = [*result["failures"], *fixture_failures]
+
+    print(json.dumps(result, indent=2, sort_keys=True))
+    print("[command-triggers] " + result["status"])
+    return 0 if result["status"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

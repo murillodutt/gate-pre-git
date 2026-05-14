@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "tes-cortex": {
+      "args": ["${workspaceFolder}/.tes/bin/cortex_mcp.py", "--target", "${workspaceFolder}"],
+      "command": "python3",
+      "env": {},
+      "type": "stdio"
+    }
+  }
+}

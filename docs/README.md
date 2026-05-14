@@ -16,6 +16,7 @@ governance are discovered.
 | [Positioning](positioning.md) | Defines the public comparison and verifiable claims. |
 | [Trust Model](trust-model.md) | Defines what local hooks, GitHub audit, and branch protection do and do not prove. |
 | [Product Roadmap](product-roadmap.md) | Defines the target waves, acceptance gates, and release shape. |
+| [Certified Installation Runtime](certified-installation.md) | Defines the target installer transaction and certification UX. |
 | [Governance Map Runtime](governance-runtime.md) | Explains executable local repository governance. |
 | [Version Governance Runtime](version-governance.md) | Explains governed version, changelog, and release artifact behavior. |
 | [Release SLO And Noise Criteria](release-slo-and-noise.md) | Defines RC latency, determinism, and noise gates. |

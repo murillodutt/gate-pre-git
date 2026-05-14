@@ -6,6 +6,9 @@
     "indentWidth": 2,
     "lineWidth": 120
   },
+  "files": {
+    "includes": ["**", "!.tes/bin/cortex_embed.mjs"]
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "double",

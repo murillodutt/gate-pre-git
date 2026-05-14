@@ -116,6 +116,29 @@
       "requiredEvidence": ["text_hygiene", "gitleaks"]
     },
     {
+      "name": "tes_runtime_capabilities",
+      "description": "TES agent runtime bootloaders, helper capabilities, MCP config, and local context-mesh evidence.",
+      "owners": ["platform"],
+      "risk": "medium",
+      "paths": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "CURSOR.md",
+        ".agents/**",
+        ".claude/**",
+        ".claude-plugin/**",
+        ".codex/**",
+        ".cursor/**",
+        ".mcp.json",
+        ".tes/bin/**",
+        ".tes/manifest.json",
+        "skills/**",
+        "plugins/tilly-engineer-skills/**",
+        "docs/agents/**/*.json"
+      ],
+      "requiredEvidence": ["text_hygiene", "gitleaks"]
+    },
+    {
       "name": "github_workflow",
       "description": "GitHub audit workflow that verifies the local gate contract remotely.",
       "owners": ["platform"],

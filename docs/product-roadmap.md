@@ -153,12 +153,16 @@ Planned acceptance:
 The next maturity layer is moving from pre-RC local proof to release-candidate
 packaging and real pinned external canaries:
 
-1. Add full command canaries for Go and Rust when local toolchains are
+1. Add the certified installation runtime described in
+   [Certified Installation Runtime](certified-installation.md): preflight,
+   state classification, backup manifest, apply, certification, and rollback
+   report.
+2. Add full command canaries for Go and Rust when local toolchains are
    present, with degraded classification when they are not.
-2. Add public package channel, security policy, and support matrix.
-3. Add optional SARIF upload path in GitHub audit.
-4. Add fleet report format for adoption and drift without source upload.
-5. Add pinned external canaries after local replay proof stays stable.
+3. Add public package channel, security policy, and support matrix.
+4. Add optional SARIF upload path in GitHub audit.
+5. Add fleet report format for adoption and drift without source upload.
+6. Add pinned external canaries after local replay proof stays stable.
 
 ## V1 Definition Of Done
 

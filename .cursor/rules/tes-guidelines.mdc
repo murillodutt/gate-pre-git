@@ -1,0 +1,41 @@
+---
+description: TES project governance route for gate-pre-git.
+alwaysApply: true
+---
+
+# gate-pre-git TES Route
+
+Use `docs/agents/**` as the source of truth for project governance.
+
+Read first:
+
+- `docs/agents/PROJECT-CONTEXT.md`
+- `docs/agents/EXECUTION-LINE.md`
+- `docs/agents/QUALITY-GATES.md`
+- `docs/agents/BOUNDARIES-AND-CONSTRAINTS.md`
+- `docs/agents/adapters/cursor.md`
+- `docs/agents/cortex/**`
+
+TES intents are not shell commands. Route `/tes-init`, `/tes-update`,
+`/tes-align`, `/tes-open-obsidian`, `/tes-cortex`, `/tes-curate`, `/tes-mcp`,
+`/tes-field-reports`, `/tes-doctor`, `/tes-adapter`, `/tes-bench`, `/tes:init`,
+`/tes:update`, `/tes:align`, `/tes:open-obsidian`, `/tes:cortex`, `/tes:mcp`,
+`/tes:field-reports`, `/tes:doctor`, `/tes:adapter`, `/tes:bench`,
+`/tes:check`, `/tes:certify`, `/tes:recall`, `/tes:learn`, `/tes:reflect`,
+and `/tes:curate` through the installed TES skills/helpers.
+
+Natural intents include `tes init`, `tes update`, `tes align`,
+`tes open obsidian`, `align TES`, `align this project`, `open Obsidian`,
+`open this project in Obsidian`, `Atualizar TES`, `atualizar TES`,
+`alinhar TES`, `alinhar projeto`, `abrir Obsidian`, `abrir no Obsidian`,
+`initialize TES`, `install TES`, `recertify TES`, `inicializar TES`,
+`instalar TES`, and `recertificar TES`.
+
+Local oracles:
+
+- `bun run typecheck`
+- `bun test`
+- `bun src/cli.ts doctor --target .`
+- `bun src/cli.ts check --target . --all`
+- `python3 .tes/bin/project_context_oracle.py --target .`
+- `python3 .tes/bin/project_alignment_oracle.py --target .`

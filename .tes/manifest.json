@@ -1,0 +1,921 @@
+{
+  "created_at": "2026-05-11T14:59:15-03:00",
+  "entries": [
+    {
+      "archive_path": "adapters/codex/.agents/plugins/marketplace.json",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/plugins/marketplace.json",
+      "sha256": "3ddaf3558185b4d3ccfc42b99ebca42c1b48b2a8ea07a6ccfd67d07afd729d3c"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-adapter/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-adapter/SKILL.md",
+      "sha256": "5edf68726e3ae15fca3687ad15c7ced9138294823f5abc7d103741444fa5561c"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-align/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-align/SKILL.md",
+      "sha256": "c448f674e9a0175023db63f2af5cc517a81e3e5c9d0b5d84646ba96ed2925deb"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-align/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-align/agents/openai.yaml",
+      "sha256": "0c74bcc6bf0bb2e880ba5c60c5cf9e3f007b1b3e6508e04cc895336842d0a2c2"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "sha256": "14bfeda153e34dae855e1b5781c75f6921bcb2d19d161cf65ff1e8fe122d3b89"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-align/references/alignment-procedure.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-align/references/alignment-procedure.md",
+      "sha256": "9c14f459ffb2db3fa1d71236594a2b815d9d15737a997e2c04d0401282a12f88"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-bench/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-bench/SKILL.md",
+      "sha256": "4df0055a3517bc66e7fcace9057740cc32b4839749157f43a8e991c005af446e"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-cortex/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-cortex/SKILL.md",
+      "sha256": "350b8bff9a4b1e882f67f68f9f8ae68f208e49aeeda96900169242777e3e7559"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-doctor/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-doctor/SKILL.md",
+      "sha256": "c63dbe40f2208b9f1aea8450232e08ba45af35609a5651c0fa3f6593456303a5"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-engineering-discipline/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-engineering-discipline/SKILL.md",
+      "sha256": "101dc5f2273b187d8e818bd7d0affe216772ae36ed7462c0c450a50c7e299488"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-engineering-discipline/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-engineering-discipline/agents/openai.yaml",
+      "sha256": "45854b4fdad1323db8fe5b293a35c3054cc4d6062835e89cf9740627b845002a"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-engineering-discipline/references/failure-patterns.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-engineering-discipline/references/failure-patterns.md",
+      "sha256": "17227ef3bf226a142993300ff41cb1f034b737e3ca94a6702dd302a2b5ac4bb9"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-engineering-discipline/references/source-portability.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-engineering-discipline/references/source-portability.md",
+      "sha256": "0f72ed27522919622611cf46c02b749a82d87213a1f405873a5cdfd410afeb8c"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-engineering-discipline/scripts/discipline_oracle.py",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-engineering-discipline/scripts/discipline_oracle.py",
+      "sha256": "48d974bc598d6bae5a3839f20de47a6a11d8cbb25c3e9c5546399cca82acc9ec"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-field-reports/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-field-reports/SKILL.md",
+      "sha256": "43cbf6f19d63c0c12743a7d63910d661f72098b4d75e4073c5882ef9d0316f8f"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-field-reports/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-field-reports/agents/openai.yaml",
+      "sha256": "84ce5974882f8df07e7d294d1058330e9898fe5563e10ab3787b1424e0f9484d"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "sha256": "69e007a78463bf109d1d7b46601cf5d725948faed1bc60569eab3d57723eaf60"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-init/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-init/SKILL.md",
+      "sha256": "374da1faf8fd4c1e5cfe9f70e599ec93b82727a68ecf77b79b1d927fb539988e"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-mcp/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-mcp/SKILL.md",
+      "sha256": "35daed8b54d4c4f317c1957b8eda53bf701d52f17da94fa21400f1f90309ba44"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-open-obsidian/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-open-obsidian/SKILL.md",
+      "sha256": "bcd6acab6cb6b8b6de47326aec78ab8fb832ed92b46a15a2761820a43bfb7c85"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-open-obsidian/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-open-obsidian/agents/openai.yaml",
+      "sha256": "4ca15411785874567587884f45cbf6efff6e06658be2a49c1ac1e4bd68c1976d"
+    },
+    {
+      "archive_path": "adapters/codex/.agents/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".agents/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "sha256": "8b6d21a7cd305f1e075261332fbaaad47c1762b0614608e0188935d5e25e0f37"
+    },
+    {
+      "archive_path": "adapters/claude/.claude-plugin/marketplace.json",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude-plugin/marketplace.json",
+      "sha256": "2b7d1221570ddaad856a00654c70433108e442cb7b9c3abbc7154ce0fcfd8f89"
+    },
+    {
+      "archive_path": "adapters/claude/.claude-plugin/plugin.json",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude-plugin/plugin.json",
+      "sha256": "3366890ec596573eb8ebf611377442542f222fb135a06e81dbc87824be1503a0"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-adapter/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-adapter/SKILL.md",
+      "sha256": "660df928a8812d95da77ae5478e4a93b19d8072936e4dfb8a5a49bba362cfbe0"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-align/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-align/SKILL.md",
+      "sha256": "30183bf5a691fccc3c7043d805cc6bd007e817c4ce740ad0609f0a9673008295"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-align/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-align/agents/openai.yaml",
+      "sha256": "0c74bcc6bf0bb2e880ba5c60c5cf9e3f007b1b3e6508e04cc895336842d0a2c2"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "sha256": "14bfeda153e34dae855e1b5781c75f6921bcb2d19d161cf65ff1e8fe122d3b89"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-align/references/alignment-procedure.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-align/references/alignment-procedure.md",
+      "sha256": "9c14f459ffb2db3fa1d71236594a2b815d9d15737a997e2c04d0401282a12f88"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-bench/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-bench/SKILL.md",
+      "sha256": "f05ea0166edeb927c56de89b269eeb6393e2f817bbf837738e992db36f2410fa"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-cortex/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-cortex/SKILL.md",
+      "sha256": "36bd730524d12c32ee7b230965ebbe69b8ecababe27b59d48f833021993525f3"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-doctor/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-doctor/SKILL.md",
+      "sha256": "e5a1667b1ad80db5a300a27fe65957d13ba80281d7339f97aac4386ba83e641b"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-field-reports/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-field-reports/SKILL.md",
+      "sha256": "43cbf6f19d63c0c12743a7d63910d661f72098b4d75e4073c5882ef9d0316f8f"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-field-reports/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-field-reports/agents/openai.yaml",
+      "sha256": "84ce5974882f8df07e7d294d1058330e9898fe5563e10ab3787b1424e0f9484d"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "sha256": "2edee7b8f7cdacdda389d4691d5ee392f33d2bd134efc44dfdafa2190bc99193"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-guidelines/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-guidelines/SKILL.md",
+      "sha256": "2141890e1c663f258d83f5e3e57ced167f66cade053a42cc9c1320c71c7a5ab5"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-init/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-init/SKILL.md",
+      "sha256": "ca11b5998a03a607f2fb10908e8866e7b6f9ea9b85a658fd4731b971bf7cc273"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-mcp/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-mcp/SKILL.md",
+      "sha256": "f345b596d29cd69a3b87a3d07640fbe3650f08d07e3e6533c98fca218cd53a15"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-open-obsidian/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-open-obsidian/SKILL.md",
+      "sha256": "8ae9b612e6c2271b6fd0b1989adc45a0f3d3f4f8b3dabc6bc48ed84a5ab54052"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-open-obsidian/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-open-obsidian/agents/openai.yaml",
+      "sha256": "4ca15411785874567587884f45cbf6efff6e06658be2a49c1ac1e4bd68c1976d"
+    },
+    {
+      "archive_path": "adapters/claude/.claude/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".claude/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "sha256": "8b6d21a7cd305f1e075261332fbaaad47c1762b0614608e0188935d5e25e0f37"
+    },
+    {
+      "archive_path": "adapters/cursor/.cursor/rules/tes-guidelines.mdc",
+      "install_policy": "clean-overwrite-with-backup",
+      "layer": "context_governance",
+      "obsolete_policy": "preserve",
+      "owner": "tes-owned",
+      "path": ".cursor/rules/tes-guidelines.mdc",
+      "sha256": "498cf55a971708fbf0281523b92b037afa88f38490a403eabe6bfbdcb66d6c52"
+    },
+    {
+      "archive_path": "adapters/cursor/.cursor/rules/tes-runtime-capabilities.mdc",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".cursor/rules/tes-runtime-capabilities.mdc",
+      "sha256": "d9f31133b0cba5e3cda1dd9540ee7c078764785235d5cf8f0602f9b8d5b15d87"
+    },
+    {
+      "archive_path": "scripts/command_trigger_oracle.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/command_trigger_oracle.py",
+      "sha256": "b155db31a25a29eadf6b5456804c03b54bddb23b3cc9901df05f3bf7117c754e"
+    },
+    {
+      "archive_path": "scripts/cortex.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/cortex.py",
+      "sha256": "67fdf54a4348096835bc4c8b7f935d7fd8dcb465006a870c1bb9fa07d6046eb8"
+    },
+    {
+      "archive_path": "scripts/cortex_embed.mjs",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/cortex_embed.mjs",
+      "sha256": "737809dde9a92ad09a27aac73657b3217c7762705b15517392f167aa77d4ca53"
+    },
+    {
+      "archive_path": "scripts/cortex_mcp.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/cortex_mcp.py",
+      "sha256": "d9ce6f04761e2dd57866eeba5ed6fbf1f600536daf46b4b1ba46d1d9db536fb6"
+    },
+    {
+      "archive_path": "scripts/field_reports.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/field_reports.py",
+      "sha256": "3a707c4a62747ed0bb5e284344f82404ef354290a7c8ba806096d8d03fb41ab5"
+    },
+    {
+      "archive_path": "scripts/materialize_adapter.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/materialize_adapter.py",
+      "sha256": "b17090aefba4e68cb65211eeb54c45c77125bf3b1d025b33a3255a5449f83e56"
+    },
+    {
+      "archive_path": "scripts/project_alignment_oracle.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/project_alignment_oracle.py",
+      "sha256": "be5d1a87e22ccec9294fc1352c7fa9a6f8ffd5147b342b9699a18f531353f6c6"
+    },
+    {
+      "archive_path": "scripts/project_context_oracle.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/project_context_oracle.py",
+      "sha256": "5e9197100940dcbf73d81150df2e86b7d4d37d27a83797ee8258a2ba299c8ccf"
+    },
+    {
+      "archive_path": "scripts/root_context.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/root_context.py",
+      "sha256": "e28ebf9d03a90ad982aa78887c3ddcd10467636b323271b033d475015ea489ef"
+    },
+    {
+      "archive_path": "scripts/tes_bundle.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/tes_bundle.py",
+      "sha256": "855f0ae8162d8c41171904f3af0bbd8db47f49518f1861db6e3e80e1b4c9e778"
+    },
+    {
+      "archive_path": "scripts/tes_init.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/tes_init.py",
+      "sha256": "06cfe002dacabe7f2bc2b667961d27451b6ac02a66f31bccf096b15b9adaa29d"
+    },
+    {
+      "archive_path": "scripts/tes_legacy_retirement.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/tes_legacy_retirement.py",
+      "sha256": "f8a9e842a7bd6808bad6c04cbb2e6c10cd226150d90e84309c4ac6f6540953f4"
+    },
+    {
+      "archive_path": "scripts/tes_open_obsidian.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/tes_open_obsidian.py",
+      "sha256": "a5b3e3a8e5bf104295b6dfcc5d42e78feecfbfb68a13256c3598c8a1156104c8"
+    },
+    {
+      "archive_path": "scripts/tes_update.py",
+      "install_policy": "copy-with-backup",
+      "layer": "helper",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": ".tes/bin/tes_update.py",
+      "sha256": "ca0d25ca818b5f1f85088dee5ac53d8f4471eb47b85e025abfcdde64f455e73f"
+    },
+    {
+      "archive_path": "adapters/codex/AGENTS.md",
+      "install_policy": "clean-overwrite-with-backup",
+      "layer": "context_governance",
+      "obsolete_policy": "preserve",
+      "owner": "tes-owned",
+      "path": "AGENTS.md",
+      "sha256": "b4b173468dabc955f7a2febb42d223446f1ab909c14497824f2fa78e4e9b1f66"
+    },
+    {
+      "archive_path": "adapters/claude/CLAUDE.md",
+      "install_policy": "clean-overwrite-with-backup",
+      "layer": "context_governance",
+      "obsolete_policy": "preserve",
+      "owner": "tes-owned",
+      "path": "CLAUDE.md",
+      "sha256": "62a7b9f5c2c2d67e6e9872428a2cefcfd9982bd8d423048a6dcbd512d3bb90ac"
+    },
+    {
+      "archive_path": "adapters/cursor/CURSOR.md",
+      "install_policy": "clean-overwrite-with-backup",
+      "layer": "context_governance",
+      "obsolete_policy": "preserve",
+      "owner": "tes-owned",
+      "path": "CURSOR.md",
+      "sha256": "7571418904b478f5d1370c4ed24db628ac27fc4b3ee4aaf2234a7ffbf62e37c8"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/.codex-plugin/plugin.json",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/.codex-plugin/plugin.json",
+      "sha256": "c602675eb94fb260313ffee3d409ad769851eeab9ecb33e6042c1dc1b6c0ef55"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-adapter/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-adapter/SKILL.md",
+      "sha256": "5edf68726e3ae15fca3687ad15c7ced9138294823f5abc7d103741444fa5561c"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-align/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/SKILL.md",
+      "sha256": "c448f674e9a0175023db63f2af5cc517a81e3e5c9d0b5d84646ba96ed2925deb"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-align/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/agents/openai.yaml",
+      "sha256": "0c74bcc6bf0bb2e880ba5c60c5cf9e3f007b1b3e6508e04cc895336842d0a2c2"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "sha256": "14bfeda153e34dae855e1b5781c75f6921bcb2d19d161cf65ff1e8fe122d3b89"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-align/references/alignment-procedure.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-align/references/alignment-procedure.md",
+      "sha256": "9c14f459ffb2db3fa1d71236594a2b815d9d15737a997e2c04d0401282a12f88"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-bench/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-bench/SKILL.md",
+      "sha256": "4df0055a3517bc66e7fcace9057740cc32b4839749157f43a8e991c005af446e"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-cortex/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-cortex/SKILL.md",
+      "sha256": "350b8bff9a4b1e882f67f68f9f8ae68f208e49aeeda96900169242777e3e7559"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-doctor/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-doctor/SKILL.md",
+      "sha256": "c63dbe40f2208b9f1aea8450232e08ba45af35609a5651c0fa3f6593456303a5"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-engineering-discipline/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/SKILL.md",
+      "sha256": "101dc5f2273b187d8e818bd7d0affe216772ae36ed7462c0c450a50c7e299488"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-engineering-discipline/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/agents/openai.yaml",
+      "sha256": "45854b4fdad1323db8fe5b293a35c3054cc4d6062835e89cf9740627b845002a"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-engineering-discipline/references/failure-patterns.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/references/failure-patterns.md",
+      "sha256": "17227ef3bf226a142993300ff41cb1f034b737e3ca94a6702dd302a2b5ac4bb9"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-engineering-discipline/references/source-portability.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/references/source-portability.md",
+      "sha256": "0f72ed27522919622611cf46c02b749a82d87213a1f405873a5cdfd410afeb8c"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-engineering-discipline/scripts/discipline_oracle.py",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/scripts/discipline_oracle.py",
+      "sha256": "48d974bc598d6bae5a3839f20de47a6a11d8cbb25c3e9c5546399cca82acc9ec"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-field-reports/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-field-reports/SKILL.md",
+      "sha256": "43cbf6f19d63c0c12743a7d63910d661f72098b4d75e4073c5882ef9d0316f8f"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-field-reports/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-field-reports/agents/openai.yaml",
+      "sha256": "84ce5974882f8df07e7d294d1058330e9898fe5563e10ab3787b1424e0f9484d"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "sha256": "69e007a78463bf109d1d7b46601cf5d725948faed1bc60569eab3d57723eaf60"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-init/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-init/SKILL.md",
+      "sha256": "374da1faf8fd4c1e5cfe9f70e599ec93b82727a68ecf77b79b1d927fb539988e"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-mcp/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-mcp/SKILL.md",
+      "sha256": "35daed8b54d4c4f317c1957b8eda53bf701d52f17da94fa21400f1f90309ba44"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-open-obsidian/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-open-obsidian/SKILL.md",
+      "sha256": "bcd6acab6cb6b8b6de47326aec78ab8fb832ed92b46a15a2761820a43bfb7c85"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-open-obsidian/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-open-obsidian/agents/openai.yaml",
+      "sha256": "4ca15411785874567587884f45cbf6efff6e06658be2a49c1ac1e4bd68c1976d"
+    },
+    {
+      "archive_path": "adapters/codex/plugins/tilly-engineer-skills/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "plugins/tilly-engineer-skills/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "sha256": "8b6d21a7cd305f1e075261332fbaaad47c1762b0614608e0188935d5e25e0f37"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-adapter/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-adapter/SKILL.md",
+      "sha256": "660df928a8812d95da77ae5478e4a93b19d8072936e4dfb8a5a49bba362cfbe0"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-align/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-align/SKILL.md",
+      "sha256": "30183bf5a691fccc3c7043d805cc6bd007e817c4ce740ad0609f0a9673008295"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-align/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-align/agents/openai.yaml",
+      "sha256": "0c74bcc6bf0bb2e880ba5c60c5cf9e3f007b1b3e6508e04cc895336842d0a2c2"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-align/docs/CONTRACT-HISTORY.md",
+      "sha256": "14bfeda153e34dae855e1b5781c75f6921bcb2d19d161cf65ff1e8fe122d3b89"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-align/references/alignment-procedure.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-align/references/alignment-procedure.md",
+      "sha256": "9c14f459ffb2db3fa1d71236594a2b815d9d15737a997e2c04d0401282a12f88"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-bench/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-bench/SKILL.md",
+      "sha256": "f05ea0166edeb927c56de89b269eeb6393e2f817bbf837738e992db36f2410fa"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-cortex/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-cortex/SKILL.md",
+      "sha256": "36bd730524d12c32ee7b230965ebbe69b8ecababe27b59d48f833021993525f3"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-doctor/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-doctor/SKILL.md",
+      "sha256": "e5a1667b1ad80db5a300a27fe65957d13ba80281d7339f97aac4386ba83e641b"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-field-reports/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-field-reports/SKILL.md",
+      "sha256": "43cbf6f19d63c0c12743a7d63910d661f72098b4d75e4073c5882ef9d0316f8f"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-field-reports/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-field-reports/agents/openai.yaml",
+      "sha256": "84ce5974882f8df07e7d294d1058330e9898fe5563e10ab3787b1424e0f9484d"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-field-reports/docs/CONTRACT-HISTORY.md",
+      "sha256": "2edee7b8f7cdacdda389d4691d5ee392f33d2bd134efc44dfdafa2190bc99193"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-guidelines/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-guidelines/SKILL.md",
+      "sha256": "2141890e1c663f258d83f5e3e57ced167f66cade053a42cc9c1320c71c7a5ab5"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-init/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-init/SKILL.md",
+      "sha256": "ca11b5998a03a607f2fb10908e8866e7b6f9ea9b85a658fd4731b971bf7cc273"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-mcp/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-mcp/SKILL.md",
+      "sha256": "f345b596d29cd69a3b87a3d07640fbe3650f08d07e3e6533c98fca218cd53a15"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-open-obsidian/SKILL.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-open-obsidian/SKILL.md",
+      "sha256": "8ae9b612e6c2271b6fd0b1989adc45a0f3d3f4f8b3dabc6bc48ed84a5ab54052"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-open-obsidian/agents/openai.yaml",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-open-obsidian/agents/openai.yaml",
+      "sha256": "4ca15411785874567587884f45cbf6efff6e06658be2a49c1ac1e4bd68c1976d"
+    },
+    {
+      "archive_path": "adapters/claude/skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "install_policy": "copy-with-backup",
+      "layer": "runtime_capability",
+      "obsolete_policy": "remove-if-previously-manifested",
+      "owner": "tes-owned",
+      "path": "skills/tes-open-obsidian/docs/CONTRACT-HISTORY.md",
+      "sha256": "8b6d21a7cd305f1e075261332fbaaad47c1762b0614608e0188935d5e25e0f37"
+    }
+  ],
+  "layers": [
+    "cache",
+    "context_governance",
+    "evidence",
+    "helper",
+    "mcp_config",
+    "project_alignment",
+    "runtime_capability"
+  ],
+  "metadata": {
+    "created_at": "2026-05-11T14:59:15-03:00",
+    "schema": "tes-bundle-metadata@1",
+    "source_branch": "main",
+    "source_commit": "0a448e927aed56157621657bdb8a135a8a48a0aa",
+    "source_ref": "HEAD",
+    "source_repository": "https://github.com/murillodutt/tilly-engineer-skills.git",
+    "source_tree_state": "dirty",
+    "version": "0.3.82"
+  },
+  "owners": ["derived", "generated", "project-owned", "tes-owned"],
+  "purge_rule": "purge/update only acts on known tes-owned paths from the previous or current manifest",
+  "schema": "tes-bundle-manifest@1",
+  "source_commit": "0a448e927aed56157621657bdb8a135a8a48a0aa",
+  "source_repository": "https://github.com/murillodutt/tilly-engineer-skills.git",
+  "version": "0.3.82"
+}
