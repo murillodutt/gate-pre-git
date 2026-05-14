@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "/opt/homebrew/opt/python@3.14/bin/python3.14 \"${CLAUDE_PROJECT_DIR}/.tes/bin/tes_install.py\" hook --agent claude --target \"${CLAUDE_PROJECT_DIR}\" --announce-start",
+            "timeout": 5,
+            "type": "command"
+          },
+          {
+            "async": true,
+            "asyncRewake": true,
+            "command": "/opt/homebrew/opt/python@3.14/bin/python3.14 \"${CLAUDE_PROJECT_DIR}/.tes/bin/tes_install.py\" hook --agent claude --target \"${CLAUDE_PROJECT_DIR}\" --rewake-on-complete",
+            "statusMessage": "IMPORTANT: TES setup is running. Please wait; do not start project work.",
+            "timeout": 120,
+            "type": "command"
+          }
+        ],
+        "matcher": "startup|resume|clear|compact"
+      }
+    ]
+  }
+}

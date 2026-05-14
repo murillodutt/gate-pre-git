@@ -12,12 +12,15 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.3.82"
+VERSION = "0.3.101"
 
 PREFERRED_TRIGGERS = (
     "/tes-init",
+    "/tes-setup",
     "/tes-update",
     "/tes-align",
+    "/tes-prospect",
+    "/tes-mine",
     "/tes-open-obsidian",
     "/tes-cortex",
     "/tes-curate",
@@ -32,6 +35,8 @@ COMPATIBLE_ALIASES = (
     "/tes:init",
     "/tes:update",
     "/tes:align",
+    "/tes:prospect",
+    "/tes:mine",
     "/tes:open-obsidian",
     "/tes:cortex",
     "/tes:mcp",
@@ -49,6 +54,7 @@ COMPATIBLE_ALIASES = (
 
 NATURAL_INTENTS = (
     "tes init",
+    "tes setup",
     "tes update",
     "tes align",
     "tes open obsidian",
@@ -105,7 +111,10 @@ PLATFORM_SOURCE_GROUPS = {
     "codex": (
         "src/adapters/codex/AGENTS.md",
         "src/adapters/codex/skills/tes-init/SKILL.md",
+        "src/adapters/codex/skills/tes-setup/SKILL.md",
         "src/adapters/codex/skills/tes-align/SKILL.md",
+        "src/adapters/codex/skills/tes-prospect/SKILL.md",
+        "src/adapters/codex/skills/tes-mine/SKILL.md",
         "src/adapters/codex/skills/tes-open-obsidian/SKILL.md",
         "src/adapters/codex/skills/tes-cortex/SKILL.md",
         "src/adapters/codex/skills/tes-mcp/SKILL.md",
@@ -117,7 +126,10 @@ PLATFORM_SOURCE_GROUPS = {
     "claude": (
         "src/adapters/claude/CLAUDE.md",
         "src/adapters/claude/skills/tes-init/SKILL.md",
+        "src/adapters/claude/skills/tes-setup/SKILL.md",
         "src/adapters/claude/skills/tes-align/SKILL.md",
+        "src/adapters/claude/skills/tes-prospect/SKILL.md",
+        "src/adapters/claude/skills/tes-mine/SKILL.md",
         "src/adapters/claude/skills/tes-open-obsidian/SKILL.md",
         "src/adapters/claude/skills/tes-cortex/SKILL.md",
         "src/adapters/claude/skills/tes-mcp/SKILL.md",
@@ -155,7 +167,10 @@ REPORT_GOVERNANCE_SOURCE_PATHS = (
 CLAUDE_PROJECT_SKILLS = (
     "tes-guidelines",
     "tes-init",
+    "tes-setup",
     "tes-align",
+    "tes-prospect",
+    "tes-mine",
     "tes-open-obsidian",
     "tes-cortex",
     "tes-mcp",
@@ -167,7 +182,10 @@ CLAUDE_PROJECT_SKILLS = (
 CODEX_PROJECT_SKILLS = (
     "tes-engineering-discipline",
     "tes-init",
+    "tes-setup",
     "tes-align",
+    "tes-prospect",
+    "tes-mine",
     "tes-open-obsidian",
     "tes-cortex",
     "tes-mcp",
@@ -179,9 +197,13 @@ CODEX_PROJECT_SKILLS = (
 
 VISIBLE_SKILL_ROUTES = {
     "codex": {
+        "tes-prospect": ("/tes-prospect", "/tes:prospect", "cognitive brake"),
+        "tes-mine": ("/tes-mine", "/tes:mine", "cognitive brake"),
         "tes-field-reports": ("/tes-field-reports", "/tes:field-reports", "field_reports.py"),
     },
     "claude": {
+        "tes-prospect": ("/tes-prospect", "/tes:prospect", "cognitive brake"),
+        "tes-mine": ("/tes-mine", "/tes:mine", "cognitive brake"),
         "tes-field-reports": ("/tes-field-reports", "/tes:field-reports", "field_reports.py"),
     },
 }
@@ -351,6 +373,9 @@ def required_installed_files(platform: str) -> tuple[str, ...]:
             "AGENTS.md",
             ".agents/skills/tes-engineering-discipline/SKILL.md",
             ".agents/skills/tes-init/SKILL.md",
+            ".agents/skills/tes-setup/SKILL.md",
+            ".agents/skills/tes-prospect/SKILL.md",
+            ".agents/skills/tes-mine/SKILL.md",
             ".agents/skills/tes-field-reports/SKILL.md",
         )
     if platform == "claude":
@@ -358,6 +383,9 @@ def required_installed_files(platform: str) -> tuple[str, ...]:
             "CLAUDE.md",
             ".claude/skills/tes-guidelines/SKILL.md",
             ".claude/skills/tes-init/SKILL.md",
+            ".claude/skills/tes-setup/SKILL.md",
+            ".claude/skills/tes-prospect/SKILL.md",
+            ".claude/skills/tes-mine/SKILL.md",
             ".claude/skills/tes-field-reports/SKILL.md",
         )
     if platform == "cursor":
@@ -505,10 +533,16 @@ def run_fixture_tests() -> list[str]:
         target = Path(tempdir)
         (target / ".claude/skills/tes-guidelines").mkdir(parents=True)
         (target / ".claude/skills/tes-init").mkdir(parents=True)
+        (target / ".claude/skills/tes-setup").mkdir(parents=True)
+        (target / ".claude/skills/tes-prospect").mkdir(parents=True)
+        (target / ".claude/skills/tes-mine").mkdir(parents=True)
         (target / ".claude/skills/tes-field-reports").mkdir(parents=True)
         (target / "CLAUDE.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-guidelines/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-init/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-setup/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-prospect/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-mine/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-field-reports/SKILL.md").write_text(good_text, encoding="utf-8")
         if check_installed_target(target)["status"] != "PASS":
             failures.append("good installed Claude fixture must pass")

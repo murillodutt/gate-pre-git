@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "/opt/homebrew/opt/python@3.14/bin/python3.14 .tes/bin/tes_install.py hook --agent cursor --target .",
+        "timeout": 120
+      }
+    ],
+    "sessionStart": [
+      {
+        "command": "/opt/homebrew/opt/python@3.14/bin/python3.14 .tes/bin/tes_install.py hook --agent cursor --target .",
+        "timeout": 120
+      }
+    ]
+  },
+  "version": 1
+}

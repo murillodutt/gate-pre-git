@@ -1,0 +1,44 @@
+{
+  "agent": "all",
+  "agents": ["codex", "claude", "cursor"],
+  "apply": {
+    "backup_id": null,
+    "installed_manifest": ".tes/manifest.json",
+    "mode": "preserve",
+    "status": "APPLIED",
+    "version": "0.3.101"
+  },
+  "hooks": [
+    {
+      "action": "update",
+      "agent": "codex",
+      "backup": ".codex/config.toml.bak-20260514T221540Z",
+      "path": ".codex/config.toml"
+    },
+    {
+      "action": "create",
+      "agent": "claude",
+      "path": ".claude/settings.json"
+    },
+    {
+      "action": "create",
+      "agent": "cursor",
+      "path": ".cursor/hooks.json"
+    }
+  ],
+  "installed_at": "2026-05-14T22:15:40Z",
+  "mode": "preserve",
+  "schema": "tes-install-lock@1",
+  "source_commit": "f6792b080b8b6228039d28fda3190a9e02e56636",
+  "source_repository": "https://github.com/murillodutt/tilly-engineer-skills.git",
+  "stage": {
+    "entries": 136,
+    "manifest": ".tes/setup/0.3.101/tes-bundle-manifest.json",
+    "source": "local-public-bundle",
+    "stage_dir": ".tes/setup/0.3.101",
+    "status": "STAGED",
+    "version": "0.3.101"
+  },
+  "target": "/Users/murillo/Dev/gate-pre-git",
+  "version": "0.3.101"
+}

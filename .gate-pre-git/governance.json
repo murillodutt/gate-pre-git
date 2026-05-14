@@ -132,6 +132,9 @@
         ".mcp.json",
         ".tes/bin/**",
         ".tes/manifest.json",
+        ".tes/postinstall.json",
+        ".tes/postinstall-runs/**",
+        ".tes/tes-install-lock.json",
         "skills/**",
         "plugins/tilly-engineer-skills/**",
         "docs/agents/**/*.json"

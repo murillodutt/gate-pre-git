@@ -1,0 +1,7 @@
+[mcp_servers.tes-cortex]
+command = "python3"
+args = [".tes/bin/cortex_mcp.py", "--target", "."]
+cwd = "."
+startup_timeout_sec = 10
+tool_timeout_sec = 60
+enabled = true

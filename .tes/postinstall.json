@@ -1,0 +1,14 @@
+{
+  "agents": ["claude"],
+  "completed_at": "2026-05-14T22:15:52Z",
+  "created_at": "2026-05-14T22:15:40Z",
+  "last_run": ".tes/postinstall-runs/20260514T221552Z-claude.json",
+  "last_status": "PASS",
+  "mode": "first-session",
+  "requested_by": "claude",
+  "runs": [".tes/postinstall-runs/20260514T221552Z-claude.json"],
+  "schema": "tes-postinstall@1",
+  "state": "complete",
+  "updated_at": "2026-05-14T22:15:52Z",
+  "version": "0.3.101"
+}

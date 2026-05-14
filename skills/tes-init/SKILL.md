@@ -1,22 +1,22 @@
 ---
 name: tes-init
-description: Use when the user says /tes-init, /tes-update, /tes:init, /tes:update, tes init, Atualizar TES, a natural init command/prompt, a natural update command/prompt, or asks to initialize, install, retrofit, update, audit, or recertify TES in the current project. Runs the assisted context installer contract through the active agent.
+description: Use when the user says /tes-init, /tes-setup, /tes-update, /tes:init, /tes:update, tes init, tes setup, Atualizar TES, a natural init command/prompt, a natural update command/prompt, or asks to initialize, install, retrofit, update, audit, or recertify TES in the current project. Runs the assisted context installer contract through the active agent.
 license: MIT
 ---
 
 # TES Init
 
-`/tes-init`, `/tes-update`, `/tes:init`, `/tes:update`, `tes init`,
-`tes update`, `initialize TES`, `install TES`, `recertify TES`,
+`/tes-init`, `/tes-setup`, `/tes-update`, `/tes:init`, `/tes:update`,
+`tes init`, `tes setup`, `tes update`, `initialize TES`, `install TES`, `recertify TES`,
 `inicializar TES`, `instalar TES`, `recertificar TES`, and direct
 command/prompts such as `TES, initialize this project`,
 `TES, inicialize este projeto`, `Atualizar TES`, or `atualizar TES` are
 user-facing installer intents. They are not blind shell commands and not
 background daemons. The active agent remains the executor.
 Across Codex, Claude Code, and Cursor, `/tes-*` forms are the preferred shared
-triggers and `/tes:*` forms are compatible TES intent aliases. If the host
-reports `/tes:init` as invalid, treat it as the same TES intent and continue
-instead of asking for a route.
+triggers, `/tes-setup` is a setup alias for `/tes-init`, and `/tes:*` forms are
+compatible TES intent aliases. If the host reports `/tes:init` as invalid, treat
+it as the same TES intent and continue instead of asking for a route.
 
 ## Mission
 
@@ -56,6 +56,12 @@ the user for package contents.
    . --yes` in an installed target, or package `scripts/tes_init.py --target
    <target> --yes`, then run `project_context_oracle.py --target <target>` and
    `project_alignment_oracle.py --target <target>`.
+   When `.tes/postinstall.json` is already `complete` from the first-session
+   hook and the user asks plain `/tes-init` or `/tes-setup`, treat it as a
+   status/report request: read `.tes/postinstall.json` and its `last_run`,
+   summarize the completed run, and do not rerun Project-Start unless the user
+   explicitly asks to recertify/update, the sentinel is not `complete`, the
+   planner reports drift, or evidence is missing.
 4. Run Step Zero before installer/update edits: inspect Git status and offer a
    local baseline commit when the tree is dirty and install/update writes are
    required.

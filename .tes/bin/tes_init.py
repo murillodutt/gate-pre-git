@@ -35,7 +35,7 @@ SOURCE_PACKAGE_MODE = (
 )
 BUNDLE_MODE = SOURCE_ROOT.name == "scripts" and not SOURCE_PACKAGE_MODE
 PACKAGE_MODE = SOURCE_PACKAGE_MODE
-VERSION = "0.3.82"
+VERSION = "0.3.101"
 REGISTER = Path("docs/agents/PROJECT-REGISTER.md")
 PROJECT_CONTEXT = Path("docs/agents/PROJECT-CONTEXT.md")
 EVIDENCE_DIR = Path("docs/agents/evidence")
@@ -58,7 +58,7 @@ TES_AGENT_MESH_RELPATHS = {
     KNOWLEDGE_LIFECYCLE.as_posix(),
     GLOSSARY.as_posix(),
 }
-PASSING_GATE_STATUSES = {"PASS", "CLEAN_APPLIED", "RECOVERED"}
+PASSING_GATE_STATUSES = {"PASS", "CLEAN_APPLIED", "RECOVERED", "NOT_AVAILABLE"}
 DEFAULT_COMMAND_TIMEOUT_SECONDS = 60.0
 DEFAULT_GIT_LIST_TIMEOUT_SECONDS = 15.0
 
@@ -156,6 +156,12 @@ DOC_ANCHOR_NAMES = {
     "ARCHITECTURE.md",
     "CONTRIBUTING.md",
     "SECURITY.md",
+    "INDEX.md",
+    "index.md",
+    "INDEX.rst",
+    "index.rst",
+    "INDEX.txt",
+    "index.txt",
     "AGENTS.md",
     "CLAUDE.md",
     "CURSOR.md",
@@ -337,6 +343,23 @@ def git_head(target: Path) -> str:
 def git_status(target: Path) -> str:
     result = run(["git", "status", "--short", "--branch", "--untracked-files=all"], target)
     return result["stdout"] if result["returncode"] == 0 else "not-a-git-repo"
+
+
+def is_git_worktree(target: Path) -> bool:
+    result = run(["git", "rev-parse", "--is-inside-work-tree"], target)
+    return result["returncode"] == 0 and result["stdout"].strip() == "true"
+
+
+def git_diff_check_gate(target: Path) -> dict[str, Any]:
+    if is_git_worktree(target):
+        return run(["git", "diff", "--check"], target)
+    return {
+        "command": "git diff --check",
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "target is not a Git repository; git whitespace diff gate is not available",
+        "status": "NOT_AVAILABLE",
+    }
 
 
 def is_tes_runtime_relpath(relpath: Path) -> bool:
@@ -874,6 +897,8 @@ def anchor_score(record: dict[str, Any]) -> tuple[int, str]:
         score -= 220
     elif name in DOC_ANCHOR_NAMES:
         score -= 60
+    if first == "docs" and name.casefold() in {"index.md", "index.rst", "index.txt"}:
+        score -= 140
     if is_root and name in MANIFEST_NAMES:
         score -= 210
     elif name in MANIFEST_NAMES:
@@ -1074,6 +1099,8 @@ def infer_territory_role(name: str, paths: list[str]) -> str:
         return "frontend application and static asset territory"
     if lowered == "static":
         return "static assets and public files"
+    if "plugin" in lowered:
+        return "plugin or extension product surface"
     if lowered == "crates" and any(path.startswith("crates/") and path.endswith("/Cargo.toml") for path in paths):
         return "Rust Cargo workspace and crate ownership"
     if lowered in {"labs", "examples", "fixtures"}:
@@ -1129,7 +1156,7 @@ def semantic_boundary_for_territory(name: str, paths: list[str]) -> tuple[str, s
         )
     if lowered in {".agents", ".claude", ".cursor", ".codex"}:
         return (
-            "agent governance boundary; clean runtime replaces active bootloaders after central backup",
+            "project-owned agent governance boundary; clean runtime replaces active bootloaders after central backup",
             "recover durable local semantics from `.tes/bk/**` into docs/agents evidence",
         )
     if lowered in {".github"}:
@@ -1198,7 +1225,7 @@ def caution_zones(scan: dict[str, Any]) -> list[dict[str, str]]:
     files = [str(record["path"]) for record in scan["files"]]
     rows: list[dict[str, str]] = []
     checks = (
-        ("agent governance", ("AGENTS.md", "CLAUDE.md", "CURSOR.md"), "clean runtime after central backup; recover durable semantics from backup evidence"),
+        ("project-owned agent governance", ("AGENTS.md", "CLAUDE.md", "CURSOR.md"), "clean runtime after central backup; recover durable semantics from backup evidence"),
         ("migrations and schema history", ("/migrations/", "migrations/"), "do not edit casually; use project migration workflow"),
         ("self-hosted or environment config", ("self-hosted/", "devservices/", "devenv/", "config/"), "changes may affect boot/deploy/dev services"),
         ("dependency locks", ("pnpm-lock.yaml", "uv.lock", "Cargo.lock", "package-lock.json"), "update only through package manager workflow"),
@@ -1299,7 +1326,7 @@ def package_gates() -> list[dict[str, Any]]:
 
 
 def target_gates(target: Path) -> list[dict[str, Any]]:
-    gates: list[dict[str, Any]] = [run(["git", "diff", "--check"], target)]
+    gates: list[dict[str, Any]] = [git_diff_check_gate(target)]
     gates.append(root_context_gate(target))
     gate_cwd = ROOT if PACKAGE_MODE else HELPER_ROOT
     gates.append(run([sys.executable, str(helper_script("field_reports.py")), "status", "--target", str(target)], gate_cwd))
@@ -2308,6 +2335,7 @@ def self_test() -> dict[str, Any]:
             "Semantic Territory Guide",
             "Weak Anchor Triage",
             "Caution Zones",
+            "project-owned agent governance",
             "Recommended Deep Reads",
             "Next Work Guidance",
         ):
@@ -2336,6 +2364,16 @@ def self_test() -> dict[str, Any]:
         paths = {str(record["path"]) for record in scan["files"]}
         if not {"AGENTS.md", "CLAUDE.md"}.issubset(paths):
             failures.append("project scan must fall back to local files when parent Git ignores target")
+
+    with tempfile.TemporaryDirectory(prefix="tes-init-gitless-target-") as tempdir:
+        target = Path(tempdir)
+        (target / "README.md").write_text("# Gitless fixture\n\nA restored project without a .git directory.\n", encoding="utf-8")
+        result = initialize(target, yes=True, ensure_cortex=True)
+        git_gate = next((gate for gate in result["gates"] if gate["command"] == "git diff --check"), None)
+        if result["status"] != "PASS":
+            failures.append(f"gitless target must initialize without NEEDS_REVIEW, got {result['status']}")
+        if not git_gate or git_gate["status"] != "NOT_AVAILABLE":
+            failures.append("gitless target must mark git diff gate as NOT_AVAILABLE")
 
     with tempfile.TemporaryDirectory(prefix="tes-init-readme-identity-") as tempdir:
         target = Path(tempdir)
@@ -2391,7 +2429,10 @@ def self_test() -> dict[str, Any]:
         )
         (target / "package.json").write_text('{"name":"django-fixture","scripts":{"test":"grunt test"}}\n', encoding="utf-8")
         (target / "docs").mkdir()
+        (target / "docs/INDEX.md").write_text("# Documentation Index\n", encoding="utf-8")
         (target / "docs/README.rst").write_text("Docs\n====\n", encoding="utf-8")
+        (target / "docs/strategy/cellm-memory-program/WAVE-01").mkdir(parents=True)
+        (target / "docs/strategy/cellm-memory-program/WAVE-01/README.md").write_text("# Wave README\n", encoding="utf-8")
         (target / "tests/fixtures/data").mkdir(parents=True)
         (target / "tests/README.rst").write_text("Tests\n=====\n", encoding="utf-8")
         (target / "tests/fixtures/data/README.md").write_text("# Fixture data\n", encoding="utf-8")
@@ -2409,6 +2450,22 @@ def self_test() -> dict[str, Any]:
             failures.append("static asset README must not outrank real documentation anchors")
         if anchors.index("tests/forms/README") < anchors.index("tests/README.rst"):
             failures.append("empty nested README must not outrank real test anchors")
+        if "docs/INDEX.md" not in anchors:
+            failures.append("docs/INDEX.md must be eligible as a canonical documentation anchor")
+        elif anchors.index("docs/strategy/cellm-memory-program/WAVE-01/README.md") < anchors.index("docs/INDEX.md"):
+            failures.append("deep wave README must not outrank docs/INDEX.md")
+
+    with tempfile.TemporaryDirectory(prefix="tes-init-plugin-territory-") as tempdir:
+        target = Path(tempdir)
+        (target / "README.md").write_text("# Plugin fixture\n", encoding="utf-8")
+        (target / "cellm-plugin/src").mkdir(parents=True)
+        (target / "cellm-plugin/src/index.ts").write_text("export const plugin = true;\n", encoding="utf-8")
+        (target / "cellm-plugin/tests").mkdir(parents=True)
+        (target / "cellm-plugin/tests/plugin.test.ts").write_text("export const ok = true;\n", encoding="utf-8")
+        context = project_context(scan_project(target), target, "docs/agents/evidence/fixture-tes-project-manifest.json")
+        roles = {territory["name"]: territory["role"] for territory in context["territories"]}
+        if roles.get("cellm-plugin") != "plugin or extension product surface":
+            failures.append("plugin territory with tests must remain classified as product surface")
 
     with tempfile.TemporaryDirectory(prefix="tes-init-ky-readme-") as tempdir:
         target = Path(tempdir)

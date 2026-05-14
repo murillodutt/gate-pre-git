@@ -1,3 +1,6 @@
+[features]
+codex_hooks = true
+
 [mcp_servers.tes-cortex]
 command = "python3"
 args = [".tes/bin/cortex_mcp.py", "--target", "."]
@@ -5,3 +8,13 @@ cwd = "."
 startup_timeout_sec = 10
 tool_timeout_sec = 60
 enabled = true
+
+# TES first-session post-install hook.
+[[hooks.SessionStart]]
+matcher = "startup|resume"
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "/opt/homebrew/opt/python@3.14/bin/python3.14 \"$(git rev-parse --show-toplevel)/.tes/bin/tes_install.py\" hook --agent codex --target \"$(git rev-parse --show-toplevel)\""
+timeout = 120
+statusMessage = "Checking TES post-install"

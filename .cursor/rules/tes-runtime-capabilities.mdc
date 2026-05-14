@@ -14,8 +14,11 @@ be refreshed by the deterministic installer while `AGENTS.md`, `CLAUDE.md`,
 Use these exact TES intents when the user asks for Tilly Engineering Skills:
 
 - `/tes-init`
+- `/tes-setup`
 - `/tes-update`
 - `/tes-align`
+- `/tes-prospect`
+- `/tes-mine`
 - `/tes-open-obsidian`
 - `/tes-cortex`
 - `/tes-curate`
@@ -30,6 +33,8 @@ Compatible aliases:
 - `/tes:init`
 - `/tes:update`
 - `/tes:align`
+- `/tes:prospect`
+- `/tes:mine`
 - `/tes:open-obsidian`
 - `/tes:cortex`
 - `/tes:mcp`
@@ -44,16 +49,26 @@ Compatible aliases:
 - `/tes:reflect`
 - `/tes:curate`
 
-Natural intents include: tes init, tes update, tes align, tes open obsidian,
+Natural intents include: tes init, tes setup, tes update, tes align, tes open obsidian,
 align TES, align this project, open Obsidian, open this project in Obsidian,
 Atualizar TES, atualizar TES, alinhar TES, alinhar projeto, abrir Obsidian,
 abrir no Obsidian, initialize TES, install TES, recertify TES, inicializar TES,
 instalar TES, and recertificar TES.
+
+Do not activate `/tes-prospect` or `/tes-mine` from broad natural language.
+They require explicit invocation by trigger, alias, or skill name. After
+invocation, they may operate proactively and must honor the cognitive brake:
+pause, pausa, freia, segura, para, hold, step back, or resuma onde estamos.
 
 Route `/tes-init` through the Install/Update Gate, Project Context Gate, and
 Project-Start Gate. Step Zero protects installer/update writes and must not
 block project-context initialization when TES is already installed/current and
 only the Project Context Gate fails. A preflight context PASS does not replace
 project-start execution; after helper-only or adapter repairs, rerun this gate.
+If `.tes/postinstall.json` is already `complete` from the first-session hook
+and the user asks plain `/tes-init` or `/tes-setup`, read the sentinel and
+`last_run`, summarize the completed run, and do not rerun Project-Start unless
+the user explicitly asks to recertify/update, the sentinel is not `complete`,
+the planner reports drift, or evidence is missing.
 The target `docs/agents/PROJECT-CONTEXT.md` must analyze source anchors before
 TES claims durable project understanding.
