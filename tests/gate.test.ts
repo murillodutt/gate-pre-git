@@ -113,6 +113,7 @@ describe("gate-pre-git", () => {
       "tests_go",
       "tests_rust",
       "vendored_gate",
+      "vendored_skills",
       "github_workflow",
       "docs",
       "package_tooling",
@@ -178,6 +179,56 @@ describe("gate-pre-git", () => {
     expect(doctor.ok).toBe(false);
     expect(doctor.checks.find((check) => check.name === "github_audit_workflow")?.status).toBe("failed");
     expect(doctor.findings.map((finding) => finding.code)).toContain("github_audit_workflow");
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  test("strict command parity policy fails when CI package scripts are absent from push checks", () => {
+    const dir = fixture("command-ci-parity");
+    execFileSync("git", ["init"], { cwd: dir, stdio: "ignore" });
+    mkdirSync(join(dir, ".github", "workflows"), { recursive: true });
+    writeFileSync(
+      join(dir, "package.json"),
+      `${JSON.stringify(
+        {
+          name: "target",
+          version: "0.0.0",
+          scripts: {
+            lint: "eslint ."
+          }
+        },
+        null,
+        2
+      )}\n`,
+      "utf8"
+    );
+    writeFileSync(
+      join(dir, ".github", "workflows", "ci.yml"),
+      "name: ci\non: [push]\njobs:\n  lint:\n    runs-on: ubuntu-latest\n    steps:\n      - run: pnpm run lint\n",
+      "utf8"
+    );
+    const init = initProject({
+      target: dir,
+      yes: true,
+      force: false,
+      profile: "auto",
+      hook: "native",
+      command: "gate-pre-git"
+    });
+    const config = JSON.parse(readFileSync(init.configPath, "utf8")) as {
+      policy: Record<string, unknown>;
+      commandChecks: unknown[];
+    };
+    config.policy.requireCommandParityWithCI = true;
+    config.commandChecks = [];
+    writeFileSync(init.configPath, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+
+    const doctor = runDoctor(dir);
+    const push = runGate({ target: dir, mode: "push", all: false, json: false, runCommands: false });
+
+    expect(doctor.ok).toBe(false);
+    expect(doctor.checks.find((check) => check.name === "command_ci_parity")?.failures.join("\n")).toContain("lint");
+    expect(push.ok).toBe(false);
+    expect(push.findings.map((finding) => finding.code)).toContain("command_ci_parity");
     rmSync(dir, { recursive: true, force: true });
   });
 

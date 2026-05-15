@@ -28,6 +28,18 @@ describe("tool adapters", () => {
     expect(adapters.map((adapter) => adapter.name)).toEqual(["biome", "markdownlint"]);
   });
 
+  test("keeps vendored skill markdown out of markdownlint", () => {
+    const commands = buildAdapterCommands([
+      ".agents/skills/tes-init/SKILL.md",
+      ".claude/skills/tes-init/SKILL.md",
+      "plugins/tilly-engineer-skills/skills/tes-init/SKILL.md",
+      "skills/tes-init/SKILL.md",
+      "docs/README.md"
+    ]);
+
+    expect(commands.find((command) => command.adapter === "markdownlint")?.args).toEqual(["docs/README.md"]);
+  });
+
   test("generates locked shim commands for check adapters", () => {
     const commands = buildAdapterCommands(["src/main.ts", "README.md"]);
 

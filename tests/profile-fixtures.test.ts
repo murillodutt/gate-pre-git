@@ -63,6 +63,62 @@ describe("auto profile fixture pack", () => {
     }
   });
 
+  test("mirrors package scripts invoked by GitHub workflows into push command checks", () => {
+    const dir = fixture("pnpm-ci-parity");
+    try {
+      mkdirSync(join(dir, ".github", "workflows"), { recursive: true });
+      writeJson(join(dir, "package.json"), {
+        name: "pnpm-target",
+        version: "0.0.0",
+        scripts: {
+          "version:verify": "node scripts/version.js",
+          "contract:verify": "node scripts/contract.js",
+          lint: "eslint .",
+          typecheck: "vue-tsc --noEmit",
+          test: "vitest run",
+          "revalidate:warnings": "node scripts/warnings.js",
+          "build:ci": "nuxt build"
+        }
+      });
+      writeFileSync(join(dir, "pnpm-lock.yaml"), "lockfileVersion: '9.0'\n", "utf8");
+      writeFileSync(
+        join(dir, ".github", "workflows", "ci.yml"),
+        [
+          "name: ci",
+          "on: [push]",
+          "jobs:",
+          "  verify:",
+          "    runs-on: ubuntu-latest",
+          "    steps:",
+          "      - run: pnpm install --frozen-lockfile",
+          "      - run: pnpm run version:verify",
+          "      - run: pnpm run contract:verify",
+          "      - run: pnpm run lint",
+          "      - run: pnpm run typecheck",
+          "      - run: pnpm run test",
+          "      - run: pnpm run revalidate:warnings",
+          "      - run: pnpm run build:ci"
+        ].join("\n"),
+        "utf8"
+      );
+
+      initProject({ target: dir, yes: true, force: false, profile: "auto", hook: "native", command: "gate-pre-git" });
+
+      const config = readConfig(dir);
+      expect(config.commandChecks).toEqual([
+        { name: "typecheck", run: "pnpm run typecheck", modes: ["check", "push"] },
+        { name: "test", run: "pnpm run test", modes: ["check", "push"] },
+        { name: "version:verify", run: "pnpm run version:verify", modes: ["push"] },
+        { name: "contract:verify", run: "pnpm run contract:verify", modes: ["push"] },
+        { name: "lint", run: "pnpm run lint", modes: ["push"] },
+        { name: "revalidate:warnings", run: "pnpm run revalidate:warnings", modes: ["push"] },
+        { name: "build:ci", run: "pnpm run build:ci", modes: ["push"] }
+      ]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   test("owns Python, Go, Rust, docs, workflow, and shell fixture files", () => {
     const dir = fixture("polyglot-auto");
     try {

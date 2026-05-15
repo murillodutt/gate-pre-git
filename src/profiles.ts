@@ -1,12 +1,17 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { extname, join } from "node:path";
+import { detectPackageManager, type PackageManager, packageManagerRunCommand, workflowCommandChecks } from "./ci";
 import { DEFAULT_CONFIG } from "./config";
 import type { CommandCheckConfig, GateConfig, GateProfile } from "./types";
 
 export function profileConfig(profile: GateProfile, target?: string): GateConfig {
   const resolvedProfiles = profile === "auto" ? detectProfiles(target) : [profile];
   const packageJson = target === undefined ? null : readPackageJson(target);
-  const nodeCommands = nodeCommandChecks(packageJson, target);
+  const packageManager = detectPackageManager(target);
+  const nodeCommands = uniqueCommands([
+    ...nodeCommandChecks(packageJson, target, packageManager),
+    ...workflowCommandChecks(target)
+  ]);
   const commands: Record<GateProfile, CommandCheckConfig[]> = {
     auto: [],
     strict: [],
@@ -18,7 +23,7 @@ export function profileConfig(profile: GateProfile, target?: string): GateConfig
         ? [
             {
               name: "build",
-              run: "bun run build",
+              run: packageManagerRunCommand(packageManager, "build"),
               modes: ["push" as const]
             }
           ]
@@ -131,24 +136,35 @@ function toolsForProfiles(profiles: readonly GateProfile[], target: string | und
 
 function uniqueCommands(commands: readonly CommandCheckConfig[]): CommandCheckConfig[] {
   const byName = new Map<string, CommandCheckConfig>();
-  for (const command of commands) byName.set(command.name, command);
+  for (const command of commands) {
+    const existing = byName.get(command.name);
+    if (existing === undefined) {
+      byName.set(command.name, command);
+      continue;
+    }
+    byName.set(command.name, {
+      ...existing,
+      modes: mergeModes(existing.modes, command.modes)
+    });
+  }
   return [...byName.values()];
 }
 
 function nodeCommandChecks(
   packageJson: null | { scripts?: unknown },
-  target: string | undefined
+  target: string | undefined,
+  packageManager: PackageManager
 ): CommandCheckConfig[] {
   const checks: CommandCheckConfig[] = [];
   if (hasPackageScript(packageJson, "typecheck")) {
     checks.push({
       name: "typecheck",
-      run: "bun run typecheck",
+      run: packageManagerRunCommand(packageManager, "typecheck"),
       modes: ["check", "push"]
     });
   }
 
-  const testCommand = nodeTestCommand(packageJson, target);
+  const testCommand = nodeTestCommand(packageJson, target, packageManager);
   if (testCommand !== null) {
     checks.push({
       name: "test",
@@ -160,11 +176,23 @@ function nodeCommandChecks(
   return checks;
 }
 
-function nodeTestCommand(packageJson: null | { scripts?: unknown }, target: string | undefined): string | null {
+function nodeTestCommand(
+  packageJson: null | { scripts?: unknown },
+  target: string | undefined,
+  packageManager: PackageManager
+): string | null {
   const scripts = packageJson?.scripts;
-  if (isRecord(scripts) && typeof scripts.test === "string") return "bun run test";
+  if (isRecord(scripts) && typeof scripts.test === "string") return packageManagerRunCommand(packageManager, "test");
   if (target !== undefined && hasBunTestFiles(target)) return "bun test";
   return null;
+}
+
+function mergeModes(
+  left: CommandCheckConfig["modes"],
+  right: CommandCheckConfig["modes"]
+): CommandCheckConfig["modes"] {
+  if (left === undefined || right === undefined) return undefined;
+  return [...new Set([...left, ...right])].sort();
 }
 
 function hasPackageScript(packageJson: null | { scripts?: unknown }, name: string): boolean {

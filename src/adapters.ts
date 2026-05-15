@@ -131,6 +131,7 @@ export function selectAdaptersForFiles(
 export function adapterMatchesFile(adapter: ToolAdapter, file: string): boolean {
   const normalized = normalizePath(file);
   if (normalized.startsWith(".gate-pre-git/") && adapter.name !== "gitleaks") return false;
+  if (adapter.name === "markdownlint" && isVendoredSkillMarkdown(normalized)) return false;
   if (adapter.matchesAllFiles === true) return true;
   if (adapter.pathIncludes !== undefined && !adapter.pathIncludes.some((part) => normalized.includes(part))) {
     return false;
@@ -183,6 +184,16 @@ function commandFiles(adapter: ToolAdapter, files: readonly string[]): string[] 
 
 function normalizePath(path: string): string {
   return path.replaceAll("\\", "/").replace(/\/{2,}/g, "/");
+}
+
+function isVendoredSkillMarkdown(path: string): boolean {
+  if (!path.endsWith(".md")) return false;
+  return (
+    path.startsWith(".agents/") ||
+    path.startsWith(".claude/skills/") ||
+    path.startsWith("plugins/tilly-engineer-skills/skills/") ||
+    path.startsWith("skills/")
+  );
 }
 
 function formatShellCommand(command: string, args: readonly string[]): string {

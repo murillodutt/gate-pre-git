@@ -116,6 +116,20 @@
       "requiredEvidence": ["text_hygiene", "gitleaks"]
     },
     {
+      "name": "vendored_skills",
+      "description": "Vendored agent skill documentation imported from external bundles.",
+      "owners": ["platform"],
+      "risk": "medium",
+      "paths": [
+        "**/skills/**/*.md",
+        ".agents/**/*.md",
+        ".claude/skills/**/*.md",
+        "plugins/tilly-engineer-skills/skills/**/*.md",
+        "skills/**/*.md"
+      ],
+      "requiredEvidence": ["text_hygiene", "gitleaks"]
+    },
+    {
       "name": "tes_runtime_capabilities",
       "description": "TES agent runtime bootloaders, helper capabilities, MCP config, and local context-mesh evidence.",
       "owners": ["platform"],

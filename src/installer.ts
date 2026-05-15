@@ -334,6 +334,20 @@ export function defaultGovernanceMap(): Record<string, unknown> {
         requiredEvidence: ["text_hygiene", "gitleaks"]
       },
       {
+        name: "vendored_skills",
+        description: "Vendored agent skill documentation imported from external bundles.",
+        owners: ["platform"],
+        risk: "medium",
+        paths: [
+          "**/skills/**/*.md",
+          ".agents/**/*.md",
+          ".claude/skills/**/*.md",
+          "plugins/tilly-engineer-skills/skills/**/*.md",
+          "skills/**/*.md"
+        ],
+        requiredEvidence: ["text_hygiene", "gitleaks"]
+      },
+      {
         name: "github_workflow",
         description: "GitHub audit workflow that verifies the local gate contract remotely.",
         owners: ["platform"],

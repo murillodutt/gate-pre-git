@@ -2,6 +2,7 @@
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { toAuditJson, toSarif } from "./audit";
+import { buildCommandParityReport, type CommandParityReport } from "./ci";
 import { runDoctor } from "./doctor";
 import { runGate } from "./gate";
 import { initProject, installHook } from "./installer";
@@ -20,7 +21,7 @@ import {
 import { applyVersionBump, auditVersion, planVersionChange, type VersionReport } from "./versioning";
 
 type ParsedArgs = GateOptions & {
-  command: GateMode | "init" | "install-hook" | "help" | "version" | "release";
+  command: GateMode | "init" | "install-hook" | "help" | "version" | "release" | "sync-ci";
   versionAction?: "plan" | "bump" | "audit";
   versionBump?: string;
   releaseAction?: "plan" | "write" | "audit";
@@ -74,6 +75,11 @@ try {
     console.log(`lock=.gate-pre-git/lock.json`);
     console.log(`tools=${Object.keys(lock.tools).sort().join(",")}`);
     process.exit(0);
+  }
+  if (args.command === "sync-ci") {
+    const report = buildCommandParityReport(args.target);
+    printCommandParityReport(report, args.format);
+    process.exit(report.ok ? 0 : 1);
   }
   if (args.command === "init") {
     const result = initProject({
@@ -134,6 +140,7 @@ try {
 }
 
 function parseArgs(argv: string[]): ParsedArgs {
+  if (argv[0] === "--help" || argv[0] === "-h") argv = ["help", ...argv.slice(1)];
   const command = parseCommand(argv[0]);
   const versionAction = command === "version" ? parseVersionAction(argv[1]) : undefined;
   const versionBump = command === "version" ? parseVersionBump(argv, versionAction) : undefined;
@@ -180,6 +187,7 @@ function parseCommand(value: string | undefined): ParsedArgs["command"] {
       "advice",
       "doctor",
       "update-tools",
+      "sync-ci",
       "init",
       "install-hook",
       "help",
@@ -336,6 +344,26 @@ function printReleaseReport(report: ReleaseReport, format: "text" | "json" | "sa
   console.log(`duration_ms=${report.durationMs}`);
 }
 
+function printCommandParityReport(report: CommandParityReport, format: "text" | "json" | "sarif"): void {
+  if (format === "sarif") throw new Error("sync-ci reports do not support SARIF");
+  if (format === "json") {
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+
+  console.log(`gate_pre_git=${report.ok ? "passed" : "failed"}`);
+  console.log(`mode=sync-ci`);
+  console.log(`target=${resolve(report.target)}`);
+  console.log(`package_manager=${report.packageManager}`);
+  console.log(`workflow_scripts=${report.workflowScripts.join(",") || "none"}`);
+  console.log(`configured_push_scripts=${report.configuredPushScripts.join(",") || "none"}`);
+  console.log(`missing=${report.missing.join(",") || "none"}`);
+  console.log(`extra=${report.extra.join(",") || "none"}`);
+  for (const command of report.suggestedCommandChecks) {
+    console.log(`suggested.${command.name}=${command.run}:modes=${command.modes?.join(",") ?? "all"}`);
+  }
+}
+
 function printHelp(): void {
   console.log(`gate-pre-git
 
@@ -348,6 +376,7 @@ Usage:
   gate-pre-git advice [--target DIR] [--json]
   gate-pre-git doctor [--target DIR] [--json]
   gate-pre-git update-tools [--target DIR]
+  gate-pre-git sync-ci [--target DIR] [--json]
   gate-pre-git version [plan|bump|audit] [patch|minor|major|x.y.z[-tag]] [--target DIR]
   gate-pre-git release [plan|write|audit] [--target DIR] [--from REF] [--to REF]
   gate-pre-git init [--target DIR] [--profile auto|strict|node|nuxt|docs|python|go|rust|security] [--hook native|husky] [--yes]
@@ -362,6 +391,7 @@ Commands:
   advice        Print non-blocking risk signals for the current change set.
   doctor        Fail unless config, hooks, lockfile, package scripts, tools, and smoke checks are wired.
   update-tools  Rewrite the explicit tool lock and local shims.
+  sync-ci       Compare package scripts invoked by GitHub workflows with push commandChecks.
   version       Plan, apply, or audit synchronized project version targets.
   release       Plan, write, or audit changelog and release-note artifacts.
   init          Apply the vendored recipe. Dry-run by default; write with --yes.

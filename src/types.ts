@@ -34,6 +34,7 @@ export type GateLock = {
 export type GatePolicy = {
   strict: boolean;
   autoStageFixes: boolean;
+  requireCommandParityWithCI?: boolean;
 };
 
 export type GateConfig = {

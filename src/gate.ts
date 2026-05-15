@@ -10,6 +10,7 @@ import {
   checkTextHygiene,
   checkYamlSyntax
 } from "./checks";
+import { checkCommandParityWithCI } from "./ci";
 import { loadConfig } from "./config";
 import { checkEvidencePolicy, collectEvidenceRecords } from "./evidence";
 import { runTransactionalFixes } from "./fixes";
@@ -89,6 +90,7 @@ export function runGate(options: GateOptions): GateReport {
     checkMarkdownStructure(target, fileSnapshots, config),
     governance.check,
     checkImpactPlan(impact),
+    ...(options.mode === "push" ? [checkCommandParityWithCI(target, config)] : []),
     ...(shouldCheckGitHubAuditWorkflow(files) ? [checkGitHubAuditWorkflow(target)] : []),
     checkAdapterPlan(target, files, config.tools),
     ...(options.runCommands ? runAdapterChecks(target, files, { enabledTools: config.tools }) : []),

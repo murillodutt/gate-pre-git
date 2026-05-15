@@ -2,6 +2,8 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
+import { checkCommandParityWithCI } from "./ci";
+import { loadConfig } from "./config";
 import { runGate } from "./gate";
 import { defaultGovernanceMap } from "./installer";
 import { defaultLock, inspectTools, lockPath, readLock } from "./tools";
@@ -13,6 +15,7 @@ import { checkGitHubAuditWorkflow } from "./workflow";
 export function runDoctor(target: string, commandProbe = "gate-pre-git"): GateReport {
   const started = Date.now();
   const toolReports = inspectTools(target);
+  const config = loadConfig(target);
   const checks: GateCheck[] = [
     structuralCheck("vendored_config", target, ".gate-pre-git/config.json"),
     governanceMapCheck(target),
@@ -23,6 +26,7 @@ export function runDoctor(target: string, commandProbe = "gate-pre-git"): GateRe
     launcherPortabilityCheck(target),
     launcherExecutionCheck(target),
     checkGitHubAuditWorkflow(target),
+    checkCommandParityWithCI(target, config),
     hookCheck(target, "pre-commit"),
     hookCheck(target, "pre-push"),
     packageScriptCheck(target),

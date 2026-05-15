@@ -266,10 +266,14 @@ bun src/cli.ts update-tools --target /path/to/repo
 - runs configured project commands
 - emits JSON/SARIF audit output
 
-Auto profiles do not invent Node/Nuxt command checks. They register `typecheck`
-only when `package.json#scripts.typecheck` exists, `test` when
-`package.json#scripts.test` or Bun-discoverable test files exist, and `build`
-only when a Nuxt target exposes `package.json#scripts.build`.
+Auto profiles do not invent Node/Nuxt command checks. They detect the package
+manager from the lockfile, register `typecheck` only when
+`package.json#scripts.typecheck` exists, `test` when `package.json#scripts.test`
+or Bun-discoverable test files exist, and `build` only when a Nuxt target
+exposes `package.json#scripts.build`. During `init`, GitHub workflow `run:`
+steps that call package scripts are mirrored into push `commandChecks`. Run
+`gate-pre-git sync-ci --target .` to compare the current workflow scripts with
+the configured push checks.
 
 ## Config
 
@@ -281,6 +285,9 @@ Example:
 
 ```json
 {
+  "policy": {
+    "requireCommandParityWithCI": true
+  },
   "commandChecks": [
     {
       "name": "typecheck",
@@ -316,6 +323,10 @@ carry governance, evidence, and impact data so local checks and GitHub audit
 share the same semantic proof. See [docs/governance-runtime.md](docs/governance-runtime.md)
 for the default zones, evidence policy, GitHub audit role, and acceptance
 examples.
+
+Vendored skill Markdown is governed as imported runtime material by default:
+it still receives text hygiene and secret scanning, but it is not sent through
+`markdownlint` as project-owned documentation.
 
 ## Minimum Efficient Rollout
 

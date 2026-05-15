@@ -43,7 +43,8 @@ export const DEFAULT_CONFIG: GateConfig = {
   },
   policy: {
     strict: true,
-    autoStageFixes: true
+    autoStageFixes: true,
+    requireCommandParityWithCI: false
   },
   profiles: ["auto"],
   tools: [],
