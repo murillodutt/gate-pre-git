@@ -11,7 +11,7 @@
       "**",
       "!.tes/bin/cortex_embed.mjs",
       "!.tes/postinstall.json",
-      "!.tes/postinstall-runs/**",
+      "!.tes/postinstall-runs",
       "!.tes/manifest.json",
       "!.tes/tes-install-lock.json"
     ]
