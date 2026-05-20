@@ -12,13 +12,15 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.3.101"
+VERSION = "0.3.115"
 
 PREFERRED_TRIGGERS = (
     "/tes-init",
     "/tes-setup",
     "/tes-update",
     "/tes-align",
+    "/tes-map",
+    "/tes-goal-maestro",
     "/tes-prospect",
     "/tes-mine",
     "/tes-open-obsidian",
@@ -35,6 +37,8 @@ COMPATIBLE_ALIASES = (
     "/tes:init",
     "/tes:update",
     "/tes:align",
+    "/tes:gps",
+    "/tes:goal-maestro",
     "/tes:prospect",
     "/tes:mine",
     "/tes:open-obsidian",
@@ -57,15 +61,23 @@ NATURAL_INTENTS = (
     "tes setup",
     "tes update",
     "tes align",
+    "tes map",
+    "generate a maestral /goal prompt",
+    "gerar um /goal maestral",
+    "project GPS",
+    "mapa TES",
     "tes open obsidian",
     "align TES",
     "align this project",
+    "map this project",
     "open Obsidian",
     "open this project in Obsidian",
     "Atualizar TES",
     "atualizar TES",
     "alinhar TES",
     "alinhar projeto",
+    "mapear TES",
+    "mapear projeto",
     "abrir Obsidian",
     "abrir no Obsidian",
     "initialize TES",
@@ -102,6 +114,33 @@ REPORT_GOVERNANCE_TERMS = (
     "NEEDS_REVIEW",
 )
 
+TARGET_SOURCE_GATE_TERMS = {
+    "doctor": (
+        "installed-target",
+        "package-source",
+        "Read `package.json`",
+        "python3 .tes/bin/tes_install.py status --target .",
+        "python3 .tes/bin/project_context_oracle.py --target .",
+        "python3 .tes/bin/project_alignment_oracle.py --target .",
+        "python3 .tes/bin/mantra_gate_adoption_oracle.py --target .",
+        "BYPASS_SUSPECTED",
+        "gate:doctor",
+        "gate:staged",
+        "gate:push",
+        "Do not certify unavailable commands",
+    ),
+    "bench": (
+        "package-source evidence",
+        "current workspace exposes",
+        "benchmark:plan",
+        "benchmark:run",
+        "benchmark:converge",
+        "NEEDS_SOURCE",
+        "Do not invent benchmark scripts",
+        "Do not certify installed-target health",
+    ),
+}
+
 DOC_SOURCE_GROUPS = {
     "command_triggers_doc": ("docs/install/COMMAND-TRIGGERS.md",),
     "platform_differences_doc": ("docs/adapters/PLATFORM-DIFFERENCES.md",),
@@ -112,7 +151,10 @@ PLATFORM_SOURCE_GROUPS = {
         "src/adapters/codex/AGENTS.md",
         "src/adapters/codex/skills/tes-init/SKILL.md",
         "src/adapters/codex/skills/tes-setup/SKILL.md",
+        "src/adapters/codex/skills/tes-update/SKILL.md",
         "src/adapters/codex/skills/tes-align/SKILL.md",
+        "src/adapters/codex/skills/tes-map/SKILL.md",
+        "src/adapters/codex/skills/tes-goal-maestro/SKILL.md",
         "src/adapters/codex/skills/tes-prospect/SKILL.md",
         "src/adapters/codex/skills/tes-mine/SKILL.md",
         "src/adapters/codex/skills/tes-open-obsidian/SKILL.md",
@@ -127,7 +169,10 @@ PLATFORM_SOURCE_GROUPS = {
         "src/adapters/claude/CLAUDE.md",
         "src/adapters/claude/skills/tes-init/SKILL.md",
         "src/adapters/claude/skills/tes-setup/SKILL.md",
+        "src/adapters/claude/skills/tes-update/SKILL.md",
         "src/adapters/claude/skills/tes-align/SKILL.md",
+        "src/adapters/claude/skills/tes-map/SKILL.md",
+        "src/adapters/claude/skills/tes-goal-maestro/SKILL.md",
         "src/adapters/claude/skills/tes-prospect/SKILL.md",
         "src/adapters/claude/skills/tes-mine/SKILL.md",
         "src/adapters/claude/skills/tes-open-obsidian/SKILL.md",
@@ -163,12 +208,30 @@ REPORT_GOVERNANCE_SOURCE_PATHS = (
     "docs/install/MINI-PROMPT.md",
 )
 
+TARGET_SOURCE_GATE_SOURCE_PATHS = {
+    "doctor": (
+        "src/adapters/codex/skills/tes-doctor/SKILL.md",
+        "src/adapters/claude/skills/tes-doctor/SKILL.md",
+    ),
+    "bench": (
+        "src/adapters/codex/skills/tes-bench/SKILL.md",
+        "src/adapters/claude/skills/tes-bench/SKILL.md",
+    ),
+    "docs": (
+        "docs/install/AGENT-MANUAL.md",
+        "docs/install/COMMAND-TRIGGERS.md",
+    ),
+}
+
 
 CLAUDE_PROJECT_SKILLS = (
     "tes-guidelines",
     "tes-init",
     "tes-setup",
+    "tes-update",
     "tes-align",
+    "tes-map",
+    "tes-goal-maestro",
     "tes-prospect",
     "tes-mine",
     "tes-open-obsidian",
@@ -183,7 +246,10 @@ CODEX_PROJECT_SKILLS = (
     "tes-engineering-discipline",
     "tes-init",
     "tes-setup",
+    "tes-update",
     "tes-align",
+    "tes-map",
+    "tes-goal-maestro",
     "tes-prospect",
     "tes-mine",
     "tes-open-obsidian",
@@ -198,23 +264,65 @@ CODEX_PROJECT_SKILLS = (
 VISIBLE_SKILL_ROUTES = {
     "codex": {
         "tes-prospect": ("/tes-prospect", "/tes:prospect", "cognitive brake"),
+        "tes-goal-maestro": (
+            "/tes-goal-maestro",
+            "/tes:goal-maestro",
+            "NEEDS_SPEC_MATURITY",
+            "DRAFT_MATERIALIZATION_TREE",
+            "READY_GOAL_PROMPT",
+        ),
         "tes-mine": ("/tes-mine", "/tes:mine", "cognitive brake"),
+        "tes-map": (
+            "/tes-map",
+            "/tes:gps",
+            "tes_map.py",
+            "map this project",
+            "mapear TES",
+            "mapear projeto",
+        ),
+        "tes-update": (
+            "/tes-update",
+            "/tes:update",
+            "tes_update.py",
+            "No project work started",
+            "recommended_update_scope",
+        ),
         "tes-field-reports": ("/tes-field-reports", "/tes:field-reports", "field_reports.py"),
     },
     "claude": {
         "tes-prospect": ("/tes-prospect", "/tes:prospect", "cognitive brake"),
+        "tes-goal-maestro": (
+            "/tes-goal-maestro",
+            "/tes:goal-maestro",
+            "NEEDS_SPEC_MATURITY",
+            "DRAFT_MATERIALIZATION_TREE",
+            "READY_GOAL_PROMPT",
+        ),
         "tes-mine": ("/tes-mine", "/tes:mine", "cognitive brake"),
+        "tes-map": (
+            "/tes-map",
+            "/tes:gps",
+            "tes_map.py",
+            "map this project",
+            "mapear TES",
+            "mapear projeto",
+        ),
+        "tes-update": (
+            "/tes-update",
+            "/tes:update",
+            "tes_update.py",
+            "No project work started",
+            "recommended_update_scope",
+        ),
         "tes-field-reports": ("/tes-field-reports", "/tes:field-reports", "field_reports.py"),
     },
 }
 
 GROUPED_INTENT_ROUTES = {
     "codex": {
-        "tes-init": ("/tes-update", "/tes:update"),
         "tes-cortex": ("/tes-curate", "/tes:curate"),
     },
     "claude": {
-        "tes-init": ("/tes-update", "/tes:update"),
         "tes-cortex": ("/tes-curate", "/tes:curate"),
     },
 }
@@ -297,6 +405,49 @@ def check_report_governance(root: Path) -> tuple[list[dict[str, Any]], list[str]
     return checked, failures
 
 
+def check_target_source_gate_contract(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    checked: list[dict[str, Any]] = []
+    failures: list[str] = []
+
+    for group in ("doctor", "bench"):
+        terms = TARGET_SOURCE_GATE_TERMS[group]
+        for relpath in TARGET_SOURCE_GATE_SOURCE_PATHS[group]:
+            path = root / relpath
+            if not path.exists():
+                failures.append(f"missing target/source gate source: {relpath}")
+                checked.append({"group": group, "path": relpath, "status": "MISSING"})
+                continue
+            text = normalized(path.read_text(encoding="utf-8"))
+            missing = [term for term in terms if term not in text]
+            failures.extend(f"{relpath} missing target/source gate term: {term}" for term in missing)
+            checked.append({"group": group, "path": relpath, "status": "PASS" if not missing else "FAIL"})
+
+    docs_expectations = {
+        "docs/install/AGENT-MANUAL.md": (
+            "package-source conveniences",
+            "not target-project guarantees",
+            "Do not certify an",
+            "unless that command exists",
+        ),
+        "docs/install/COMMAND-TRIGGERS.md": (
+            "package-source alias",
+            "not a target-project guarantee",
+        ),
+    }
+    for relpath in TARGET_SOURCE_GATE_SOURCE_PATHS["docs"]:
+        path = root / relpath
+        if not path.exists():
+            failures.append(f"missing target/source gate doc: {relpath}")
+            checked.append({"group": "docs", "path": relpath, "status": "MISSING"})
+            continue
+        text = normalized(path.read_text(encoding="utf-8"))
+        missing = [term for term in docs_expectations[relpath] if term not in text]
+        failures.extend(f"{relpath} missing target/source gate doc term: {term}" for term in missing)
+        checked.append({"group": "docs", "path": relpath, "status": "PASS" if not missing else "FAIL"})
+
+    return checked, failures
+
+
 def check_skill_route_contracts(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
     checked: list[dict[str, Any]] = []
     failures: list[str] = []
@@ -340,7 +491,6 @@ def installed_platform_paths(root: Path, platform: str) -> tuple[str, ...]:
         return (
             "CLAUDE.md",
             *(f".claude/skills/{skill}/SKILL.md" for skill in CLAUDE_PROJECT_SKILLS),
-            *(f"skills/{skill}/SKILL.md" for skill in CLAUDE_PROJECT_SKILLS),
         )
     if platform == "cursor":
         cursor_rules = tuple(
@@ -359,8 +509,6 @@ def installed_platform_detected(root: Path, platform: str) -> bool:
         return (
             (root / "CLAUDE.md").exists()
             or (root / ".claude/skills").exists()
-            or (root / "skills").exists()
-            or (root / ".claude-plugin/plugin.json").exists()
         )
     if platform == "cursor":
         return (root / "CURSOR.md").exists() or (root / ".cursor/rules").exists()
@@ -374,6 +522,8 @@ def required_installed_files(platform: str) -> tuple[str, ...]:
             ".agents/skills/tes-engineering-discipline/SKILL.md",
             ".agents/skills/tes-init/SKILL.md",
             ".agents/skills/tes-setup/SKILL.md",
+            ".agents/skills/tes-update/SKILL.md",
+            ".agents/skills/tes-goal-maestro/SKILL.md",
             ".agents/skills/tes-prospect/SKILL.md",
             ".agents/skills/tes-mine/SKILL.md",
             ".agents/skills/tes-field-reports/SKILL.md",
@@ -384,6 +534,8 @@ def required_installed_files(platform: str) -> tuple[str, ...]:
             ".claude/skills/tes-guidelines/SKILL.md",
             ".claude/skills/tes-init/SKILL.md",
             ".claude/skills/tes-setup/SKILL.md",
+            ".claude/skills/tes-update/SKILL.md",
+            ".claude/skills/tes-goal-maestro/SKILL.md",
             ".claude/skills/tes-prospect/SKILL.md",
             ".claude/skills/tes-mine/SKILL.md",
             ".claude/skills/tes-field-reports/SKILL.md",
@@ -481,6 +633,16 @@ def analyze(root: Path = ROOT) -> dict[str, Any]:
         }
     )
 
+    target_source_checked, target_source_failures = check_target_source_gate_contract(root)
+    failures.extend(target_source_failures)
+    checked.append(
+        {
+            "group": "target_source_gate_contracts",
+            "status": "PASS" if not target_source_failures else "FAIL",
+            "files": target_source_checked,
+        }
+    )
+
     skill_route_checked, skill_route_failures = check_skill_route_contracts(root)
     failures.extend(skill_route_failures)
     checked.append(
@@ -503,6 +665,8 @@ def analyze(root: Path = ROOT) -> dict[str, Any]:
 
 
 def run_fixture_tests() -> list[str]:
+    import tempfile
+
     failures: list[str] = []
     good_text = "\n".join(
         [
@@ -527,13 +691,29 @@ def run_fixture_tests() -> list[str]:
     if not any("recertificar TES" in item for item in check_text("fixture_bad_natural", bad_natural)):
         failures.append("bad natural fixture must fail when a natural intent is absent")
 
-    import tempfile
+    with tempfile.TemporaryDirectory(prefix="tes-trigger-oracle-target-source-") as tempdir:
+        target = Path(tempdir)
+        for paths in TARGET_SOURCE_GATE_SOURCE_PATHS.values():
+            for relpath in paths:
+                (target / relpath).parent.mkdir(parents=True, exist_ok=True)
+                (target / relpath).write_text("", encoding="utf-8")
+        checked, gate_failures = check_target_source_gate_contract(target)
+        if not gate_failures or not any("tes-doctor" in item for item in gate_failures):
+            failures.append("empty target/source gate fixture must fail doctor contract")
+        if not any("tes-bench" in item for item in gate_failures):
+            failures.append("empty target/source gate fixture must fail bench contract")
+        if not any("AGENT-MANUAL" in item for item in gate_failures):
+            failures.append("empty target/source gate fixture must fail docs contract")
+        if not checked:
+            failures.append("target/source gate fixture must report checked files")
 
     with tempfile.TemporaryDirectory(prefix="tes-trigger-oracle-good-") as tempdir:
         target = Path(tempdir)
         (target / ".claude/skills/tes-guidelines").mkdir(parents=True)
         (target / ".claude/skills/tes-init").mkdir(parents=True)
         (target / ".claude/skills/tes-setup").mkdir(parents=True)
+        (target / ".claude/skills/tes-update").mkdir(parents=True)
+        (target / ".claude/skills/tes-goal-maestro").mkdir(parents=True)
         (target / ".claude/skills/tes-prospect").mkdir(parents=True)
         (target / ".claude/skills/tes-mine").mkdir(parents=True)
         (target / ".claude/skills/tes-field-reports").mkdir(parents=True)
@@ -541,6 +721,8 @@ def run_fixture_tests() -> list[str]:
         (target / ".claude/skills/tes-guidelines/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-init/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-setup/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-update/SKILL.md").write_text(good_text, encoding="utf-8")
+        (target / ".claude/skills/tes-goal-maestro/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-prospect/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-mine/SKILL.md").write_text(good_text, encoding="utf-8")
         (target / ".claude/skills/tes-field-reports/SKILL.md").write_text(good_text, encoding="utf-8")
@@ -567,6 +749,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--target", type=Path, help="validate installed trigger surfaces in a target project")
+    parser.add_argument("--json-only", action="store_true", help="emit only the JSON result without the status trailer")
     args = parser.parse_args()
 
     installed_target = installed_helper_target()
@@ -585,7 +768,8 @@ def main() -> int:
         result["failures"] = [*result["failures"], *fixture_failures]
 
     print(json.dumps(result, indent=2, sort_keys=True))
-    print("[command-triggers] " + result["status"])
+    if not args.json_only:
+        print("[command-triggers] " + result["status"])
     return 0 if result["status"] == "PASS" else 1
 
 

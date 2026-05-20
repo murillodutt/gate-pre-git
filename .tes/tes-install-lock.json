@@ -3,42 +3,105 @@
   "agents": ["codex", "claude", "cursor"],
   "apply": {
     "backup_id": null,
+    "failures": [
+      ".claude-plugin/marketplace.json: manifest-sha256-mismatch",
+      ".claude-plugin/plugin.json: manifest-sha256-mismatch",
+      "plugins/tilly-engineer-skills/.codex-plugin/plugin.json: manifest-sha256-mismatch",
+      "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/agents/openai.yaml: manifest-sha256-mismatch",
+      "skills: skills/.DS_Store=ambiguous-root-skill"
+    ],
     "installed_manifest": ".tes/manifest.json",
     "mode": "preserve",
-    "status": "APPLIED",
-    "version": "0.3.101"
+    "obsolete_cleanup": {
+      "review_backup": {
+        "backup_dir": ".tes/bk/obsolete-runtime-20260520T152142Z",
+        "backup_id": "obsolete-runtime-20260520T152142Z",
+        "entries": [
+          {
+            "backup_path": "files/skills/.DS_Store",
+            "layer": "runtime_capability",
+            "owner_guess": "project-owned",
+            "path": "skills/.DS_Store",
+            "reason": "obsolete-runtime-needs-review",
+            "restore_policy": "copy-back",
+            "sha256": "0a0ccc8716848d6a63319ec0bfd2d76b21549cf4a6d1fc69400263279407a98d"
+          }
+        ],
+        "entry_count": 1,
+        "evidence_report": "docs/agents/evidence/obsolete-runtime-20260520T152142Z-obsolete-runtime-review.md",
+        "local_exclude": {
+          "action": "already-ignored",
+          "path": ".git/info/exclude",
+          "pattern": ".tes/bk/",
+          "status": "PASS"
+        },
+        "manifest": ".tes/bk/obsolete-runtime-20260520T152142Z/manifest.json",
+        "schema": "tes-clean-backup@1",
+        "status": "BACKED_UP",
+        "version": "0.3.115"
+      },
+      "review_items": [
+        {
+          "action": "preserve-obsolete-runtime-needs-review",
+          "path": ".claude-plugin/marketplace.json",
+          "reason": "manifest-sha256-mismatch"
+        },
+        {
+          "action": "preserve-obsolete-runtime-needs-review",
+          "path": ".claude-plugin/plugin.json",
+          "reason": "manifest-sha256-mismatch"
+        },
+        {
+          "action": "preserve-obsolete-runtime-needs-review",
+          "path": "plugins/tilly-engineer-skills/.codex-plugin/plugin.json",
+          "reason": "manifest-sha256-mismatch"
+        },
+        {
+          "action": "preserve-obsolete-runtime-needs-review",
+          "path": "plugins/tilly-engineer-skills/skills/tes-engineering-discipline/agents/openai.yaml",
+          "reason": "manifest-sha256-mismatch"
+        },
+        {
+          "action": "preserve-obsolete-runtime-needs-review",
+          "path": "skills",
+          "reason": "skills/.DS_Store=ambiguous-root-skill"
+        }
+      ],
+      "status": "NEEDS_REVIEW"
+    },
+    "status": "NEEDS_REVIEW",
+    "version": "0.3.115"
   },
   "hooks": [
     {
-      "action": "update",
+      "action": "skip-identical",
       "agent": "codex",
-      "backup": ".codex/config.toml.bak-20260514T221540Z",
       "path": ".codex/config.toml"
     },
     {
-      "action": "create",
+      "action": "skip-identical",
       "agent": "claude",
       "path": ".claude/settings.json"
     },
     {
-      "action": "create",
+      "action": "skip-identical",
       "agent": "cursor",
       "path": ".cursor/hooks.json"
     }
   ],
-  "installed_at": "2026-05-14T22:15:40Z",
+  "installed_at": "2026-05-20T15:21:42Z",
   "mode": "preserve",
   "schema": "tes-install-lock@1",
-  "source_commit": "f6792b080b8b6228039d28fda3190a9e02e56636",
+  "source_commit": "2cd3b568c38293492a07482b46d49b9159ab6cc6",
   "source_repository": "https://github.com/murillodutt/tilly-engineer-skills.git",
   "stage": {
-    "entries": 136,
-    "manifest": ".tes/setup/0.3.101/tes-bundle-manifest.json",
+    "entries": 92,
+    "manifest": ".tes/setup/0.3.115/tes-bundle-manifest.json",
     "source": "local-public-bundle",
-    "stage_dir": ".tes/setup/0.3.101",
+    "stage_dir": ".tes/setup/0.3.115",
     "status": "STAGED",
-    "version": "0.3.101"
+    "version": "0.3.115"
   },
   "target": "/Users/murillo/Dev/gate-pre-git",
-  "version": "0.3.101"
+  "version": "0.3.115"
 }

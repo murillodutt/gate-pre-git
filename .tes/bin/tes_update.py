@@ -21,7 +21,7 @@ except Exception:  # pragma: no cover - installed helper may be inspected alone.
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.3.101"
+VERSION = "0.3.115"
 REPO_URL = "https://github.com/murillodutt/tilly-engineer-skills"
 REMOTE_PACKAGE_JSON = (
     "https://raw.githubusercontent.com/murillodutt/tilly-engineer-skills/main/package.json"
@@ -34,6 +34,8 @@ HELPER_FILES = (
     "cortex_mcp.py",
     "cortex_embed.mjs",
     "field_reports.py",
+    "mantra_gate.py",
+    "mantra_gate_adoption_oracle.py",
     "tes_install.py",
     "tes_update.py",
     "tes_legacy_retirement.py",
@@ -41,6 +43,8 @@ HELPER_FILES = (
     "tes_init.py",
     "project_context_oracle.py",
     "project_alignment_oracle.py",
+    "tes_map.py",
+    "tes_map_oracle.py",
     "tes_open_obsidian.py",
     "command_trigger_oracle.py",
     "tes_bundle.py",
@@ -48,6 +52,7 @@ HELPER_FILES = (
 )
 HELPER_CONTRACT_MARKERS = {
     "field_reports.py": ('SCHEMA = "tes-field-report@2"',),
+    "mantra_gate_adoption_oracle.py": ('SCHEMA = "tes-mantra-gate-adoption@1"',),
 }
 UPDATE_SCOPES = ("none", "helpers-only", "adapter-config", "project-context", "full-convergence")
 PREFERRED_INTENT_TRIGGERS = (
@@ -113,6 +118,7 @@ TRIGGER_TERMS = (*PREFERRED_INTENT_TRIGGERS, *COMPATIBLE_INTENT_ALIASES)
 CODEX_TRIGGER_SKILLS = (
     "tes-engineering-discipline",
     "tes-init",
+    "tes-update",
     "tes-align",
     "tes-open-obsidian",
     "tes-cortex",
@@ -124,6 +130,7 @@ CODEX_TRIGGER_SKILLS = (
 CLAUDE_TRIGGER_SKILLS = (
     "tes-guidelines",
     "tes-init",
+    "tes-update",
     "tes-align",
     "tes-open-obsidian",
     "tes-cortex",
@@ -224,7 +231,6 @@ def version_records(target: Path) -> list[dict[str, str]]:
         ".tilly/bin/cortex_mcp.py",
         ".tilly/bin/cortex.py",
         ".tilly/bin/field_reports.py",
-        ".claude-plugin/plugin.json",
         "docs/agents/PROJECT-REGISTER.md",
         "README.md",
     ]
@@ -256,9 +262,7 @@ def surfaces(target: Path) -> dict[str, bool]:
         "codex": (target / "AGENTS.md").exists()
         or (target / ".agents/skills/tes-engineering-discipline/SKILL.md").exists(),
         "claude": (target / "CLAUDE.md").exists()
-        or (target / ".claude-plugin/plugin.json").exists()
-        or (target / ".claude/skills/tes-guidelines/SKILL.md").exists()
-        or (target / "skills/tes-guidelines/SKILL.md").exists(),
+        or (target / ".claude/skills/tes-guidelines/SKILL.md").exists(),
         "cursor": (target / ".cursor/rules").exists() or (target / "CURSOR.md").exists(),
         "mcp_codex": (target / ".codex/config.toml").exists(),
         "mcp_claude": (target / ".mcp.json").exists(),
@@ -288,10 +292,7 @@ def runtime_trigger_paths(target: Path, runtime: str) -> tuple[str, ...]:
     if runtime == "claude":
         return (
             "CLAUDE.md",
-            ".claude-plugin/plugin.json",
-            ".claude-plugin/marketplace.json",
             *(f".claude/skills/{skill}/SKILL.md" for skill in CLAUDE_TRIGGER_SKILLS),
-            *(f"skills/{skill}/SKILL.md" for skill in CLAUDE_TRIGGER_SKILLS),
         )
     if runtime == "cursor":
         cursor_rules = tuple(
@@ -310,6 +311,7 @@ def missing_runtime_files(target: Path, runtime: str) -> list[str]:
             for relpath in (
                 "AGENTS.md",
                 ".agents/skills/tes-init/SKILL.md",
+                ".agents/skills/tes-update/SKILL.md",
                 ".agents/skills/tes-engineering-discipline/SKILL.md",
             )
             if not (target / relpath).exists()
@@ -321,6 +323,7 @@ def missing_runtime_files(target: Path, runtime: str) -> list[str]:
                 "CLAUDE.md",
                 ".claude/skills/tes-guidelines/SKILL.md",
                 ".claude/skills/tes-init/SKILL.md",
+                ".claude/skills/tes-update/SKILL.md",
             )
             if not (target / relpath).exists()
         ]
@@ -989,10 +992,6 @@ def continuation_plan(
             "writes": [
                 ".agents/skills/**",
                 ".claude/skills/**",
-                "skills/**",
-                ".claude-plugin/**",
-                "plugins/tilly-engineer-skills/**",
-                ".agents/plugins/**",
             ] if adapter_required else [],
             "commands": [
                 f"python3 <tes-package>/scripts/tes_bundle.py apply --target {target} --adapter {route} --mode clean-runtime --yes",
@@ -1547,10 +1546,12 @@ def self_test() -> dict[str, Any]:
         write(target / "docs/agents/cortex/CONTRACT.md", "# Contract\n")
         write(target / "AGENTS.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-init/SKILL.md", trigger_fixture_text())
+        write(target / ".agents/skills/tes-update/SKILL.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-engineering-discipline/SKILL.md", trigger_fixture_text())
         write(target / "CLAUDE.md", trigger_fixture_text(claude=True))
         write(target / ".claude/skills/tes-guidelines/SKILL.md", trigger_fixture_text(claude=True))
         write(target / ".claude/skills/tes-init/SKILL.md", trigger_fixture_text(claude=True))
+        write(target / ".claude/skills/tes-update/SKILL.md", trigger_fixture_text(claude=True))
         write(target / ".cursor/rules/tes-guidelines.mdc", trigger_fixture_text())
         write(target / ".tes/bin/cortex_mcp.py", 'VERSION = "0.3.24"\n')
         write(target / ".agents/skills/tilly-init/SKILL.md", "name: tilly-init\n")
@@ -1584,6 +1585,7 @@ def self_test() -> dict[str, Any]:
         write(target / "docs/agents/PROJECT-REGISTER.md", "Generated by Tilly\n")
         write(target / "AGENTS.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-init/SKILL.md", trigger_fixture_text())
+        write(target / ".agents/skills/tes-update/SKILL.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-engineering-discipline/SKILL.md", trigger_fixture_text())
         write(target / ".tes/bin/tes_update.py", f'VERSION = "{VERSION}"\n')
         write(target / ".tes/bin/tes_init.py", helper_source_text("tes_init.py"))
@@ -1627,6 +1629,7 @@ def self_test() -> dict[str, Any]:
         write(target / "docs/agents/PROJECT-REGISTER.md", "Generated by Tilly\n")
         write(target / "AGENTS.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-init/SKILL.md", trigger_fixture_text())
+        write(target / ".agents/skills/tes-update/SKILL.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-engineering-discipline/SKILL.md", trigger_fixture_text())
         write(target / ".tes/bin/tes_update.py", helper_source_text("tes_update.py"))
         write(target / ".tes/bin/field_reports.py", f'VERSION = "{VERSION}"\nSCHEMA = "tes-field-report@1"\n')
@@ -1712,6 +1715,7 @@ def self_test() -> dict[str, Any]:
         write(target / "docs/agents/PROJECT-REGISTER.md", "Generated by Tilly\n")
         write(target / "AGENTS.md", "Route to docs/agents/**\n")
         write(target / ".agents/skills/tes-init/SKILL.md", "Route to /tes-init\n")
+        write(target / ".agents/skills/tes-update/SKILL.md", "Route to /tes-update\n")
         write(target / ".agents/skills/tes-engineering-discipline/SKILL.md", "Tilly discipline\n")
         write(target / ".tes/bin/tes_update.py", 'VERSION = "0.3.48"\n')
         write_context_fixture(target)
@@ -1784,6 +1788,7 @@ def self_test() -> dict[str, Any]:
         write(target / "docs/agents/PROJECT-REGISTER.md", "Generated by Tilly\n")
         write(target / "AGENTS.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-init/SKILL.md", trigger_fixture_text())
+        write(target / ".agents/skills/tes-update/SKILL.md", trigger_fixture_text())
         write(target / ".agents/skills/tes-engineering-discipline/SKILL.md", trigger_fixture_text())
         write(target / ".tes/bin/tes_update.py", helper_source_text("tes_update.py"))
         write(target / ".tes/bin/field_reports.py", helper_source_text("field_reports.py"))

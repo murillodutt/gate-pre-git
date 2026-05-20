@@ -1,0 +1,11 @@
+{
+  "agent": "claude",
+  "commands": [],
+  "completed_at": "2026-05-20T15:31:04Z",
+  "hook_input_keys": [],
+  "schema": "tes-postinstall-run@1",
+  "started_at": "2026-05-20T15:31:04Z",
+  "status": "PASS",
+  "target": "/Users/murillo/Dev/gate-pre-git",
+  "version": "0.3.115"
+}
